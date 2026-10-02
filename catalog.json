@@ -1,0 +1,685 @@
+[
+  {
+    "id": "p4",
+    "category": "CERVEZAS",
+    "name": "Costeña",
+    "stock": 532.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p5",
+    "category": "CERVEZAS",
+    "name": "Aguila Lata",
+    "stock": 13.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p6",
+    "category": "CERVEZAS",
+    "name": "Aguila 330c X30 Unid",
+    "stock": 816.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p7",
+    "category": "CERVEZAS",
+    "name": "Coronita 210cc X24 Unid",
+    "stock": 173.0,
+    "price": 5000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p8",
+    "category": "CERVEZAS",
+    "name": "Buweiser 250 Cc Botella X24",
+    "stock": 0.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p9",
+    "category": "CERVEZAS",
+    "name": "Poker 330cc X30 Unid",
+    "stock": 81.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p10",
+    "category": "CERVEZAS",
+    "name": "Club colombia 330c X30",
+    "stock": 50.0,
+    "price": 5000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p11",
+    "category": "CERVEZAS",
+    "name": "Cola y Pola X30 Unid",
+    "stock": 48.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p12",
+    "category": "CERVEZAS",
+    "name": "Aguila Light 330cc x30",
+    "stock": 473.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p13",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Postobon",
+    "stock": 56.0,
+    "price": 3500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p14",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Ginger Ale Schweppes X12 Und",
+    "stock": 19.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p15",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "litro y cuarto surtida",
+    "stock": 17.0,
+    "price": 8000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p16",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Cocacola plastico 400ml x12",
+    "stock": 61.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p17",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Cocacola vidrio 350ml X 30",
+    "stock": 37.0,
+    "price": 3500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p18",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Bretana",
+    "stock": 41.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p19",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Pony Malta no retornable",
+    "stock": 0.0,
+    "price": 3000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p20",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Malta 330ml X 30 Botella",
+    "stock": 37.0,
+    "price": 3000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p21",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Gatorade X12 Unid",
+    "stock": 84.0,
+    "price": 5000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p22",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Jugo Hit 500ml X 12 Unid",
+    "stock": 52.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p23",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Agua con gas",
+    "stock": 34.0,
+    "price": 3000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p24",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Agua Natural",
+    "stock": 28.0,
+    "price": 3000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p25",
+    "category": "GASEOSAS - ENERGIZANTES-JUGOS -AGUAS",
+    "name": "Speed Max",
+    "stock": 43.0,
+    "price": 4000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p26",
+    "category": "CUBETAZOS",
+    "name": "Cubetazo X 6 Costeña",
+    "stock": 0.0,
+    "price": 23000.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p4",
+        "qty": 6
+      }
+    ]
+  },
+  {
+    "id": "p27",
+    "category": "CUBETAZOS",
+    "name": "Cubetazo X 6 Aguila",
+    "stock": 0.0,
+    "price": 23000.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p6",
+        "qty": 6
+      }
+    ]
+  },
+  {
+    "id": "p28",
+    "category": "CUBETAZOS",
+    "name": "Cubetazo X 6 Coronita",
+    "stock": 0.0,
+    "price": 29500.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p7",
+        "qty": 6
+      }
+    ]
+  },
+  {
+    "id": "p29",
+    "category": "MICHELADAS",
+    "name": "Michelada Coronita",
+    "stock": 0.0,
+    "price": 13000.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p7",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "p30",
+    "category": "MICHELADAS",
+    "name": "Michelada aguila light",
+    "stock": 0.0,
+    "price": 10000.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p12",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "p31",
+    "category": "MICHELADAS",
+    "name": "Michelada Aguila",
+    "stock": 0.0,
+    "price": 10000.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p6",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "p32",
+    "category": "MICHELADAS",
+    "name": "Michelada Coste",
+    "stock": 0.0,
+    "price": 10000.0,
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p4",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "p33",
+    "category": "MICHELADAS",
+    "name": "Sodas Micheladas",
+    "stock": 0.0,
+    "price": 8000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p34",
+    "category": "MICHELADAS",
+    "name": "Refajo",
+    "stock": 0.0,
+    "price": 0.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p35",
+    "category": "MARGARITAS",
+    "name": "Malibu la Herradura",
+    "stock": 0.0,
+    "price": 18000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p36",
+    "category": "MARGARITAS",
+    "name": "Margaritas la Herradura tequila",
+    "stock": 0.0,
+    "price": 18000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p37",
+    "category": "MARGARITAS",
+    "name": "Mojito de Coco",
+    "stock": 0.0,
+    "price": 15000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p38",
+    "category": "MARGARITAS",
+    "name": "limonada rosada de malibu",
+    "stock": 0.0,
+    "price": 15000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p39",
+    "category": "MARGARITAS",
+    "name": "Brisas de la Herradura Malibu",
+    "stock": 0.0,
+    "price": 15000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p40",
+    "category": "MARGARITAS",
+    "name": "Jugo de pina y Malibu",
+    "stock": 0.0,
+    "price": 15000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p41",
+    "category": "MARGARITAS",
+    "name": "Malibu strawberry",
+    "stock": 0.0,
+    "price": 15000.0,
+    "type": "prepared",
+    "recipe": []
+  },
+  {
+    "id": "p42",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente 1/2 llanero",
+    "stock": 1.0,
+    "price": 45000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p43",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente llanero Botello sin azucar",
+    "stock": 1.0,
+    "price": 95000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p44",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente Llanero Botello",
+    "stock": 1.0,
+    "price": 95000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p45",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente antioqueno tapa verde 1/2 x 375 ML",
+    "stock": 5.0,
+    "price": 45000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p46",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente Antioqueno tapa azul BOTELLO",
+    "stock": 2.0,
+    "price": 95000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p47",
+    "category": "AGUARDIENTES",
+    "name": "Ron viejo de caldas",
+    "stock": 3.0,
+    "price": 48000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p48",
+    "category": "AGUARDIENTES",
+    "name": "Old Parr",
+    "stock": 2.0,
+    "price": 155000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p49",
+    "category": "AGUARDIENTES",
+    "name": "Buchanas Deluxe",
+    "stock": 1.0,
+    "price": 195000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p50",
+    "category": "AGUARDIENTES",
+    "name": "Johnnie Walker Whisky",
+    "stock": 2.0,
+    "price": 135000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p51",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente Cristal Botella",
+    "stock": 0.0,
+    "price": 85000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p52",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente antioqueno tapa verde Botella",
+    "stock": 3.0,
+    "price": 85000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p53",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente Botella amarillo",
+    "stock": 2.0,
+    "price": 85000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p54",
+    "category": "AGUARDIENTES",
+    "name": "Aguardiente Amarillo 1/2 X375 ML",
+    "stock": 6.0,
+    "price": 45000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p55",
+    "category": "CIGARILLOS",
+    "name": "Cigarrilos mustan Unidad",
+    "stock": 281.0,
+    "price": 1500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p56",
+    "category": "CIGARILLOS",
+    "name": "Cigarrilos mustan por 1/2",
+    "stock": 0.0,
+    "price": 8000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p57",
+    "category": "CIGARILLOS",
+    "name": "Cigarrilos luki Unidad",
+    "stock": 310.0,
+    "price": 1500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p58",
+    "category": "CIGARILLOS",
+    "name": "Cigarrilos luki por 1/2",
+    "stock": 0.0,
+    "price": 8000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p59",
+    "category": "CIGARILLOS",
+    "name": "Boliquesos",
+    "stock": 7.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p60",
+    "category": "CIGARILLOS",
+    "name": "Chistris",
+    "stock": 13.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p61",
+    "category": "CIGARILLOS",
+    "name": "Cheetos",
+    "stock": 15.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p62",
+    "category": "PAQUETES",
+    "name": "Detodito surtido",
+    "stock": 40.0,
+    "price": 3500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p63",
+    "category": "PAQUETES",
+    "name": "Choclitos",
+    "stock": 5.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p64",
+    "category": "PAQUETES",
+    "name": "Mani",
+    "stock": 10.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p65",
+    "category": "PAQUETES",
+    "name": "Natuchit",
+    "stock": 12.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p66",
+    "category": "PAQUETES",
+    "name": "Manimoto",
+    "stock": 12.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p67",
+    "category": "PAQUETES",
+    "name": "Doritos",
+    "stock": 0.0,
+    "price": 2500.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p68",
+    "category": "PAQUETES",
+    "name": "Papas Surtidas",
+    "stock": 13.0,
+    "price": 3000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p69",
+    "category": "DULCES",
+    "name": "Bianchis Blancos x100",
+    "stock": 0.0,
+    "price": 200.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p70",
+    "category": "DULCES",
+    "name": "Bombombun",
+    "stock": 2.0,
+    "price": 700.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p71",
+    "category": "DULCES",
+    "name": "Supercocos",
+    "stock": 0.0,
+    "price": 300.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p72",
+    "category": "DULCES",
+    "name": "Halls pepas",
+    "stock": 0.0,
+    "price": 300.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p73",
+    "category": "DULCES",
+    "name": "Chicles surtidos - Mentas - COFFES",
+    "stock": 0.0,
+    "price": 200.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p74",
+    "category": "ACCESORIOS BILLAR",
+    "name": "Guantes",
+    "stock": 0.0,
+    "price": 5000.0,
+    "type": "stock",
+    "recipe": []
+  },
+  {
+    "id": "p75",
+    "category": "ACCESORIOS BILLAR",
+    "name": "Tizas",
+    "stock": 17.0,
+    "price": 5000.0,
+    "type": "stock",
+    "recipe": []
+  }
+]

@@ -1,25 +1,20 @@
-# La Herradura Admin PWA
+# La Herradura Admin v3
 
-Esta versión ya está preparada como Progressive Web App (PWA).
+Actualización práctica basada en el inventario real de octubre 2026.
 
-## Incluye
-- 4 mesas de billar a COP $2.000 por chico.
-- 18 mesas de consumo.
-- Registro de perdedor y consumos.
-- Traslado Billar ↔ Consumo conservando saldo e historial.
-- Efectivo, transferencia y pago mixto.
-- Recibos numerados e impresión.
-- Pantalla de cliente.
-- Manifest, iconos y Service Worker para instalación y uso offline básico.
+## Archivos a subir a GitHub
+Sube/reemplaza en la raíz del repositorio: index.html, app.js, catalog.json, manifest.webmanifest, sw.js, icon-192.png, icon-512.png.
 
-## Importante
-Una PWA no se instala correctamente abriendo `index.html` como archivo local. Debe servirse desde HTTPS (o localhost durante desarrollo).
+## Incluye en esta fase
+- Nueva interfaz responsive para teléfono/tablet/computador.
+- 4 mesas de billar y 18 de consumo.
+- Chicos a COP 2.000 y perdedor obligatorio.
+- Traslado de cuentas Billar ↔ Consumo.
+- Catálogo/precios/stock inicial desde INVENTARIO OCTUBRE DEL 2026.
+- Cubetazos descuentan 6 cervezas automáticamente; micheladas identificables descuentan 1 cerveza base.
+- Efectivo, transferencia y mixto; recibo.
+- Inventario, gastos, turnos/cierre básico y reporte mensual preliminar.
+- Consolidado por mesera y conteo de micheladas.
 
-## En iPhone
-Una vez publicada en HTTPS:
-1. Abrir la dirección en Safari.
-2. Pulsar Compartir.
-3. Elegir “Añadir a pantalla de inicio”.
-4. Abrir La Herradura desde el nuevo icono.
-
-Esta versión aún guarda la información localmente en cada navegador. Para sincronizar teléfonos, computador y monitores en tiempo real necesitaremos una base de datos/sincronización compartida.
+## Aún por completar antes de usar como contabilidad definitiva
+Sincronización multi-dispositivo, autenticación/roles, cierre de inventario con conteo por producto, devoluciones/anulaciones auditadas, costos/proveedores completos y cierre administrativo final. Mantén tu Excel paralelo durante la validación.
