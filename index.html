@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Herradura Admin</title>
+<meta name="theme-color" content="#07111e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="La Herradura">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#07111e;--panel:#0d1b2a;--line:#21344b;--gold:#f4c75d;--blue:#1e90ff;--green:#22c55e;--red:#ef4444;--muted:#9fb0c5}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(135deg,#050a12,#0b1a2b);color:#fff}
+header{position:sticky;top:0;z-index:5;background:#07111eee;border-bottom:1px solid var(--line);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;letter-spacing:.8px}.brand span{color:var(--gold)} button,select,input{font:inherit}
+button{border:0;border-radius:12px;padding:10px 12px;background:#16283d;color:white;cursor:pointer}button.primary{background:var(--blue)}button.gold{background:var(--gold);color:#17120a;font-weight:800}button.danger{background:#7f1d1d}
+main{max-width:1200px;margin:auto;padding:16px}.stats,.grid{display:grid;gap:12px}.stats{grid-template-columns:repeat(4,1fr);margin-bottom:16px}.card{background:#0d1b2ae8;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 10px 30px #0004}
+.stat b{display:block;font-size:1.45rem;margin-top:4px}.tabs{display:flex;gap:8px;overflow:auto;margin:12px 0}.tabs button.active{background:var(--gold);color:#111}
+.grid{grid-template-columns:repeat(4,1fr)}.tableCard h3{margin:0 0 4px}.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:.78rem;background:#17324b;color:#cde8ff}.open{border-color:#1d7a43}.free{opacity:.8}.amount{font-size:1.25rem;font-weight:900;margin:10px 0}.actions{display:flex;gap:7px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}.modal.show{display:flex}.sheet{width:min(720px,100%);max-height:92vh;overflow:auto;background:#0b1725;border:1px solid var(--line);border-radius:24px 24px 0 0;padding:18px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.field{margin:10px 0}.field label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px}.field input,.field select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#081321;color:#fff}
+.list{display:grid;gap:8px}.item{padding:10px;border:1px solid var(--line);border-radius:12px;display:flex;justify-content:space-between;gap:10px}.total{font-size:1.5rem;font-weight:900;color:var(--gold)}
+.customer{background:#06101b}.customer .screen{max-width:900px;margin:30px auto;padding:24px}.customer h1{font-size:2.2rem}.ledger{width:100%;border-collapse:collapse}.ledger th,.ledger td{border-bottom:1px solid var(--line);padding:12px;text-align:left}.paid{color:var(--green)}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+@media print{header,.noPrint{display:none!important}body{background:white;color:black}.receipt{color:black;background:white;border:0}}
+</style></head>
+<body>
+<header><div class="brand">🎱 LA HERRADURA <span>ADMIN</span></div><div><button onclick="showCustomer()">📺 Pantalla cliente</button> <button onclick="resetDemo()">Reiniciar demo</button></div></header>
+<main id="app">
+<section class="stats">
+<div class="card stat">Ventas demo<b id="sales">$0</b></div><div class="card stat">Efectivo<b id="cash">$0</b></div><div class="card stat">Transferencias<b id="transfer">$0</b></div><div class="card stat">Cuentas abiertas<b id="opened">0</b></div>
+</section>
+<div class="tabs"><button id="allTab" class="active" onclick="setFilter('all',this)">Todas</button><button onclick="setFilter('billar',this)">🎱 Billar (4)</button><button onclick="setFilter('consumo',this)">🍺 Consumo (18)</button></div>
+<section id="tables" class="grid"></section>
+</main>
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<script>
+const COP=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);
+const products=[['Cerveza',5000],['Michelada',8000],['Gaseosa',4000],['Agua',3000],['Refajo',7000]];
+let S=JSON.parse(localStorage.getItem('lhProto')||'null')||init();
+let filter='all', active=null;
+function init(){return {tables:[...Array(4)].map((_,i)=>({id:'B'+(i+1),type:'billar',name:'Billar '+(i+1),account:null})).concat([...Array(18)].map((_,i)=>({id:'C'+(i+1),type:'consumo',name:'Consumo '+(i+1),account:null}))),payments:[]}}
+function save(){localStorage.setItem('lhProto',JSON.stringify(S));render()}
+function acc(t){return t.account}
+function total(a){return (a?.games||[]).reduce((s,g)=>s+2000+(g.items||[]).reduce((x,i)=>x+i.price*i.qty,0),0)+(a?.loose||[]).reduce((s,i)=>s+i.price*i.qty,0)}
+function render(){let ts=S.tables.filter(t=>filter==='all'||t.type===filter);document.querySelector('#tables').innerHTML=ts.map(t=>`<div class="card tableCard ${t.account?'open':'free'}"><span class="pill">${t.type==='billar'?'🎱 BILLAR':'🍺 CONSUMO'}</span><h3>${t.name}</h3><div>${t.account?t.account.group:'Disponible'}</div><div class="amount">${t.account?COP(total(t.account)):'—'}</div><div class="actions">${t.account?`<button class="primary" onclick="openTable('${t.id}')">Abrir cuenta</button><button onclick="move('${t.id}')">⇄ Trasladar</button><button class="gold" onclick="pay('${t.id}')">Cobrar</button>`:`<button onclick="newAccount('${t.id}')">+ Abrir</button>`}</div></div>`).join('');
+let pays=S.payments;document.querySelector('#sales').textContent=COP(pays.reduce((s,p)=>s+p.total,0));document.querySelector('#cash').textContent=COP(pays.reduce((s,p)=>s+p.cash,0));document.querySelector('#transfer').textContent=COP(pays.reduce((s,p)=>s+p.transfer,0));document.querySelector('#opened').textContent=S.tables.filter(t=>t.account).length}
+function setFilter(f,b){filter=f;document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
+function modal(x){sheet.innerHTML=x;document.querySelector('#modal').classList.add('show')}function closeModal(){document.querySelector('#modal').classList.remove('show')}
+function table(id){return S.tables.find(t=>t.id===id)}
+function newAccount(id){let t=table(id);modal(`<h2>Abrir ${t.name}</h2><div class="field"><label>Cliente o grupo</label><input id="group" placeholder="Ej. Carlos y amigos"></div><button class="gold" onclick="confirmOpen('${id}')">Abrir cuenta</button>`)}
+function confirmOpen(id){let t=table(id);t.account={group:group.value||'Cliente',games:[],loose:[],history:[new Date().toLocaleString()+' — Cuenta abierta en '+t.name]};save();closeModal();openTable(id)}
+function openTable(id){active=id;let t=table(id),a=t.account;modal(`<h2>${t.name} · ${a.group}</h2><div class="total">Pendiente ${COP(total(a))}</div>${t.type==='billar'?`<h3>Registrar chico · $2.000</h3><div class="row"><div class="field"><label>Perdedor</label><input id="loser" placeholder="Nombre"></div><button class="primary" onclick="addGame('${id}')">+ Chico</button></div>`:''}<h3>Agregar consumo</h3><div class="list">${products.map((p,i)=>`<div class="item"><span>${p[0]} · ${COP(p[1])}</span><button onclick="addProduct('${id}',${i})">+</button></div>`).join('')}</div><h3>Detalle</h3><div class="list">${detail(a)}</div><h3>Historial</h3><small>${a.history.join('<br>')}</small><div class="actions" style="margin-top:16px"><button onclick="move('${id}')">⇄ Trasladar mesa</button><button class="gold" onclick="pay('${id}')">Cobrar</button></div>`)}
+function detail(a){let g=(a.games||[]).map(x=>`<div class="item"><span>Chico perdido · ${x.loser}</span><b>${COP(2000+(x.items||[]).reduce((s,i)=>s+i.price*i.qty,0))}</b></div>`);let l=(a.loose||[]).map(x=>`<div class="item"><span>${x.name} × ${x.qty}</span><b>${COP(x.price*x.qty)}</b></div>`);return [...g,...l].join('')||'<small>Sin movimientos</small>'}
+function addGame(id){let a=table(id).account,n=(document.querySelector('#loser')?.value||'Jugador');a.games.push({loser:n,items:[]});a.history.push(new Date().toLocaleTimeString()+' — Chico perdido: '+n);save();openTable(id)}
+function addProduct(id,i){let t=table(id),a=t.account,p=products[i];if(t.type==='billar'&&a.games.length){let g=a.games[a.games.length-1],it=g.items.find(x=>x.name===p[0]);it?it.qty++:g.items.push({name:p[0],price:p[1],qty:1});a.history.push(new Date().toLocaleTimeString()+' — '+p[0]+' cargado a ronda de '+g.loser)}else{let it=a.loose.find(x=>x.name===p[0]);it?it.qty++:a.loose.push({name:p[0],price:p[1],qty:1});a.history.push(new Date().toLocaleTimeString()+' — '+p[0]+' agregado')};save();openTable(id)}
+function move(id){let from=table(id);let free=S.tables.filter(t=>!t.account&&t.id!==id);modal(`<h2>Trasladar cuenta</h2><p>${from.account.group} · ${COP(total(from.account))}</p><div class="field"><label>Mesa destino</label><select id="dest">${free.map(t=>`<option value="${t.id}">${t.name}</option>`).join('')}</select></div><p><small>La cuenta, chicos, consumos e historial se conservan. Al pasar a consumo deja de registrar chicos; al pasar a billar se habilitan.</small></p><button class="gold" onclick="confirmMove('${id}')">Confirmar traslado</button>`)}
+function confirmMove(id){let f=table(id),d=table(dest.value);f.account.history.push(new Date().toLocaleString()+` — Traslado ${f.name} → ${d.name}`);d.account=f.account;f.account=null;save();closeModal();openTable(d.id)}
+function pay(id){let t=table(id),v=total(t.account);modal(`<h2>Cobrar · ${t.name}</h2><div class="total">${COP(v)}</div><div class="field"><label>Método</label><select id="method" onchange="payFields(${v})"><option>Efectivo</option><option>Transferencia</option><option>Mixto</option></select></div><div id="payfields"></div><div class="field"><label>Referencia / observación</label><input id="ref" placeholder="Opcional"></div><button class="gold" onclick="confirmPay('${id}',${v})">Confirmar pago</button>`);payFields(v)}
+function payFields(v){let m=method.value;payfields.innerHTML=m==='Mixto'?`<div class="row"><div class="field"><label>Efectivo</label><input id="cashin" type="number" value="${Math.floor(v/2)}"></div><div class="field"><label>Transferencia</label><input id="transin" type="number" value="${v-Math.floor(v/2)}"></div></div>`:''}
+function confirmPay(id,v){let t=table(id),m=method.value,c=m==='Efectivo'?v:m==='Mixto'?+cashin.value:0,tr=m==='Transferencia'?v:m==='Mixto'?+transin.value:0;if(c+tr!==v){alert('Efectivo + transferencia debe ser igual al total.');return}let num='LH-'+String(S.payments.length+1).padStart(6,'0'),p={num,total:v,cash:c,transfer:tr,method:m,ref:ref.value,date:new Date().toLocaleString(),table:t.name,group:t.account.group,detail:detailText(t.account)};S.payments.push(p);t.account=null;save();receipt(p)}
+function detailText(a){return [...(a.games||[]).map(g=>`${g.loser}: chico ${COP(2000)} + consumos ${COP((g.items||[]).reduce((s,i)=>s+i.price*i.qty,0))}`),...(a.loose||[]).map(i=>`${i.name} x${i.qty}: ${COP(i.price*i.qty)}`)].join('<br>')}
+function receipt(p){modal(`<div class="receipt"><h2>🎱 Billares La Herradura Club</h2><b>Recibo ${p.num}</b><p>${p.date}<br>${p.table} · ${p.group}</p><hr><p>${p.detail}</p><hr><div class="total">TOTAL ${COP(p.total)}</div><p>Pago: ${p.method}<br>${p.ref?'Referencia: '+p.ref:''}</p><h2 class="paid">PAGADO ✓</h2></div><button class="gold noPrint" onclick="window.print()">🖨️ Imprimir</button> <button class="noPrint" onclick="closeModal()">Cerrar</button>`)}
+function showCustomer(){let t=S.tables.find(x=>x.type==='billar'&&x.account)||S.tables.find(x=>x.type==='billar');let a=t.account;let body=a?`<h1>🎱 ${t.name.toUpperCase()}</h1><h2>${a.group}</h2><div class="stats"><div class="card stat">Chicos<b>${a.games.length}</b></div><div class="card stat">Valor/chico<b>${COP(2000)}</b></div><div class="card stat">Consumo + chicos<b>${COP(total(a))}</b></div><div class="card stat">Estado<b>PENDIENTE</b></div></div><table class="ledger"><tr><th>Jugador / concepto</th><th>Total</th></tr>${(a.games||[]).map(g=>`<tr><td>${g.loser} · chico + ronda</td><td>${COP(2000+(g.items||[]).reduce((s,i)=>s+i.price*i.qty,0))}</td></tr>`).join('')}${(a.loose||[]).map(i=>`<tr><td>${i.name} × ${i.qty}</td><td>${COP(i.price*i.qty)}</td></tr>`).join('')}</table><h1>Total pendiente: ${COP(total(a))}</h1>`:`<h1>🎱 ${t.name.toUpperCase()}</h1><h2>Disponible</h2><p>Esperando apertura de cuenta…</p>`;let w=window.open('','cliente');w.document.write(`<html><head><title>Pantalla Cliente</title><style>${document.querySelector('style').innerHTML}</style></head><body class="customer"><div class="screen">${body}</div></body></html>`);w.document.close()}
+function resetDemo(){if(confirm('¿Reiniciar todos los datos de demostración?')){localStorage.removeItem('lhProto');S=init();save()}}
+render();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+}
+</script>
+</body></html>
