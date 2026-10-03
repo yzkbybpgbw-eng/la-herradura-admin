@@ -38,3 +38,13 @@ Versión de pruebas funcionales.
 - Campo de efectivo recibido y cálculo visible de cambio antes de confirmar.
 - Recibo muestra total, método, efectivo recibido y cambio.
 - Cache bust de app.js y service worker para evitar mezclar JavaScript antiguo con la interfaz nueva en iPhone/GitHub Pages.
+
+
+## v4.9.0 — Inventario inteligente
+- Vista de inventario para consulta de meseras.
+- Edición protegida por PIN de Administradora.
+- Crear productos y modificar precio, categoría, stock mínimo y costo.
+- Entradas, devoluciones a stock, mermas y correcciones de conteo.
+- Alertas visuales de stock bajo y agotado.
+- Historial de movimientos con existencia anterior/nueva y observación.
+- Conserva la lógica de cigarrillos: cada venta de 1/2 descuenta 10 unidades del producto base.
