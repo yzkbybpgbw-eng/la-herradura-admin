@@ -1,4 +1,4 @@
-# La Herradura Admin v4.11.0
+# La Herradura Admin v4.12.0
 
 Actualización visual y de proyección.
 
