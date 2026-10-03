@@ -1,4 +1,4 @@
-# La Herradura Admin v4.2
+# La Herradura Admin v4.3
 
 Versión de pruebas funcionales.
 
