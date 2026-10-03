@@ -1,3 +1,11 @@
+LA HERRADURA ADMIN v4.14.1 — GRAND CLEAN EDITION
+
+- Rediseño Grand Club más limpio, elegante y profesional.
+- Se eliminó la apariencia literal de mesa de billar (puntos, buchacas y marcos gruesos).
+- Se conserva toda la lógica y funcionalidad existente.
+- Pantalla del cliente Grand actualizada al mismo lenguaje visual.
+- Caché actualizado para forzar la nueva interfaz.
+
 LA HERRADURA ADMIN v4.14.0 — HERRADURA GRAND CLUB
 
 # La Herradura Admin v4.13.0 — Herradura Signature
