@@ -48,3 +48,11 @@ Versión de pruebas funcionales.
 - Alertas visuales de stock bajo y agotado.
 - Historial de movimientos con existencia anterior/nueva y observación.
 - Conserva la lógica de cigarrillos: cada venta de 1/2 descuenta 10 unidades del producto base.
+
+
+## V4.9.1 — Costos y utilidad
+- Precio de compra/costo unitario administrable por producto.
+- Utilidad unitaria y margen visibles solo en modo Administradora.
+- Valor del inventario calculado a costo.
+- Cada venta guarda costo de mercancía vendida (COGS) y utilidad bruta histórica para futuros cierres diarios/mensuales.
+- Los productos compuestos calculan su costo desde la receta.
