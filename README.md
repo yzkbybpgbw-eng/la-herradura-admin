@@ -63,3 +63,12 @@ Versión de pruebas funcionales.
 - Nueva versión de caché del service worker para evitar que iPhone/Safari conserve la interfaz v4.9.0.
 - Cache bust de app.js actualizado a 4.9.3.
 - Inventario conserva Valor a costo y, en modo Administradora, muestra Venta esperada y Utilidad bruta esperada.
+
+## V4.10.0 — Consumo, devoluciones y pantalla cliente
+- Mesas de consumo muestran la comanda activa arriba del catálogo con controles +/−.
+- Botón Guardar pedido / dejar pendiente.
+- Devoluciones en mesas de billar y consumo: $3.000/$4.000 → $2.000; $5.000 → $3.000.
+- Cálculo automático de cantidad, abono al cliente, diferencia, 50% mesera y 50% negocio.
+- El producto devuelto regresa al inventario y queda trazabilidad del movimiento.
+- Pantalla cliente de cada mesa de billar conserva URL individual y se actualiza en vivo entre pestañas/ventanas del mismo navegador/origen mediante storage/BroadcastChannel.
+- Para sincronización entre dispositivos físicos distintos (teléfono → TV/tablet) se requiere una base de datos en tiempo real; esta versión no inventa sincronización remota.
