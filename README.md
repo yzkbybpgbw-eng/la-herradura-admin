@@ -1,4 +1,4 @@
-# La Herradura Admin v4.4.3
+# La Herradura Admin v4.5.3
 
 Versión de pruebas funcionales.
 
@@ -14,3 +14,9 @@ Versión de pruebas funcionales.
 - Pantalla de cliente muestra saldos acumulados incluyendo extras y pagos.
 
 > Esta versión aún usa almacenamiento local del dispositivo. Usuarios, contraseñas y sincronización real entre varios dispositivos requieren la siguiente fase con base de datos y autenticación.
+
+
+## V4.5
+- La edición de una partida cerrada permite buscar y agregar productos nuevos, no solo modificar los ya existentes.
+- Los productos agregados actualizan inventario e historial.
+- El botón de guardado ahora indica Guardar cambios.
