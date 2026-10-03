@@ -16,3 +16,10 @@ Actualización práctica del sistema privado de Billares La Herradura Club.
 
 ## Importante sobre tiempo real
 La vista de cliente de v4 sirve para probar transparencia en un mismo navegador/origen. Para sincronizar teléfonos, computador y TVs distintos en tiempo real hace falta una base de datos compartida en la nube o en la red local. Esa será la siguiente etapa.
+
+
+## v4.1 — navegación segura
+- Botón fijo **← Mesas** dentro de las órdenes de Billar y Consumo.
+- Botón fijo **🏠 Inicio** como salida alternativa.
+- En pantallas secundarias (duplicar, terminar, ver cuenta, trasladar y cobrar), **←** regresa a la orden sin perder información.
+- Regresar nunca cierra una cuenta ni elimina una ronda.
