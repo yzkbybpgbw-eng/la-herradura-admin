@@ -25,3 +25,9 @@ Versión de pruebas funcionales.
 ## Ajustes v4.7
 - Pago total de la mesa desde la pantalla de cobro, además del cobro individual por jugador.
 - Botón Guardar cambios de la orden ubicado inmediatamente después de la comanda editada, antes del catálogo de productos.
+
+
+## V4.8
+- Calculadora de cambio/vueltas para efectivo y pagos mixtos.
+- El ingreso contable registra solo el valor de la venta, no el efectivo entregado antes de devolver cambio.
+- Cigarrillos: 1 medio descuenta 10 unidades del stock base para Mustang y Luki.

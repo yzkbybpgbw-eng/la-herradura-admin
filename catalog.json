@@ -508,8 +508,13 @@
     "name": "Cigarrilos mustan por 1/2",
     "stock": 0.0,
     "price": 8000.0,
-    "type": "stock",
-    "recipe": []
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p55",
+        "qty": 10
+      }
+    ]
   },
   {
     "id": "p57",
@@ -526,8 +531,13 @@
     "name": "Cigarrilos luki por 1/2",
     "stock": 0.0,
     "price": 8000.0,
-    "type": "stock",
-    "recipe": []
+    "type": "prepared",
+    "recipe": [
+      {
+        "productId": "p57",
+        "qty": 10
+      }
+    ]
   },
   {
     "id": "p59",
