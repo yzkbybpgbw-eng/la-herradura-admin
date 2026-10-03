@@ -1,4 +1,14 @@
-# La Herradura Admin v4.12.1
+# La Herradura Admin v4.13.0 — Herradura Signature
+
+Nueva experiencia visual exclusiva **Herradura Signature** para mesas de billar, mesas de consumo y pantalla del cliente.
+
+- Conserva todas las funciones de v4.12.1.
+- El tema anterior VIP se conserva como **Herradura Moderno**.
+- Signature usa una estética propia de club: paño esmeralda, madera nogal, filetes dorados, profundidad e identidad LH.
+- La pantalla del cliente incluye el tema Signature coordinado.
+- No modifica inventario, cobros, devoluciones, partidas ni datos guardados.
+
+# La Herradura Admin v4.13.0
 
 Actualización visual y de proyección.
 
