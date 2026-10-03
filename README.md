@@ -1,4 +1,4 @@
-# La Herradura Admin v4.5.3
+# La Herradura Admin v4.6.3
 
 Versión de pruebas funcionales.
 
@@ -16,7 +16,12 @@ Versión de pruebas funcionales.
 > Esta versión aún usa almacenamiento local del dispositivo. Usuarios, contraseñas y sincronización real entre varios dispositivos requieren la siguiente fase con base de datos y autenticación.
 
 
-## V4.5
+## V4.6
 - La edición de una partida cerrada permite buscar y agregar productos nuevos, no solo modificar los ya existentes.
 - Los productos agregados actualizan inventario e historial.
 - El botón de guardado ahora indica Guardar cambios.
+
+
+## Ajustes v4.6
+- Pago total de la mesa desde la pantalla de cobro, además del cobro individual por jugador.
+- Botón Guardar cambios de la orden ubicado inmediatamente después de la comanda editada, antes del catálogo de productos.
