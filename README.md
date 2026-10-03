@@ -50,7 +50,7 @@ Versión de pruebas funcionales.
 - Conserva la lógica de cigarrillos: cada venta de 1/2 descuenta 10 unidades del producto base.
 
 
-## V4.9.1 — Costos y utilidad
+## V4.9.2 — Costos y utilidad
 - Precio de compra/costo unitario administrable por producto.
 - Utilidad unitaria y margen visibles solo en modo Administradora.
 - Valor del inventario calculado a costo.
