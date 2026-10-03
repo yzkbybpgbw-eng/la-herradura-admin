@@ -1,3 +1,14 @@
+# La Herradura Admin v4.11.0
+
+Actualización visual y de proyección.
+
+## Novedades
+- Temas prediseñados para mesas de billar y consumo.
+- Selector de apariencia en Administración.
+- Pantalla de cliente con temas profesionales.
+- Acceso a vista previa/proyección desde la apertura de una mesa de billar.
+- Se conserva toda la lógica de cuentas, devoluciones, inventario y pagos de v4.10.0.
+
 # La Herradura Admin v4.7.3
 
 Versión de pruebas funcionales.
