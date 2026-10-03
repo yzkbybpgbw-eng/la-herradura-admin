@@ -31,3 +31,10 @@ Versión de pruebas funcionales.
 - Calculadora de cambio/vueltas para efectivo y pagos mixtos.
 - El ingreso contable registra solo el valor de la venta, no el efectivo entregado antes de devolver cambio.
 - Cigarrillos: 1 medio descuenta 10 unidades del stock base para Mustang y Luki.
+
+
+## V4.8.1
+- Corrección del flujo de cobro: efectivo ya no debe saltar directamente al recibo.
+- Campo de efectivo recibido y cálculo visible de cambio antes de confirmar.
+- Recibo muestra total, método, efectivo recibido y cambio.
+- Cache bust de app.js y service worker para evitar mezclar JavaScript antiguo con la interfaz nueva en iPhone/GitHub Pages.
