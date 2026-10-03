@@ -1,3 +1,5 @@
+LA HERRADURA ADMIN v4.14.0 — HERRADURA GRAND CLUB
+
 # La Herradura Admin v4.13.0 — Herradura Signature
 
 Nueva experiencia visual exclusiva **Herradura Signature** para mesas de billar, mesas de consumo y pantalla del cliente.
