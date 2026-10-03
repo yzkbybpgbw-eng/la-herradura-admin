@@ -56,3 +56,10 @@ Versión de pruebas funcionales.
 - Valor del inventario calculado a costo.
 - Cada venta guarda costo de mercancía vendida (COGS) y utilidad bruta histórica para futuros cierres diarios/mensuales.
 - Los productos compuestos calculan su costo desde la receta.
+
+
+## V4.9.3 — Actualización forzada de inventario
+- Identificador visual actualizado a v4.9.3.
+- Nueva versión de caché del service worker para evitar que iPhone/Safari conserve la interfaz v4.9.0.
+- Cache bust de app.js actualizado a 4.9.3.
+- Inventario conserva Valor a costo y, en modo Administradora, muestra Venta esperada y Utilidad bruta esperada.
