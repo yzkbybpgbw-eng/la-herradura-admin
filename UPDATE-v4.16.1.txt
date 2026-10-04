@@ -1,0 +1,12 @@
+LA HERRADURA ADMIN v4.16.1 — Desktop Luxury Scale Pass
+
+Cambios visuales únicamente:
+- Logo PNG crisp ampliado y usado en cabecera y navegación lateral.
+- Navegación lateral de escritorio más amplia, legible y premium.
+- Heroes más grandes y con mejor jerarquía tipográfica.
+- Inicio reorganizado como dashboard POS de escritorio.
+- Billar: tarjetas más grandes, legibles y con mayor presencia visual.
+- Consumo: 4 columnas reales en escritorio; tarjetas más grandes para evitar miniaturización.
+- Tablet: 2 columnas cómodas y táctiles.
+- Móvil: se conserva la presentación compacta existente.
+- Sin cambios a cuentas, partidas, cobros, inventario, precios ni cálculos.
