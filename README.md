@@ -117,3 +117,7 @@ v4.15.1: corrección exclusivamente visual de encabezados/contadores; app.js fun
 
 ## v4.17.4 · Acabados Premium
 Pulido visual de Billar y navegación responsive. Se conserva íntegro el motor POS recuperado en v4.17.3.
+
+
+## v4.18.0 · Depuración visual Billar
+Capa canónica final para tarjetas de Billar, responsive 2x2 en móvil, fotografía de fondo completa con degradado, estados disponibles/en juego y compatibilidad con Apariencia existente. Sin cambios al motor POS. Caché unificada a v4.18.0.
