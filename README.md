@@ -1,4 +1,10 @@
-La Herradura Admin v4.14.8 — Lounge & Branding
+La Herradura Admin v4.15.0 — Premium Visual System
+
+ACTUALIZACIÓN EXCLUSIVAMENTE VISUAL. app.js permanece sin cambios funcionales respecto a v4.14.9.
+
+La Herradura Admin v4.14.9 — Elegance Polish
+
+Correcciones: resumen de mesas de consumo con separación visual y singular/plural correcto; tipografía refinada y elegante en Consumo; versión y caché sincronizadas. Billar y lógica funcional conservados.
 
 LA HERRADURA ADMIN v4.14.1 — GRAND CLEAN EDITION
 
