@@ -1,4 +1,4 @@
-La Herradura Admin v4.15.0 — Premium Visual System
+La Herradura Admin v4.15.1 — Premium Visual System
 
 ACTUALIZACIÓN EXCLUSIVAMENTE VISUAL. app.js permanece sin cambios funcionales respecto a v4.14.9.
 
@@ -111,3 +111,5 @@ Versión de pruebas funcionales.
 - El producto devuelto regresa al inventario y queda trazabilidad del movimiento.
 - Pantalla cliente de cada mesa de billar conserva URL individual y se actualiza en vivo entre pestañas/ventanas del mismo navegador/origen mediante storage/BroadcastChannel.
 - Para sincronización entre dispositivos físicos distintos (teléfono → TV/tablet) se requiere una base de datos en tiempo real; esta versión no inventa sincronización remota.
+
+v4.15.1: corrección exclusivamente visual de encabezados/contadores; app.js funcional sin cambios.
