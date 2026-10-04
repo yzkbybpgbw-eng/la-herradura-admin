@@ -12,40 +12,7 @@ function unitCost(p){if(!p)return 0;if(p.recipe?.length)return p.recipe.reduce((
 function itemUnitCost(i){if(Number.isFinite(+i.cost))return +i.cost;return unitCost(catalog.find(p=>p.id===i.id))}
 function accountCOGS(a,player=null){let z=0;if(a?.rounds)for(const r of a.rounds)if(!player||r.loser===player)for(const i of r.items||[])z+=itemUnitCost(i)*(i.qty||1);if(a?.playerExtras)for(const i of a.playerExtras)if(!player||i.player===player)z+=itemUnitCost(i)*(i.qty||1);if(!player&&a?.loose)for(const i of a.loose)z+=itemUnitCost(i)*(i.qty||1);for(const d of a?.returns||[])if(!player||d.player===player)z-=itemUnitCost(d)*(d.qty||1);return Math.max(0,z)}
 function remainingCOGS(a){let recognized=(a?.payments||[]).reduce((z,p)=>z+(+p.cogs||0),0);return Math.max(0,accountCOGS(a)-recognized)}
-function posResetViewport(target){
-  // Desktop Safari/Chrome can preserve the old document scroll position when a SPA view changes.
-  // Reset every possible scrolling root, then anchor the active module under the sticky header.
-  try{window.scrollTo(0,0)}catch(e){}
-  document.documentElement.scrollTop=0;
-  document.body.scrollTop=0;
-  const main=document.querySelector('main');
-  if(main){main.scrollTop=0;main.scrollLeft=0}
-  if(target){
-    target.scrollIntoView({block:'start',inline:'nearest',behavior:'auto'});
-    // Keep the top of the module visible below the sticky desktop header.
-    if(window.matchMedia('(min-width:1100px)').matches){
-      const y=target.getBoundingClientRect().top+window.pageYOffset-96;
-      window.scrollTo(0,Math.max(0,y));
-    }
-  }
-}
-function posMarkNav(id){
-  document.querySelectorAll('.bottom button').forEach(b=>b.classList.remove('posActive'));
-  const key=id==='tablesView'?(window.__lhTableType||'') : id;
-  document.querySelectorAll('.bottom button').forEach(b=>{
-    const oc=b.getAttribute('onclick')||'';
-    if((key==='billar'&&oc.includes("showTables('billar')"))||(key==='consumo'&&oc.includes("showTables('consumo')"))||(key!=='billar'&&key!=='consumo'&&oc.includes("showView('"+key+"')"))) b.classList.add('posActive');
-  });
-}
-function showView(id){
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
-  const target=document.getElementById(id);
-  target.classList.add('active');
-  if(id==='inventory')renderInventory();if(id==='sales')renderSales();if(id==='reports')renderReports();if(id==='expenses')renderExpenses();if(id==='shifts')renderShift();
-  posMarkNav(id);
-  posResetViewport(target);
-  requestAnimationFrame(()=>{posResetViewport(target);requestAnimationFrame(()=>posResetViewport(target))});
-}
+function showView(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='inventory')renderInventory();if(id==='sales')renderSales();if(id==='reports')renderReports();if(id==='expenses')renderExpenses();if(id==='shifts')renderShift()}
 function modal(h){sheet.innerHTML=h;modalEl.classList.add('show')}function closeModal(){modalEl.classList.remove('show')}function backToTables(type){closeModal();showTables(type)}function modalNav(back,label='Volver'){return `<div class="modalNav"><button class="navBack" onclick="${back}">← ${label}</button><button class="navHome" onclick="closeModal();showView('home')">🏠 Inicio</button></div>`}
 function roundConsumption(r){return(r?.items||[]).reduce((s,i)=>s+i.price*i.qty,0)}
 function grossTotal(a){let gross=(a?.rounds||[]).reduce((s,r)=>s+GAME+roundConsumption(r),0)+(a?.loose||[]).reduce((s,i)=>s+i.price*i.qty,0)+(a?.playerExtras||[]).reduce((s,i)=>s+i.price*i.qty,0);return Math.max(0,gross-(a?.returns||[]).reduce((s,d)=>s+d.credit,0))}
@@ -54,7 +21,7 @@ function closedTotal(a){return Math.max(0,grossTotal(a)-paidTotal(a))}
 function pendingTotal(a){return roundConsumption(a?.activeRound)}
 function displayTotal(a,type){return closedTotal(a)+(type==='billar'?pendingTotal(a):0)}
 function renderHome(){let today=new Date().toDateString(),p=S.sales.filter(x=>new Date(x.ts).toDateString()===today);kSales.textContent=COP(p.reduce((s,x)=>s+x.total,0));kCash.textContent=COP(p.reduce((s,x)=>s+x.cash,0));kTransfer.textContent=COP(p.reduce((s,x)=>s+x.transfer,0));kOpen.textContent=S.tables.filter(x=>x.account).length;status.innerHTML=`<p>🎱 ${S.tables.filter(x=>x.type==='billar'&&x.account).length}/4 mesas de billar activas</p><p>🍺 ${S.tables.filter(x=>x.type==='consumo'&&x.account).length}/18 mesas de consumo activas</p><p>📦 ${catalog.filter(p=>(S.inventory[p.id]||0)<=5&&p.type==='stock').length} productos con existencia ≤ 5</p>`}
-function showTables(type){window.__lhTableType=type;showView('tablesView');document.getElementById('tablesView').className='view active tableExperience '+type+'Theme theme-'+(S.uiSettings?.[type+'Theme']||'herradura');posMarkNav('tablesView');posResetViewport(document.getElementById('tablesView'));if(type==='billar'){let bt=S.tables.filter(x=>x.type==='billar'),busy=bt.filter(x=>x.account).length;tablesTitle.innerHTML=`🎱 Mesas de billar <span class="osStats"><span class="osStat"><i></i>${busy} En juego</span><span class="osStat">${bt.length-busy} Disponibles</span></span>`}else{let ct=S.tables.filter(x=>x.type==='consumo'),busy=ct.filter(x=>x.account).length;tablesTitle.innerHTML=`🍺 Mesas de consumo <span class="osStats"><span class="osStat openStat"><i></i>${busy} ${busy===1?'Abierta':'Abiertas'}</span><span class="osStat">${ct.length-busy} ${(ct.length-busy)===1?'Disponible':'Disponibles'}</span></span>`};tables.innerHTML=S.tables.filter(x=>x.type===type).map(x=>`<div class="card tableCard ${x.account?'busy':''}"><span class="pill">${x.account?(type==='billar'?'EN JUEGO':'ABIERTA'):'DISPONIBLE'}</span><h3>${x.name}</h3><div>${x.account?x.account.group:'Libre'}</div><div class="amt">${x.account?COP(displayTotal(x.account,x.type)):'—'}</div>${x.account?`<div class="actions"><button class="primary" onclick="openAccount('${x.id}')">Gestionar</button>${x.type==='billar'?`<button onclick="openCustomer('${x.id}')">📺 Cliente</button>`:''}<button onclick="move('${x.id}')">⇄</button><button class="gold" onclick="pay('${x.id}')">Cobrar</button></div>`:`<button onclick="newAccount('${x.id}')">+ Abrir cuenta</button>`}</div>`).join('')}
+function showTables(type){showView('tablesView');document.getElementById('tablesView').className='view active tableExperience '+type+'Theme theme-'+(S.uiSettings?.[type+'Theme']||'herradura');if(type==='billar'){let bt=S.tables.filter(x=>x.type==='billar'),busy=bt.filter(x=>x.account).length;tablesTitle.innerHTML=`🎱 Mesas de billar <span class="osStats"><span class="osStat"><i></i>${busy} En juego</span><span class="osStat">${bt.length-busy} Disponibles</span></span>`}else{let ct=S.tables.filter(x=>x.type==='consumo'),busy=ct.filter(x=>x.account).length;tablesTitle.innerHTML=`🍺 Mesas de consumo <span class="osStats"><span class="osStat openStat"><i></i>${busy} ${busy===1?'Abierta':'Abiertas'}</span><span class="osStat">${ct.length-busy} ${(ct.length-busy)===1?'Disponible':'Disponibles'}</span></span>`};tables.innerHTML=S.tables.filter(x=>x.type===type).map(x=>`<div class="card tableCard ${x.account?'busy':''}"><span class="pill">${x.account?(type==='billar'?'EN JUEGO':'ABIERTA'):'DISPONIBLE'}</span><h3>${x.name}</h3><div>${x.account?x.account.group:'Libre'}</div><div class="amt">${x.account?COP(displayTotal(x.account,x.type)):'—'}</div>${x.account?`<div class="actions"><button class="primary" onclick="openAccount('${x.id}')">Gestionar</button>${x.type==='billar'?`<button onclick="openCustomer('${x.id}')">📺 Cliente</button>`:''}<button onclick="move('${x.id}')">⇄</button><button class="gold" onclick="pay('${x.id}')">Cobrar</button></div>`:`<button onclick="newAccount('${x.id}')">+ Abrir cuenta</button>`}</div>`).join('')}
 function newAccount(id){let x=t(id);modal(`${modalNav("backToTables('${x.type}')",'Mesas')}<h2>Abrir ${x.name}</h2><div class="field"><label>Cliente / grupo</label><input id="group" placeholder="Ej. Carlos y amigos"></div><div class="field"><label>Mesera</label><select id="waitress">${S.waitresses.map(x=>`<option>${x}</option>`).join('')}</select></div>${x.type==='billar'?`<div class="projectionBox"><div><b>📺 Pantalla del cliente</b><small>Prepara la vista profesional para proyectar esta mesa.</small></div><button onclick="previewCustomer('${id}')">Vista previa</button></div>`:''}<button class="gold wide" onclick="confirmOpen('${id}')">Abrir cuenta</button>`)}
 function confirmOpen(id){let x=t(id);x.account={group:group.value||'Cliente',waitress:waitress.value,rounds:[],activeRound:x.type==='billar'?newRound('Nueva partida'):null,loose:[],history:[stamp()+' · Cuenta abierta'],players:[],people:[],playerExtras:[],payments:[],returns:[]};save(`Cuenta abierta ${x.name}`);closeModal();openAccount(id)}
 function newRound(source='Nueva partida',items=[]){return{id:Date.now()+Math.random(),status:'active',items:items.map(i=>({...i})),createdAt:new Date().toISOString(),source}}
