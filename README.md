@@ -113,3 +113,7 @@ Versión de pruebas funcionales.
 - Para sincronización entre dispositivos físicos distintos (teléfono → TV/tablet) se requiere una base de datos en tiempo real; esta versión no inventa sincronización remota.
 
 v4.15.1: corrección exclusivamente visual de encabezados/contadores; app.js funcional sin cambios.
+
+
+## v4.17.4 · Acabados Premium
+Pulido visual de Billar y navegación responsive. Se conserva íntegro el motor POS recuperado en v4.17.3.
