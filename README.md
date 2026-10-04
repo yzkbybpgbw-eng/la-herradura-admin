@@ -1,3 +1,5 @@
+La Herradura Admin v4.14.8 — Lounge & Branding
+
 LA HERRADURA ADMIN v4.14.1 — GRAND CLEAN EDITION
 
 - Rediseño Grand Club más limpio, elegante y profesional.
