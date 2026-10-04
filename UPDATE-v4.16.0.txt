@@ -1,0 +1,15 @@
+LA HERRADURA ADMIN v4.16.0 — REAL PREMIUM RESPONSIVE PASS
+
+CAMBIOS VISUALES
+- Logo PNG nítido implementado en cabecera, menú lateral, heroes y pantalla del cliente.
+- Se eliminó el doble banner heredado en Billar/Consumo.
+- Hero único y compacto por módulo.
+- Heroes añadidos a Ventas, Turnos, Gastos y Administración.
+- Escritorio reorganizado para aprovechar ancho y reducir desplazamiento vertical.
+- Billar y Consumo: tarjetas premium en 4 columnas en escritorio, 3 en tablet y 2 en móvil según reglas existentes.
+- Inicio: dashboard de escritorio más compacto y equilibrado.
+- Cache PWA actualizado para forzar carga de los nuevos recursos visuales.
+
+SEGURIDAD DEL CAMBIO
+- No se modificó la lógica de cuentas, partidas, cobros, inventario, devoluciones, precios ni reportes.
+- app.js funcional permanece intacto.
