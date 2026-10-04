@@ -1,0 +1,8 @@
+LA HERRADURA ADMIN v4.16.2 — PNG + INICIO FIX
+
+- Logo principal convertido a PNG RGBA con transparencia real.
+- Nueva fuente visual: herradura-logo-premium.png.
+- Botón Inicio del menú lateral: área clicable reforzada y por encima del pseudo-elemento decorativo.
+- Decoración/logo lateral ya no intercepta clics (pointer-events:none).
+- Caché PWA actualizado a v4.16.2.
+- Sin cambios en lógica de cuentas, cobros, inventario o partidas.
