@@ -1,0 +1,11 @@
+LA HERRADURA ADMIN v4.15.9 — LUJOS Y DETALLES
+
+Actualización exclusivamente visual sobre v4.15.8.
+- Hero institucional en Inicio.
+- Hero panorámico específico en Billar.
+- Hero lounge/bar específico en Consumo.
+- Hero premium en Inventario.
+- Hero sobrio en Reportes.
+- Logo nítido herradura-logo-crisp.png integrado en los banners.
+- Adaptación responsive para computador, tablet y celular.
+- No se modificó app.js ni la lógica de cuentas, cobros, inventario, rondas, precios o reportes.

@@ -462,13 +462,57 @@ header .brand:before{
     line-height:1.55!important;
   }
 }
-</style></head><body><header><div class="brand">🎱 LA HERRADURA <b>ADMIN</b> <small>v4.15.8</small></div><button onclick="showView('admin');setTimeout(renderAppearance,0)">⚙️</button></header><main>
-<section id="home" class="view active"><div class="kpis"><div class="card kpi"><small>Ventas de hoy</small><strong id="kSales">$0</strong></div><div class="card kpi"><small>Efectivo</small><strong id="kCash">$0</strong></div><div class="card kpi"><small>Transferencias</small><strong id="kTransfer">$0</strong></div><div class="card kpi"><small>Cuentas abiertas</small><strong id="kOpen">0</strong></div></div><div class="menu"><button onclick="showTables('billar')"><span>🎱</span>Billar</button><button onclick="showTables('consumo')"><span>🍺</span>Consumo</button><button onclick="showView('sales')"><span>💰</span>Ventas</button><button onclick="showView('inventory')"><span>📦</span>Inventario</button><button onclick="showView('shifts')"><span>👩‍💼</span>Turnos</button><button onclick="showView('expenses')"><span>💸</span>Gastos</button><button onclick="showView('reports')"><span>📊</span>Reportes</button><button onclick="showView('admin');setTimeout(renderAppearance,0)"><span>⚙️</span>Administración</button></div><div class="card"><h3>Estado del negocio</h3><div id="status"></div></div></section>
-<section id="tablesView" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2 id="tablesTitle"></h2><div id="tables" class="tables"></div></section>
-<section id="inventory" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>📦 Inventario inteligente</h2><p class="muted">Existencias en tiempo real, alertas y movimientos con control de Administradora.</p><input class="search" id="invSearch" placeholder="🔎 Buscar producto o categoría…" oninput="renderInventory()"><div id="inv"></div></section>
+
+/* v4.15.9 · Lujos y detalles — premium section heroes (visual-only) */
+:root{--hero-gold:#f1c75b;--hero-deep:#03110f;--hero-green:#063c2d}
+.sectionHero{position:relative;overflow:hidden;min-height:190px;margin:0 0 18px;border:1px solid #d7ad4f66;border-radius:26px;background-color:#07130f;background-position:center;background-size:cover;box-shadow:0 20px 48px #0009,inset 0 0 0 1px #ffe49a12;isolation:isolate}
+.sectionHero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,8,8,.94) 0%,rgba(2,10,9,.78) 42%,rgba(2,9,8,.30) 72%,rgba(2,8,8,.58) 100%);z-index:-1}
+.sectionHero:after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,transparent,#f1c75bcc,transparent)}
+.sectionHero__content{min-height:190px;padding:28px 32px;display:flex;flex-direction:column;justify-content:center;max-width:720px}
+.sectionHero__brand{display:flex;align-items:center;gap:12px;margin-bottom:10px;color:#f6d878;font-size:.72rem;font-weight:900;letter-spacing:.22em;text-transform:uppercase}
+.sectionHero__brand img{width:78px;height:49px;object-fit:contain;border-radius:10px;filter:drop-shadow(0 5px 12px #000b)}
+.sectionHero h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(2rem,4vw,3.5rem);line-height:.95;margin:0;color:#fff;text-shadow:0 4px 18px #000}
+.sectionHero h1 span{color:var(--hero-gold)}
+.sectionHero p{margin:12px 0 0;color:#e5dfcf;font-size:.94rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.hero-home{background-image:url('consumo-lounge.jpg');background-position:center 54%}
+.hero-billar{background-image:url('billar-hero.jpg');background-position:center}
+.hero-consumo{background-image:url('consumo-lounge.jpg');background-position:center 50%}
+.hero-inventory{background-image:linear-gradient(90deg,rgba(2,8,8,.18),rgba(2,8,8,.2)),url('consumo-lounge.jpg');background-position:center 36%}
+.hero-reports{background-image:linear-gradient(90deg,rgba(2,8,8,.12),rgba(2,8,8,.28)),url('billar-luxury-clean.jpg');background-position:center 56%}
+#home:before{display:none!important}
+#inventory>h2,#inventory>p.muted,#reports>h2{display:none}
+#tablesView>.sectionHero{margin-top:14px}
+#tablesView>.sectionHero+#tablesTitle{margin-top:0!important}
+@media(min-width:1100px){
+ .sectionHero{min-height:240px;margin-bottom:22px;border-radius:28px}.sectionHero__content{min-height:240px;padding:34px 42px}.sectionHero__brand img{width:108px;height:67px}.sectionHero p{font-size:1rem}
+ #home{padding-top:0!important}.hero-home{min-height:270px}.hero-home .sectionHero__content{min-height:270px}
+ #tablesView>.sectionHero{margin-top:0}
+}
+@media(max-width:699px){
+ .sectionHero{min-height:148px;border-radius:20px;margin:4px 0 14px}.sectionHero__content{min-height:148px;padding:18px 18px}.sectionHero__brand{gap:8px;font-size:.58rem;margin-bottom:7px}.sectionHero__brand img{width:55px;height:35px}.sectionHero h1{font-size:1.8rem}.sectionHero p{font-size:.66rem;letter-spacing:.11em;margin-top:8px}
+ .hero-home{min-height:158px}.hero-home .sectionHero__content{min-height:158px}
+ #tablesView>.sectionHero{margin-top:6px}
+}
+
+</style></head><body><header><div class="brand">🎱 LA HERRADURA <b>ADMIN</b> <small>v4.15.9</small></div><button onclick="showView('admin');setTimeout(renderAppearance,0)">⚙️</button></header><main>
+<section id="home" class="view active"><div class="sectionHero hero-home"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-crisp.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>La Herradura <span>Club SJ</span></h1><p>Más que un juego, una experiencia</p></div></div><div class="kpis"><div class="card kpi"><small>Ventas de hoy</small><strong id="kSales">$0</strong></div><div class="card kpi"><small>Efectivo</small><strong id="kCash">$0</strong></div><div class="card kpi"><small>Transferencias</small><strong id="kTransfer">$0</strong></div><div class="card kpi"><small>Cuentas abiertas</small><strong id="kOpen">0</strong></div></div><div class="menu"><button onclick="showTables('billar')"><span>🎱</span>Billar</button><button onclick="showTables('consumo')"><span>🍺</span>Consumo</button><button onclick="showView('sales')"><span>💰</span>Ventas</button><button onclick="showView('inventory')"><span>📦</span>Inventario</button><button onclick="showView('shifts')"><span>👩‍💼</span>Turnos</button><button onclick="showView('expenses')"><span>💸</span>Gastos</button><button onclick="showView('reports')"><span>📊</span>Reportes</button><button onclick="showView('admin');setTimeout(renderAppearance,0)"><span>⚙️</span>Administración</button></div><div class="card"><h3>Estado del negocio</h3><div id="status"></div></div></section>
+<section id="tablesView" class="view"><button class="back" onclick="showView('home')">← Inicio</button><div id="dynamicTableHero"></div><h2 id="tablesTitle"></h2><div id="tables" class="tables"></div></section>
+<section id="inventory" class="view"><button class="back" onclick="showView('home')">← Inicio</button><div class="sectionHero hero-inventory"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-crisp.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>Inventario <span>inteligente</span></h1><p>Control · organización · rentabilidad</p></div></div><h2>📦 Inventario inteligente</h2><p class="muted">Existencias en tiempo real, alertas y movimientos con control de Administradora.</p><input class="search" id="invSearch" placeholder="🔎 Buscar producto o categoría…" oninput="renderInventory()"><div id="inv"></div></section>
 <section id="sales" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>💰 Ventas</h2><div id="salesList" class="card"></div></section>
 <section id="shifts" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>👩‍💼 Turnos y cierres</h2><div class="card"><div class="notice">Diseñado para 2 turnos. Cada mesera tendrá cierre individual; el turno incluye conteo físico de inventario y entrega/recepción al siguiente turno.</div><div class="actions" style="margin-top:12px"><button class="primary" onclick="startShift()">Abrir turno</button><button class="gold" onclick="shiftClose()">Cierre de mesera</button></div><div id="shiftInfo"></div></div></section>
 <section id="expenses" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>💸 Gastos / egresos</h2><div class="card"><div class="row"><div class="field"><label>Concepto</label><input id="expenseName"></div><div class="field"><label>Valor</label><input id="expenseValue" type="number"></div></div><button class="gold" onclick="addExpense()">Registrar gasto</button><div id="expenseList"></div></div></section>
-<section id="reports" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>📊 Reportes</h2><div class="card"><h3>Cierre mensual</h3><div id="monthly"></div><h3>Rendimiento por mesera</h3><div id="waitressReport"></div></div></section>
+<section id="reports" class="view"><button class="back" onclick="showView('home')">← Inicio</button><div class="sectionHero hero-reports"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-crisp.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>Reportes <span>del negocio</span></h1><p>Información que impulsa tus decisiones</p></div></div><h2>📊 Reportes</h2><div class="card"><h3>Cierre mensual</h3><div id="monthly"></div><h3>Rendimiento por mesera</h3><div id="waitressReport"></div></div></section>
 <section id="admin" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>⚙️ Administración</h2><div class="card"><p>Precio por chico: <b>$2.000 COP</b></p><p>4 mesas de billar · 18 mesas de consumo</p><p>Catálogo cargado desde tu hoja <b>INVENTARIO OCTUBRE DEL 2026</b>.<br><b>v4:</b> rondas, duplicar partida, cuentas por jugador y vista transparente para clientes.</p><button onclick="downloadBackup()">⬇️ Descargar respaldo</button></div><div id="appearancePanel" class="card" style="margin-top:12px"></div></section>
-</main><nav class="bottom"><button onclick="showView('home')">🏠<br>Inicio</button><button onclick="showTables('billar')">🎱<br>Billar</button><button onclick="showTables('consumo')">🍺<br>Consumo</button><button onclick="showView('inventory')">📦<br>Inventario</button><button onclick="showView('reports')">📊<br>Reportes</button></nav><div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div id="sheet" class="sheet"></div></div><script src="app.js?v=4.15.6"></script></body></html>
+</main><nav class="bottom"><button onclick="showView('home')">🏠<br>Inicio</button><button onclick="showTables('billar')">🎱<br>Billar</button><button onclick="showTables('consumo')">🍺<br>Consumo</button><button onclick="showView('inventory')">📦<br>Inventario</button><button onclick="showView('reports')">📊<br>Reportes</button></nav><div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div id="sheet" class="sheet"></div></div><script src="app.js?v=4.15.8"></script><script>
+(function(){
+ const original=window.showTables;
+ function heroFor(type){
+   const box=document.getElementById('dynamicTableHero'); if(!box)return;
+   const consumo=type==='consumo';
+   box.innerHTML=`<div class="sectionHero ${consumo?'hero-consumo':'hero-billar'}"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-crisp.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>${consumo?'Mesas de':'Mesas de'} <span>${consumo?'consumo':'billar'}</span></h1><p>${consumo?'Servicio · ambiente · atención VIP':'Juega · disfruta · comparte'}</p></div></div>`;
+ }
+ document.addEventListener('click',e=>{const b=e.target.closest('button[onclick*="showTables"]');if(b){heroFor((b.getAttribute('onclick')||'').includes('consumo')?'consumo':'billar')}});
+ const obs=new MutationObserver(()=>{const tv=document.getElementById('tablesView');if(tv?.classList.contains('active')){const title=document.getElementById('tablesTitle')?.textContent||'';heroFor(title.toLowerCase().includes('consumo')?'consumo':'billar')}});
+ document.addEventListener('DOMContentLoaded',()=>{const tv=document.getElementById('tablesView');if(tv)obs.observe(tv,{attributes:true,attributeFilter:['class']})});
+})();
+</script></body></html>
