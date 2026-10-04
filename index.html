@@ -440,7 +440,29 @@ header .brand:before{
   .bottom button.posActive{background:linear-gradient(135deg,#5b4617,#17283a)!important;border-color:#efc65b!important;box-shadow:inset 4px 0 #efc65b,0 8px 24px #0007!important;color:#fff!important}
   .bottom button.posActive::first-line{color:#f4ce67}
 }
-</style></head><body><header><div class="brand">🎱 LA HERRADURA <b>ADMIN</b> <small>v4.15.7</small></div><button onclick="showView('admin');setTimeout(renderAppearance,0)">⚙️</button></header><main>
+
+/* v4.15.8 · desktop spacing + lossless crisp brand */
+header .brand:before{
+  background-image:url('herradura-logo-crisp.png')!important;
+  background-size:contain!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+}
+@media (min-width:1100px){
+  /* More breathing room between brand block and first POS navigation item */
+  .bottom{padding-top:172px!important;}
+  .bottom:before{
+    top:24px!important;
+    min-height:112px!important;
+    background-image:url('herradura-logo-crisp.png')!important;
+    background-size:104px auto!important;
+    background-position:center top!important;
+    background-repeat:no-repeat!important;
+    padding-top:76px!important;
+    line-height:1.55!important;
+  }
+}
+</style></head><body><header><div class="brand">🎱 LA HERRADURA <b>ADMIN</b> <small>v4.15.8</small></div><button onclick="showView('admin');setTimeout(renderAppearance,0)">⚙️</button></header><main>
 <section id="home" class="view active"><div class="kpis"><div class="card kpi"><small>Ventas de hoy</small><strong id="kSales">$0</strong></div><div class="card kpi"><small>Efectivo</small><strong id="kCash">$0</strong></div><div class="card kpi"><small>Transferencias</small><strong id="kTransfer">$0</strong></div><div class="card kpi"><small>Cuentas abiertas</small><strong id="kOpen">0</strong></div></div><div class="menu"><button onclick="showTables('billar')"><span>🎱</span>Billar</button><button onclick="showTables('consumo')"><span>🍺</span>Consumo</button><button onclick="showView('sales')"><span>💰</span>Ventas</button><button onclick="showView('inventory')"><span>📦</span>Inventario</button><button onclick="showView('shifts')"><span>👩‍💼</span>Turnos</button><button onclick="showView('expenses')"><span>💸</span>Gastos</button><button onclick="showView('reports')"><span>📊</span>Reportes</button><button onclick="showView('admin');setTimeout(renderAppearance,0)"><span>⚙️</span>Administración</button></div><div class="card"><h3>Estado del negocio</h3><div id="status"></div></div></section>
 <section id="tablesView" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2 id="tablesTitle"></h2><div id="tables" class="tables"></div></section>
 <section id="inventory" class="view"><button class="back" onclick="showView('home')">← Inicio</button><h2>📦 Inventario inteligente</h2><p class="muted">Existencias en tiempo real, alertas y movimientos con control de Administradora.</p><input class="search" id="invSearch" placeholder="🔎 Buscar producto o categoría…" oninput="renderInventory()"><div id="inv"></div></section>

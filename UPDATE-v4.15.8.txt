@@ -1,0 +1,5 @@
+LA HERRADURA ADMIN v4.15.8
+Visual-only update from v4.15.7.
+- Desktop sidebar navigation moved down to create breathing room below the brand.
+- Header/sidebar brand now use lossless herradura-logo-crisp.png optimized for small-screen rendering.
+- Business logic, accounts, rounds, prices, inventory and storage were not changed.
