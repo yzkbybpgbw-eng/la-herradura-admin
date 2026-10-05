@@ -25,3 +25,9 @@ v4.18.6: Pulido Premium. Bola 8 rediseñada como bola real negra con círculo ce
 
 ## v4.19.0
 Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyectaba billar-hero.jpg como fondo general. El fondo general queda canónico y sin fotografía; las fotos quedan limitadas al hero y a tablePhoto. Cache del service worker renovada.
+
+
+## v4.19.2
+- Perfeccionado el banner de Mesas de billar en escritorio.
+- Se evita el zoom/corte excesivo del arte original y se conserva el encuadre móvil.
+- Se actualizó el cache del Service Worker y el cache-busting de app.js para evitar versiones visuales antiguas.
