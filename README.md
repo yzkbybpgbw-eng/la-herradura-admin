@@ -1,3 +1,7 @@
+La Herradura Admin v4.19.8
+
+Corrección: elimina secuencias \n serializadas que podían mostrarse como texto sobre la interfaz; conserva recursos, logos, lienzos y funcionalidad de v4.19.6, e incorpora el pulido visual móvil de v4.19.7.
+
 # La Herradura Admin v4.19.6
 
 Publicación corregida. ZIP con archivos en la raíz para GitHub Pages.
