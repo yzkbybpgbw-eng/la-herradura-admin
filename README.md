@@ -21,3 +21,7 @@ v4.18.5: Mesas Premium. Se conserva la lógica estable de v4.18.4 y se añade un
 
 
 v4.18.6: Pulido Premium. Bola 8 rediseñada como bola real negra con círculo central blanco discreto; tarjetas móviles compactadas para eliminar espacio vacío sin alterar la lógica POS.
+
+
+## v4.19.0
+Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyectaba billar-hero.jpg como fondo general. El fondo general queda canónico y sin fotografía; las fotos quedan limitadas al hero y a tablePhoto. Cache del service worker renovada.
