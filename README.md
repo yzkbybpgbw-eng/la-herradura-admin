@@ -31,3 +31,8 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Perfeccionado el banner de Mesas de billar en escritorio.
 - Se evita el zoom/corte excesivo del arte original y se conserva el encuadre móvil.
 - Se actualizó el cache del Service Worker y el cache-busting de app.js para evitar versiones visuales antiguas.
+
+
+## v4.19.5
+- Corrige CSS visible de Gestión de billar.
+- Fuerza actualización del service worker para evitar versiones antiguas en caché.
