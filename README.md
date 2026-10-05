@@ -1,4 +1,4 @@
-La Herradura Admin v4.19.8
+La Herradura Admin v4.19.9
 
 Corrección: elimina secuencias \n serializadas que podían mostrarse como texto sobre la interfaz; conserva recursos, logos, lienzos y funcionalidad de v4.19.6, e incorpora el pulido visual móvil de v4.19.7.
 
@@ -44,3 +44,13 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 ## v4.19.6
 - Corrige CSS visible de Gestión de billar.
 - Fuerza actualización del service worker para evitar versiones antiguas en caché.
+
+## v4.19.9 — Gestión de billar consolidada
+- Conserva íntegramente la base visual estable de v4.19.8.
+- Gestión de partida activa y comanda por ronda.
+- Finalización de partida con asignación obligatoria del perdedor.
+- Duplicación del pedido anterior sin copiar el perdedor.
+- Extras personales por jugador o acompañante.
+- Edición de partidas cerradas con ajuste de inventario.
+- Cuentas acumuladas por jugador, historial, vista cliente y cobro.
+- Mantiene logos, lienzos, imágenes, temas y adaptación móvil/escritorio.
