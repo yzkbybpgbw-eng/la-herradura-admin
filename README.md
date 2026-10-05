@@ -1,3 +1,7 @@
+# La Herradura Admin v4.19.6
+
+Publicación corregida. ZIP con archivos en la raíz para GitHub Pages.
+
 # La Herradura Admin v4.18.1
 
 Corrección quirúrgica de Mesas de Billar.
@@ -33,6 +37,6 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Se actualizó el cache del Service Worker y el cache-busting de app.js para evitar versiones visuales antiguas.
 
 
-## v4.19.5
+## v4.19.6
 - Corrige CSS visible de Gestión de billar.
 - Fuerza actualización del service worker para evitar versiones antiguas en caché.
