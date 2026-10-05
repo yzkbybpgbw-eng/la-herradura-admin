@@ -9,3 +9,6 @@ Corrección quirúrgica de Mesas de Billar.
 - Mesa activa dorada; disponibles verdes.
 - Apariencia existente controla la familia fotográfica; no se agrega un selector duplicado.
 - Se neutralizan decoraciones CSS antiguas que podían tapar o reemplazar la imagen.
+
+
+v4.18.2: Las fotos de las mesas ahora son elementos DOM reales (.tablePhoto), no fondos/pseudo-elementos, para eliminar conflictos CSS heredados.
