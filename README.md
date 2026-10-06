@@ -1,4 +1,4 @@
-La Herradura Admin v4.19.12
+La Herradura Admin v4.19.13
 
 Corrección: elimina secuencias \n serializadas que podían mostrarse como texto sobre la interfaz; conserva recursos, logos, lienzos y funcionalidad de v4.19.6, e incorpora el pulido visual móvil de v4.19.7.
 
@@ -45,7 +45,7 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Corrige CSS visible de Gestión de billar.
 - Fuerza actualización del service worker para evitar versiones antiguas en caché.
 
-## v4.19.12 — Gestión de billar consolidada
+## v4.19.13 — Gestión de billar consolidada
 - Conserva íntegramente la base visual estable de v4.19.8.
 - Gestión de partida activa y comanda por ronda.
 - Finalización de partida con asignación obligatoria del perdedor.
@@ -56,14 +56,14 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Mantiene logos, lienzos, imágenes, temas y adaptación móvil/escritorio.
 
 
-## v4.19.12 — Extras identificados y guardado explícito
+## v4.19.13 — Extras identificados y guardado explícito
 - Los consumos personales posteriores quedan marcados visualmente como EXTRA.
 - Al agregar productos a un participante/acompañante, se arma primero un pedido temporal.
 - Nuevo botón “Guardar extras”: solo al guardarlo se registra en la cuenta y se descuenta inventario.
 - Los extras aparecen separados de las partidas cerradas y también identificados en el recibo.
 
 
-## Ajuste v4.19.12
+## Ajuste v4.19.13
 - Desde la cuenta de un jugador con ronda cerrada, **Agregar consumo adicional** abre directamente sus EXTRAS personales.
 - Los productos nuevos se mantienen en **Pedido por guardar** hasta pulsar **Guardar extras**.
 - No se mezclan con los productos de la ronda cerrada.
