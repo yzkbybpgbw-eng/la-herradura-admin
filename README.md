@@ -1,4 +1,14 @@
-La Herradura Admin v4.19.15
+La Herradura Admin v4.19.16
+
+## v4.19.16 — Vista Cliente Premium
+- Logo maestro completo con object-fit contain, sin recorte.
+- Diseño responsive optimizado para TV horizontal y teléfono.
+- Ronda actual protagonista con productos, subtotal, chico y total a asignar.
+- Cuentas por jugador con rondas + chicos, extras personales y estado PAGADO.
+- Total pendiente general visible.
+- Historial de partidas y devoluciones conservados.
+- Sin cambios a la lógica operativa estable de v4.19.15.
+
 
 Corrección: elimina secuencias \n serializadas que podían mostrarse como texto sobre la interfaz; conserva recursos, logos, lienzos y funcionalidad de v4.19.6, e incorpora el pulido visual móvil de v4.19.7.
 
