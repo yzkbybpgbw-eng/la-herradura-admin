@@ -1,6 +1,6 @@
-La Herradura Admin v4.19.23
+La Herradura Admin v4.19.25
 
-## v4.19.23 — Consumo Premium · Rondas + Extras
+## v4.19.25 — Consumo Premium · Rondas + Extras
 - Mesas de consumo reorganizadas para trabajar por rondas guardadas.
 - Cada ronda puede indicar quién la pidió o dejarse en Cuenta general.
 - Comanda activa con selección visual y Guardar ronda; inventario se descuenta al guardar.
@@ -11,7 +11,7 @@ La Herradura Admin v4.19.23
 - Se conserva intacto el flujo estable de Billar y la Vista Cliente TV 16:9.
 
 
-## v4.19.23 — Vista Cliente Premium
+## v4.19.25 — Vista Cliente Premium
 - Logo maestro completo con object-fit contain, sin recorte.
 - Diseño responsive optimizado para TV horizontal y teléfono.
 - Ronda actual protagonista con productos, subtotal, chico y total a asignar.
@@ -90,15 +90,9 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - No se mezclan con los productos de la ronda cerrada.
 
 
-## v4.19.23 — Vista Cliente TV 16:9
+## v4.19.25 — Vista Cliente TV 16:9
 - Modo TV horizontal automático en tres columnas, sin desplazamiento manual para la información esencial.
 - Ronda actual, cuentas por jugador y resumen de mesa visibles simultáneamente.
 - Listados extensos rotan automáticamente en TV.
 - Vista móvil conserva desplazamiento vertical y detalle completo.
 - Logo compacto y visible en TV.
-
-## v4.19.23 — Base estable recuperada
-- Recuperada la presentación aprobada de Consumo para continuar sin mezclar maquetas con la interfaz real.
-- Eliminados archivos temporales de versiones de prueba.
-- Se conserva la lógica de rondas, responsables, extras, cobros, inventario y Billar.
-- Versión y caché actualizados a v4.19.23.
