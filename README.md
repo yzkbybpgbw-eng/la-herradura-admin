@@ -1,6 +1,9 @@
-La Herradura Admin v4.19.28
+La Herradura Admin v4.19.29
 
-## v4.19.28 — Vista Cliente Premium
+PC/TV Consumo optimizado; móvil <=699px protegido desde v4.19.28.
+
+
+## v4.19.29 — Vista Cliente Premium
 - Logo maestro completo con object-fit contain, sin recorte.
 - Diseño responsive optimizado para TV horizontal y teléfono.
 - Ronda actual protagonista con productos, subtotal, chico y total a asignar.
@@ -79,7 +82,7 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - No se mezclan con los productos de la ronda cerrada.
 
 
-## v4.19.28 — Vista Cliente TV 16:9
+## v4.19.29 — Vista Cliente TV 16:9
 - Modo TV horizontal automático en tres columnas, sin desplazamiento manual para la información esencial.
 - Ronda actual, cuentas por jugador y resumen de mesa visibles simultáneamente.
 - Listados extensos rotan automáticamente en TV.
