@@ -124,3 +124,10 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Diferencias contra esperado y contra declarado, con observaciones obligatorias.
 - El conteo de recepción abre el siguiente turno con el efectivo realmente recibido.
 - IMPORTANTE: los gastos y retiros todavía NO se descuentan automáticamente; esta versión sigue siendo piloto local, sin autenticación segura.
+
+
+## v4.19.40 — primer reporte de cierre
+- Pago de turno en efectivo configurable por turno, descontado del efectivo esperado.
+- Resumen de cobros por Billar/Consumo, efectivo y transferencias; reporte al cerrar y recibir.
+- No incluye todavía login global seguro, detalle fiable por unidad/tiempo, egresos automáticos ni cierre mensual consolidado.
+- Se conserva la base de datos local y los módulos comerciales sin cambios.
