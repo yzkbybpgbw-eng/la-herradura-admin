@@ -102,3 +102,9 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - IMPORTANTE: es un **piloto en almacenamiento local**, no un sistema de autenticación segura. No usar claves personales reales. No sincroniza usuarios ni turnos entre teléfonos/computadores, ni bloquea acceso a otros módulos. Para operación real se requiere servidor y autenticación segura.
 - Efectivo esperado provisional: base + ventas en efectivo registradas en la aplicación. Los gastos/retiros todavía requieren conciliación manual; no dar por definitivo el cierre sin verificar.
 - Conservar respaldo antes de publicar. No se modifican cuentas ni inventario preexistentes.
+
+## v4.19.37 — Corrección de carga Personal y Turnos
+- Se incluye `turnos.js` en `index.html`, que faltaba en v4.19.36.
+- Se oculta el aviso antiguo de turnos para evitar confusión con el nuevo módulo.
+- Se actualiza versión y caché PWA.
+- Sigue siendo un piloto local, no apto para contraseñas reales ni operación multi-dispositivo.

@@ -1,4 +1,4 @@
-/* Personal y Turnos — módulo piloto independiente v4.19.36.
+/* Personal y Turnos — módulo piloto independiente v4.19.37.
    Almacenamiento local en este navegador. NO es autenticación multiusuario segura. */
 (function(){
 'use strict';
@@ -31,7 +31,7 @@ t.closedAt=end;t.sales=sales;t.expected=expected;t.outgoingCount=counted;t.outgo
 window.tnReceive=()=>{if(!logged())return;let t=pending();if(!t||t.kind!==1)return alert('No hay entrega del primer turno pendiente.');if(session.role!=='waitress')return alert('Debe ingresar la mesera que recibe.');if(session.id===t.staffId)return alert('La misma mesera no puede entregar y recibir.');let counted=number('tnReceived'),obs=field('tnIncomingNotes');if(!validMoney(counted))return alert('Registra el dinero recibido.');if(counted!==t.expected&&!obs)return alert('La diferencia requiere observaciones de quien recibe.');t.receivedCount=counted;t.receivedBy=session.id;t.receivedAt=now();t.incomingNotes=obs;t.status='completed';D.turns.push({id:'turn-'+Date.now(),kind:2,staffId:session.id,openedBy:session.id,start:now(),base:counted,fromTurn:t.id,status:'open'});note('Entrega verificada · '+nameOf(session.id)+' · '+money(counted));persist()};
 window.tnFinal=()=>{if(!admin())return;let t=pending();if(!t||t.kind!==2)return alert('No hay cierre nocturno pendiente.');let counted=number('tnAdminCount'),obs=field('tnAdminNotes');if(!validMoney(counted))return alert('Indica el efectivo que recoge administración.');if(counted!==t.expected&&!obs)return alert('Registra observaciones por la diferencia.');t.receivedCount=counted;t.receivedBy=session.id;t.receivedAt=now();t.incomingNotes=obs;t.withdrawal=counted;t.status='completed';note('Cierre general · retiro administración '+money(counted)+' · saldo operativo $0');persist()};
 function render(){let root=document.getElementById('turnosPanel');if(!root)return;let t=active(),p=pending(),options=D.staff.filter(x=>x.role==='waitress'&&x.active!==false).map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');let latest=D.turns.slice(-12).reverse();
-let h='<div class="tnCard"><span class="tnPill">Piloto local · v4.19.36</span><p class="tnMuted">Este módulo guarda datos únicamente en este navegador. Todavía NO bloquea Billar/Consumo ni sincroniza usuarios entre dispositivos. Las claves locales no son seguras para uso real: utiliza claves de prueba, no contraseñas personales.</p></div>';
+let h='<div class="tnCard"><span class="tnPill">Piloto local · v4.19.37</span><p class="tnMuted">Este módulo guarda datos únicamente en este navegador. Todavía NO bloquea Billar/Consumo ni sincroniza usuarios entre dispositivos. Las claves locales no son seguras para uso real: utiliza claves de prueba, no contraseñas personales.</p></div>';
 if(!D.staff.length){h+=`<div class="tnCard"><h3>🔐 Registrar administradora (primera vez)</h3><label>Nombre</label><input id="tnAdminName" autocomplete="off"><label>Clave de prueba (mínimo 6 caracteres)</label><input id="tnAdminPass" type="password" autocomplete="new-password"><button class="gold" onclick="tnBootstrap()">Crear administración local</button></div>`}
 else if(!session){h+=`<div class="tnCard"><h3>🔐 Ingresar a Personal y Turnos</h3><label>Usuario</label><select id="tnUser">${D.staff.filter(x=>x.active!==false).map(x=>`<option value="${esc(x.id)}">${esc(x.name)} (${x.role==='admin'?'Administración':'Mesera'})</option>`).join('')}</select><label>Clave</label><input id="tnPass" type="password" autocomplete="off"><button class="gold" onclick="tnLogin()">Ingresar</button></div>`}
 else{
@@ -44,6 +44,6 @@ if(latest.length)h+=`<div class="tnCard"><h3>📚 Historial de entregas</h3>${la
 root.innerHTML=h;
 }
 const orig=window.renderShift;
-window.renderShift=function(){if(typeof orig==='function'){try{orig()}catch(e){}}render()};
+window.renderShift=function(){if(typeof orig==='function'){try{orig()}catch(e){}}const legacy=document.getElementById('shiftInfo');if(legacy)legacy.style.display='none';render()};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
 })();
