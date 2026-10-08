@@ -108,3 +108,11 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Se oculta el aviso antiguo de turnos para evitar confusión con el nuevo módulo.
 - Se actualiza versión y caché PWA.
 - Sigue siendo un piloto local, no apto para contraseñas reales ni operación multi-dispositivo.
+
+
+## v4.19.38 — Recuperación de acceso de prueba
+- Se puede restablecer **solo la clave** de la administradora del módulo piloto local desde el formulario de inicio de sesión, escribiendo REINICIAR y una nueva clave de prueba.
+- No borra ventas, inventario, mesas, personal ni historial de turnos.
+- Campos de clave con botón 👁️ Ver y texto de ayuda para evitar contraseñas sugeridas por Safari que no queden guardadas.
+- La recuperación sin contraseña anterior es **insegura** y exclusiva de la fase piloto; no debe emplearse para uso comercial real.
+- Versión y caché PWA actualizadas a v4.19.38.
