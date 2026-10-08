@@ -93,3 +93,12 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - TV/pantalla ancha usa 6 columnas y tarjetas compactas.
 - Breakpoints aislados para evitar contaminación entre vistas.
 - Caché y versión renovados para forzar carga de esta entrega.
+
+
+## v4.19.36 — Piloto Personal y Turnos
+- Se conserva la base v4.19.35 y sus módulos de Billar, Consumo, Inventario, Ventas y Reportes.
+- En Inicio > Turnos o Administración > Personal y Turnos: alta local de administradora/meseras, apertura con base variable, cierre con observaciones, recepción de caja y cierre nocturno con administración.
+- Las diferencias se calculan contra el esperado y se conservan las cantidades declaradas y recibidas. La base transferida no se registra como venta. Transferencias no son efectivo.
+- IMPORTANTE: es un **piloto en almacenamiento local**, no un sistema de autenticación segura. No usar claves personales reales. No sincroniza usuarios ni turnos entre teléfonos/computadores, ni bloquea acceso a otros módulos. Para operación real se requiere servidor y autenticación segura.
+- Efectivo esperado provisional: base + ventas en efectivo registradas en la aplicación. Los gastos/retiros todavía requieren conciliación manual; no dar por definitivo el cierre sin verificar.
+- Conservar respaldo antes de publicar. No se modifican cuentas ni inventario preexistentes.
