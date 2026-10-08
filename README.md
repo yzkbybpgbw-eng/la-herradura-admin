@@ -110,9 +110,17 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Sigue siendo un piloto local, no apto para contraseñas reales ni operación multi-dispositivo.
 
 
-## v4.19.38 — Recuperación de acceso de prueba
+## v4.19.39 — Recuperación de acceso de prueba
 - Se puede restablecer **solo la clave** de la administradora del módulo piloto local desde el formulario de inicio de sesión, escribiendo REINICIAR y una nueva clave de prueba.
 - No borra ventas, inventario, mesas, personal ni historial de turnos.
 - Campos de clave con botón 👁️ Ver y texto de ayuda para evitar contraseñas sugeridas por Safari que no queden guardadas.
 - La recuperación sin contraseña anterior es **insegura** y exclusiva de la fase piloto; no debe emplearse para uso comercial real.
-- Versión y caché PWA actualizadas a v4.19.38.
+- Versión y caché PWA actualizadas a v4.19.39.
+
+
+## v4.19.39 — Verificación de caja
+- El efectivo esperado se calcula automáticamente: base del turno + ventas cobradas en efectivo durante el turno.
+- Separación explícita de esperado, declarado por quien entrega y contado por quien recibe.
+- Diferencias contra esperado y contra declarado, con observaciones obligatorias.
+- El conteo de recepción abre el siguiente turno con el efectivo realmente recibido.
+- IMPORTANTE: los gastos y retiros todavía NO se descuentan automáticamente; esta versión sigue siendo piloto local, sin autenticación segura.
