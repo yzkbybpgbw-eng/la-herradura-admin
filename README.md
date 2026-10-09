@@ -131,3 +131,20 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Resumen de cobros por Billar/Consumo, efectivo y transferencias; reporte al cerrar y recibir.
 - No incluye todavía login global seguro, detalle fiable por unidad/tiempo, egresos automáticos ni cierre mensual consolidado.
 - Se conserva la base de datos local y los módulos comerciales sin cambios.
+
+
+## v4.19.41 — acceso visible a recepción pendiente
+- Botón para cambiar a la sesión de la mesera receptora cuando existe entrega de día pendiente.
+- Identificación propia de quien recibe; recepción y apertura de noche conservan las validaciones anteriores.
+- Sin modificaciones a app.js ni a los recursos de Billar, Consumo o Inventario.
+- Versión piloto local: no usar contraseñas reales ni operar como autenticación segura.
+
+## v4.19.42 — Rondas individuales en mesas de Consumo (piloto)
+- Nuevo módulo independiente `consumo-rondas.js`, sin modificar `app.js` ni `turnos.js`.
+- Cada pedido nuevo requiere solicitante y responsable del pago. Las rondas guardadas mantienen historial, cantidades y subtotal; se agrupan por pagador.
+- Cobro individual por responsable, con efectivo, transferencia o mixto; pago total de la mesa se mantiene.
+- El inventario continúa descontándose al seleccionar productos según el comportamiento previo (no se vuelve a descontar al guardar).
+- Las cuentas antiguas sin rondas permanecen como consumos anteriores; se cobran mediante Pago total.
+- Por seguridad, las cuentas con devoluciones deben conciliarse por Pago total; el prorrateo individual de devoluciones aún está pendiente.
+- La edición de rondas ya guardadas y selección de rondas sueltas para pago parcial quedan para una versión posterior.
+- Pruebas recomendadas: crear cuenta nueva, Juan solicita/paga dos rondas, Pedro solicita y Juan paga una, verificar tres rondas de Juan, cobrar Juan, comprobar saldo de mesa y cerrar.
