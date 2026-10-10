@@ -177,3 +177,14 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Las devoluciones anteriores a esta versión solo pueden recuperarse de cuentas abiertas; no se inventan datos históricos.
 - El reparto es informativo, no un egreso automático de caja.
 - Cambio mínimo en `app.js` estrictamente necesario para corregir el reparto y guardar un registro duradero; no se modifica la lógica de ventas, rondas, pagos ni descuento/restauración de stock.
+
+
+## v4.19.48 · Laboratorio aislado de jornada completa
+- Abrir desde Personal y Turnos → Abrir modo de pruebas, o `laboratorio.html`.
+- Copia la misma interfaz comercial de Billar y Consumo, con almacenamiento `lh_lab_41948__*` separado de la operación normal.
+- Permite registrar manualmente operaciones normales en mesas y pagos; el reporte de Turnos lee los cobros generados por la aplicación, sin introducir ventas en el cierre.
+- Botón para reiniciar únicamente los datos del laboratorio.
+- Se compacta el aviso de piloto y el detalle de ventas del turno queda desplegable.
+- NO se modificaron `app.js` ni `consumo-rondas.js`; `app-lab.js` es una copia para el laboratorio sin registro de service worker.
+- IMPORTANTE: esta versión no arregla todavía la falta de eventos contables detallados por producto/partida, ni la sincronización entre dispositivos. Probar en un solo navegador y revisar los resultados.
+- Los datos del laboratorio no deben considerarse reales ni usar contraseñas verdaderas.
