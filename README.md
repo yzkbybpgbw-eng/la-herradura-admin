@@ -139,7 +139,7 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Sin modificaciones a app.js ni a los recursos de Billar, Consumo o Inventario.
 - Versión piloto local: no usar contraseñas reales ni operar como autenticación segura.
 
-## v4.19.43 — Rondas individuales en mesas de Consumo (piloto)
+## v4.19.44 — Rondas individuales en mesas de Consumo (piloto)
 - Nuevo módulo independiente `consumo-rondas.js`, sin modificar `app.js` ni `turnos.js`.
 - Cada pedido nuevo requiere solicitante y responsable del pago. Las rondas guardadas mantienen historial, cantidades y subtotal; se agrupan por pagador.
 - Cobro individual por responsable, con efectivo, transferencia o mixto; pago total de la mesa se mantiene.

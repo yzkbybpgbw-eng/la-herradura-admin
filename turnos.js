@@ -7,7 +7,8 @@ const now=()=>new Date().toISOString();
 const money=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(n)||0);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const read=()=>{try{let d=JSON.parse(localStorage.getItem(K));if(d&&Array.isArray(d.staff)&&Array.isArray(d.turns))return d}catch(e){}return {staff:[],turns:[],log:[]}};
-let D=read(),session=null;
+let D=read(),session=null,turnosScreen='inicio';
+window.tnNavigate=(screen)=>{turnosScreen=screen;render();document.getElementById('turnosPanel')?.scrollIntoView({behavior:'smooth',block:'start'});};
 function persist(){localStorage.setItem(K,JSON.stringify(D));render()}
 function active(){return D.turns.findLast?D.turns.findLast(x=>x.status==='open'):D.turns.slice().reverse().find(x=>x.status==='open')}
 function pending(){return D.turns.slice().reverse().find(x=>x.status==='pending')}
@@ -50,9 +51,9 @@ function note(action){D.log.push({at:now(),action});if(D.log.length>300)D.log.sh
 function nameOf(id){return D.staff.find(x=>x.id===id)?.name||'Sin identificar'}
 function logged(){if(!session){alert('Inicia sesión en Personal y Turnos.');return false}return true}
 function admin(){if(!session||session.role!=='admin'){alert('Esta operación corresponde a la administradora.');return false}return true}
-function setSession(id,pin){const u=D.staff.find(x=>x.id===id&&x.pin===pin&&x.active!==false);if(!u){alert('Usuario o clave incorrectos.');return}session={id:u.id,role:u.role,name:u.name};render()}
+function setSession(id,pin){const u=D.staff.find(x=>x.id===id&&x.pin===pin&&x.active!==false);if(!u){alert('Usuario o clave incorrectos.');return}session={id:u.id,role:u.role,name:u.name};turnosScreen='inicio';render()}
 window.tnLogin=()=>setSession(field('tnUser'),field('tnPass'));
-window.tnLogout=()=>{session=null;render()};
+window.tnLogout=()=>{session=null;turnosScreen='inicio';render()};
 window.tnSwitchReceiver=()=>{session=null;render();const e=document.getElementById('tnUser');const t=pending();if(e&&t){const u=D.staff.find(x=>x.role==='waitress'&&x.active!==false&&x.id!==t.staffId);if(u)e.value=u.id}document.getElementById('tnPass')?.focus()};
 // Recuperación exclusiva del piloto local: conserva personal, turnos y datos comerciales.
 // NO habilitar este mecanismo en una versión con autenticación real.
@@ -95,6 +96,34 @@ if(session.role==='admin')h+=dailyHTML();
 if(latest.length)h+=`<div class="tnCard"><h3>📚 Historial de entregas</h3>${latest.map(x=>`<div class="tnLog"><b>${x.kind===1?'Día':'Noche'} · ${esc(nameOf(x.staffId))}</b> <span class="tnPill">${x.status==='open'?'Abierto':x.status==='pending'?'Pendiente':'Completado'}</span><p class="tnMuted">${new Date(x.start).toLocaleString('es-CO')} · base ${money(x.base)}</p>${x.expected!=null?`<p>Pago de turno: ${money(x.wage||0)} · esperado: ${money(x.expected)} · declarado: ${money(x.outgoingCount)} · recibido: ${x.receivedCount==null?'Pendiente':money(x.receivedCount)}</p><p>Diferencia recibido vs. esperado: <b>${x.receivedCount==null?'Pendiente':money(x.receivedCount-x.expected)}</b> · recibido vs. declarado: <b>${x.receivedCount==null?'Pendiente':money(x.receivedCount-x.outgoingCount)}</b></p><p>Observaciones: ${esc(x.outgoingNotes||'—')} / ${esc(x.incomingNotes||'—')}</p>`:''}</div>`).join('')}</div>`;
 }
 root.innerHTML=h;
+if(session){
+ const original=[...root.children];
+ const panels={abrir:[],cerrar:[],entrega:[],administracion:[],historial:[]};
+ const main=[];
+ function category(el){const tx=el.textContent||'';
+  if(el.classList.contains('tnGrid'))return 'abrir';
+  if(tx.includes('Turno ')&&tx.includes(' abierto'))return 'cerrar';
+  if(tx.includes('Entrega pendiente')||tx.includes('Siguiente paso: recibir caja'))return 'entrega';
+  if(tx.includes('Consolidado')||tx.includes('Gastos de administración')||tx.includes('Cierre general'))return 'administracion';
+  if(tx.includes('Historial de entregas'))return 'historial';
+  return 'main';
+ }
+ for(const el of original){const key=category(el);if(key==='main')main.push(el);else panels[key].push(el)}
+ root.replaceChildren();
+ const shell=document.createElement('div');shell.className='tnWorkspace';
+ const title=document.createElement('div');title.className='tnWorkspaceHeader';title.innerHTML='<div class="tnEyebrow">LA HERRADURA · CONTROL DE CAJA</div><h2>Personal y turnos</h2><p>Una tarea a la vez. Tus ventas y mesas siguen intactas.</p>';shell.append(title);main.forEach(x=>shell.append(x));
+ const menu=document.createElement('div');menu.className='tnNavigation';
+ const actions=[['inicio','⌂','Panel principal','Estado y accesos'],['abrir','▶','Iniciar turno','Base y observaciones'],['cerrar','▣','Cerrar turno','Ventas y arqueo'],['entrega','⇄','Entrega de caja','Recepción y verificación'],['administracion','▤','Administración','Consolidado y gastos'],['historial','◷','Historial','Turnos anteriores']];
+ for(const [id,icon,label,sub] of actions){if(id==='administracion'&&session.role!=='admin')continue;const b=document.createElement('button');b.type='button';b.className='tnNavTile'+(turnosScreen===id?' isActive':'');b.innerHTML='<span class="tnNavIcon">'+icon+'</span><span><b>'+label+'</b><small>'+sub+'</small></span>';b.onclick=()=>window.tnNavigate(id);menu.append(b)}
+ if(turnosScreen==='inicio'){
+  const activeTurn=active(),pendingTurn=pending();const status=document.createElement('div');status.className='tnDashboardStatus';status.innerHTML='<span class="tnPill">'+(activeTurn?'● Turno activo':pendingTurn?'◉ Entrega pendiente':'○ Sin turno activo')+'</span><h3>'+(activeTurn?'Turno de '+(activeTurn.kind===1?'día':'noche'):pendingTurn?'Pendiente de recepción':'Listo para comenzar')+'</h3><p>'+(activeTurn?'Responsable: '+esc(nameOf(activeTurn.staffId))+' · Base: '+money(activeTurn.base):pendingTurn?'Esperado: '+money(pendingTurn.expected):'Selecciona Iniciar turno para registrar la base inicial.')+'</p>';shell.append(status);shell.append(menu);
+ }else{
+  const back=document.createElement('button');back.type='button';back.className='tnBack';back.textContent='← Volver al panel de turnos';back.onclick=()=>window.tnNavigate('inicio');shell.append(back);
+  const section=document.createElement('div');section.className='tnScreen';const headings={abrir:'▶ Iniciar turno',cerrar:'▣ Finalizar turno y cierre de caja',entrega:'⇄ Entrega y recepción de caja',administracion:'▤ Consolidado de administración',historial:'◷ Historial de turnos'};const heading=document.createElement('h3');heading.textContent=headings[turnosScreen];section.append(heading);
+  const group=panels[turnosScreen]||[];if(!group.length){const empty=document.createElement('div');empty.className='tnEmpty';empty.textContent=turnosScreen==='abrir'?'La apertura estará disponible cuando no exista un turno abierto o pendiente.':turnosScreen==='cerrar'?'No hay un turno abierto para cerrar.':turnosScreen==='entrega'?'No hay una entrega de caja pendiente.':'Todavía no hay registros en esta sección.';section.append(empty)}else group.forEach(x=>section.append(x));shell.append(section);
+ }
+ root.append(shell);
+}
 }
 const orig=window.renderShift;
 window.renderShift=function(){if(typeof orig==='function'){try{orig()}catch(e){}}const legacy=document.getElementById('shiftInfo');if(legacy)legacy.style.display='none';render()};
