@@ -156,3 +156,24 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Detalles desplegables de productos, servicios y gastos.
 - Detalle de cantidades reconstruido de comprobantes: estimativo, no kardex.
 - Sin cambios en app.js, consumo-rondas.js, catalog.json ni recursos visuales.
+
+
+## v4.19.46 — Verificación, historial y devoluciones (piloto)
+- Dos accesos grandes en Administración: pendientes por verificar y cierres verificados por fecha.
+- Los cierres generales verificados guardan un resumen de solo lectura con fecha, ventas, efectivo, QR, salarios, gastos, productos, tiempos y devoluciones disponibles al verificar. Impresión desde el navegador.
+- Historial individual de turnos filtrado por mesera; reporte guardado al cerrar y opción imprimir.
+- Desglose del efectivo: base + total ventas − QR − salarios − gastos en efectivo. El QR ya está excluido en el valor de efectivo cobrado; se descuenta una sola vez.
+- Resumen de devoluciones 50 % mesera y 50 % negocio, usando los datos ya generados por app.js; no se modifica su lógica. NO se vuelven a descontar las participaciones de caja automáticamente.
+- LIMITACIÓN: las devoluciones solo se pueden recuperar de cuentas todavía presentes en las mesas; cuentas cerradas/eliminadas pueden no aparecer. Los detalles de producto y tiempos son estimaciones basadas en comprobantes, no un kardex completo.
+- Almacenamiento solo local, sin seguridad real ni sincronización. No usar como sistema contable definitivo.
+- app.js y consumo-rondas.js sin cambios.
+
+
+## v4.19.47 — Devoluciones 50/50 sobre valor recibido
+- Precio original $5.000: se recibe a $3.000; productos $3.000 y $4.000: a $2.000.
+- El valor total recibido (no la diferencia de precio) se divide 50% mesera y 50% negocio.
+- Se conserva la restauración original del inventario al confirmar devolución.
+- Nuevas devoluciones se copian a `lhReturnLedger1` (localStorage) para reporte histórico aunque se cierre la mesa.
+- Las devoluciones anteriores a esta versión solo pueden recuperarse de cuentas abiertas; no se inventan datos históricos.
+- El reparto es informativo, no un egreso automático de caja.
+- Cambio mínimo en `app.js` estrictamente necesario para corregir el reparto y guardar un registro duradero; no se modifica la lógica de ventas, rondas, pagos ni descuento/restauración de stock.
