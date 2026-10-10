@@ -148,3 +148,11 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Por seguridad, las cuentas con devoluciones deben conciliarse por Pago total; el prorrateo individual de devoluciones aún está pendiente.
 - La edición de rondas ya guardadas y selección de rondas sueltas para pago parcial quedan para una versión posterior.
 - Pruebas recomendadas: crear cuenta nueva, Juan solicita/paga dos rondas, Pedro solicita y Juan paga una, verificar tres rondas de Juan, cobrar Juan, comprobar saldo de mesa y cerrar.
+
+
+## v4.19.45 — Panel administrativo de caja
+- Cuatro indicadores de productos, tiempos, QR/transferencia y efectivo.
+- Consolidado neto, base, efectivo esperado, retiro final y diferencia.
+- Detalles desplegables de productos, servicios y gastos.
+- Detalle de cantidades reconstruido de comprobantes: estimativo, no kardex.
+- Sin cambios en app.js, consumo-rondas.js, catalog.json ni recursos visuales.
