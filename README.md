@@ -179,7 +179,7 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Cambio mínimo en `app.js` estrictamente necesario para corregir el reparto y guardar un registro duradero; no se modifica la lógica de ventas, rondas, pagos ni descuento/restauración de stock.
 
 
-## v4.19.48 · Laboratorio aislado de jornada completa
+## v4.19.49 · Laboratorio aislado de jornada completa
 - Abrir desde Personal y Turnos → Abrir modo de pruebas, o `laboratorio.html`.
 - Copia la misma interfaz comercial de Billar y Consumo, con almacenamiento `lh_lab_41948__*` separado de la operación normal.
 - Permite registrar manualmente operaciones normales en mesas y pagos; el reporte de Turnos lee los cobros generados por la aplicación, sin introducir ventas en el cierre.
@@ -188,3 +188,17 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - NO se modificaron `app.js` ni `consumo-rondas.js`; `app-lab.js` es una copia para el laboratorio sin registro de service worker.
 - IMPORTANTE: esta versión no arregla todavía la falta de eventos contables detallados por producto/partida, ni la sincronización entre dispositivos. Probar en un solo navegador y revisar los resultados.
 - Los datos del laboratorio no deben considerarse reales ni usar contraseñas verdaderas.
+
+## v4.19.49 — ajustes de trazabilidad del laboratorio
+- Mesera de mesa nueva: toma automáticamente la mesera del turno abierto; si no hay turno, conserva selección manual.
+- Pago de salario: movimiento fechado y atribuido a usuario/turno; no se permite sobrescribir una vez registrado (reversión auditada aún pendiente).
+- Gastos administrativos: movimiento fechado, responsable y turno activo cuando exista; se descuentan del esperado del turno si se registran dentro de su horario.
+- Consolidado de turno visible antes del cierre y trazabilidad de salarios/gastos en reporte e historial.
+- Botones de regreso en reportes; ventana de impresión incluye botón de cierre en pantalla.
+
+### Límites pendientes (NO apto para contabilidad real)
+- La repetición de rondas y extras individuales de Consumo no se modificó en esta versión; necesita revisión funcional separada.
+- Las ventas monetarias se leen de los cobros, pero el desglose de productos/tiempos proviene de fotografías de cuentas: pagos parciales pueden duplicar conteos.
+- Los movimientos anteriores a esta versión no tienen todos los metadatos de auditoría.
+- Si se registra un gasto después de cerrar el turno, no se imputa retrospectivamente a ese turno; se requiere conciliación administrativa.
+- Datos de laboratorio locales al navegador; no hay servidor ni autenticación segura multiusuario.
