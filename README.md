@@ -202,3 +202,11 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Los movimientos anteriores a esta versión no tienen todos los metadatos de auditoría.
 - Si se registra un gasto después de cerrar el turno, no se imputa retrospectivamente a ese turno; se requiere conciliación administrativa.
 - Datos de laboratorio locales al navegador; no hay servidor ni autenticación segura multiusuario.
+
+
+## v4.19.51 — Pulido visual sin alterar la lógica
+- Mejoras CSS aisladas en Personal y Turnos: tarjetas, indicadores, tipografía, tablas y espaciados.
+- Cabecera del laboratorio compacta y sin superposición sticky con la barra del iPhone.
+- Sin cambios a app.js, app-lab.js, turnos.js, consumo-rondas.js ni catalog.json.
+- Se actualizan etiquetas visibles de versión y caché del service worker.
+- Pendiente: validación visual y operativa en Safari/iPhone.
