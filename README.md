@@ -220,3 +220,11 @@ Depuración del módulo Billar: eliminado el bloque visual v4.18.8 que reinyecta
 - Sin cambios a app.js, app-lab.js, turnos.js, consumo-rondas.js ni catalog.json.
 - Se actualizan etiquetas visibles de versión y caché del service worker.
 - Pendiente: validación visual y operativa en Safari/iPhone.
+
+
+## Revisión visual v4.19.51-r1 (14 octubre 2026)
+
+- Corrige el rótulo informativo dentro de Personal y Turnos: v4.19.50 → v4.19.51.
+- Actualiza el parámetro de versión de turnos.js en las páginas principal y laboratorio para evitar reutilizar una copia antigua en caché.
+- Renueva solo la clave de caché de recursos del service worker.
+- No altera cálculos, cierres, datos ni almacenamiento. Los demás JavaScript operativos se mantienen exactamente iguales.
