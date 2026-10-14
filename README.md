@@ -1,3 +1,18 @@
+v4.19.51 · Reorganización de Administración y Turnos (14 octubre 2026)
+----------------------------------------------------------------------------
+- Administración: Apariencia ahora es un control plegable, que conserva todos los ajustes existentes.
+- Administración > Personal y turnos: ficha de meseras con nombre, número de documento, días trabajados (fechas con turno cerrado), total de salarios registrados e historial de pagos por fecha.
+- Las meseras existentes no se borran: si les falta documento, se puede completar desde su ficha.
+- Turnos: cuatro accesos: 1) Inicio turno / apertura de caja; 2) Ventas y movimientos (día y noche); 3) Cierres de caja y arqueos / entrega; 4) Cierre y reporte final de administración.
+- Se puede abrir el primer turno como mesera autenticada (se asigna a sí misma) o como administración que asigna mesera; conserva validación de no duplicar aperturas y el flujo día -> recepción nocturna -> cierre administrativo.
+- Se mantienen y reubican sin alterar fórmulas los controles existentes de gastos, salarios, cobros, devoluciones, traspasos, cierres y reportes.
+- Los cierres e historiales largos se pliegan para mejorar la visibilidad en iPhone.
+- Los nuevos campos de documento se guardan con la misma ficha local del módulo de pruebas.
+- Atención: las claves y documentos en localStorage NO son seguros para producción ni se sincronizan entre dispositivos. Utiliza el piloto solo con datos ficticios hasta implementar autenticación y almacenamiento seguros.
+- Archivos de lógica comercial app.js, app-lab.js, consumo-rondas.js e inventario NO se modifican.
+- Laboratorio de pruebas conservado y adaptado; actualización de caché de sw.js.
+- Copia exacta del ZIP previo conservada como respaldo. Publicar los 23 archivos en la raíz de GitHub Pages.
+
 ACTUALIZACIÓN VISUAL v4.19.51 · Revisión de visibilidad iPhone (14 oct 2026)
 --------------------------------------------------------------------------
 - Pantalla Personal y Turnos: estado de turno y accesos antes de información secundaria.
