@@ -1606,6 +1606,210 @@ main{min-height:calc(100vh - 76px);min-height:calc(100dvh - 76px)}
 #lhLabBanner #lhLabGuide{font-size:12px;line-height:1.6!important}
 @media(max-width:440px){#lhLabBanner>div:first-of-type>*{flex:1 1 auto}}
 </style>
+<style id="lh-41951-emerald-polish">
+/* v4.19.51 · Acabado visual exclusivamente para Personal/Turnos, Gastos e Informes.
+   Sin selectores sobre mesas, inventario, ventas, cobros ni vistas de clientes. */
+:is(#shifts,#expenses,#reports){
+ --tn-emerald-950:#061c1b;--tn-emerald-900:#0a2523;--tn-emerald-850:#0c302c;
+ --tn-emerald-800:#123c35;--tn-gold-300:#f3d995;--tn-gold-400:#e3bb68;
+ --tn-ivory:#f7f3e7;--tn-sage:#c9dbd2;--tn-stroke:rgba(221,187,113,.30);
+ color:var(--tn-ivory);
+}
+:is(#shifts,#expenses,#reports)>.back{
+ min-height:44px;padding:10px 18px;margin:0 0 12px;border:1px solid var(--tn-stroke);
+ background:#12382f;color:var(--tn-gold-300);font-weight:750;
+}
+:is(#shifts,#expenses,#reports)>.back:focus-visible,
+:is(#shifts,#expenses,#reports) button:focus-visible,
+:is(#shifts,#expenses,#reports) a:focus-visible{outline:3px solid var(--tn-gold-300);outline-offset:3px}
+:is(#shifts,#expenses,#reports) .sectionHero{border:1px solid rgba(218,184,110,.26);overflow:hidden}
+:is(#shifts,#expenses,#reports) .sectionHero__content h1{letter-spacing:-.035em;text-wrap:balance}
+:is(#shifts,#expenses,#reports) .sectionHero__content p{max-width:62ch}
+:is(#shifts,#expenses,#reports) h2{letter-spacing:-.02em}
+
+/* Área de trabajo: identidad esmeralda y oro discreto. */
+#turnosPanel{max-width:1100px;margin-inline:auto}
+#turnosPanel .tnWorkspace{
+ width:100%;max-width:1020px;position:relative;isolation:isolate;
+ background:radial-gradient(ellipse at 95% 0%,rgba(32,105,76,.25),transparent 32%),
+            linear-gradient(155deg,#0b302b 0%,#08221f 57%,#061b20 100%);
+ border:1px solid var(--tn-stroke);border-radius:25px;
+ box-shadow:0 22px 55px #0006,inset 0 1px rgba(255,255,255,.06);
+ padding:clamp(15px,3.5vw,30px);
+}
+#turnosPanel .tnWorkspaceHeader{padding:12px 8px 19px;margin:0 0 18px;border-bottom:1px solid rgba(227,187,104,.22)}
+#turnosPanel .tnEyebrow{text-transform:uppercase;letter-spacing:.19em;color:var(--tn-gold-400)}
+#turnosPanel .tnWorkspaceHeader h2{color:var(--tn-ivory);font-weight:850;font-size:clamp(1.65rem,5vw,2.35rem)}
+#turnosPanel .tnWorkspaceHeader p{color:var(--tn-sage);font-size:.92rem;line-height:1.5;max-width:36ch;margin-inline:auto}
+#turnosPanel .tnDashboardStatus{position:relative;overflow:hidden;padding:20px 22px 22px;margin:4px 0 20px;
+ background:linear-gradient(115deg,#164a3e,#0e302b);border:1px solid rgba(226,188,107,.36);
+ border-radius:19px;box-shadow:inset 4px 0 #dcb56a,0 8px 24px #0002}
+#turnosPanel .tnDashboardStatus h3{font-size:clamp(1.2rem,4vw,1.5rem);margin:13px 0 6px;line-height:1.3}
+#turnosPanel .tnDashboardStatus p{line-height:1.6;color:#e0ebe3;overflow-wrap:anywhere}
+#turnosPanel .tnPill{background:#1c5141;border:1px solid rgba(184,232,195,.22);color:#e1f5e6;
+ padding:6px 11px;line-height:1.35;font-size:.77rem;font-weight:700;vertical-align:middle}
+
+/* Navegación: seis destinos sin scroll horizontal en iPhone. */
+#turnosPanel .tnNavigation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 4px}
+#turnosPanel .tnNavTile,
+#turnosPanel .tnNavTile:nth-child(2){
+ min-width:0;min-height:110px;margin:0;padding:16px;gap:12px;display:flex;
+ flex-direction:row;align-items:center;text-align:left;overflow-wrap:anywhere;
+ border-radius:17px;border:1px solid rgba(213,190,132,.29);
+ background:linear-gradient(150deg,#17483e,#0d2a29);color:var(--tn-ivory);
+ box-shadow:0 5px 14px #0002;transition:border-color .15s,background-color .15s,transform .15s}
+#turnosPanel .tnNavTile:nth-child(2) small{color:var(--tn-sage)}
+#turnosPanel .tnNavTile:is(:hover,:focus-visible){border-color:#efd18f;background:#1c5446}
+#turnosPanel .tnNavTile.isActive{border-color:#e8c47f;background:linear-gradient(145deg,#315842,#173a33);box-shadow:inset 0 0 0 1px #dcb97055}
+#turnosPanel .tnNavIcon,
+#turnosPanel .tnNavTile:nth-child(2) .tnNavIcon{flex:0 0 37px;min-width:37px;width:37px;height:37px;
+ border-radius:11px;background:rgba(228,191,112,.13);color:var(--tn-gold-300);
+ display:grid;place-items:center;font-size:1.55rem;line-height:1}
+#turnosPanel .tnNavTile b{font-weight:800;line-height:1.32;font-size:.97rem}
+#turnosPanel .tnNavTile small{font-size:.73rem;color:var(--tn-sage);margin-top:5px;line-height:1.34}
+#turnosPanel .tnBack{min-height:45px;margin-bottom:18px;
+ background:#143b35;color:var(--tn-gold-300);border:1px solid #ab8b527a}
+#turnosPanel .tnScreen>h3{color:var(--tn-gold-300);margin:0 0 18px;font-size:clamp(1.14rem,3.5vw,1.45rem)}
+#turnosPanel .tnEmpty{background:#123a32;color:#dce7df;border:1px dashed rgba(226,189,107,.32)}
+
+/* Tarjetas e importes: números tabulares y separación de contenido. */
+#turnosPanel .tnCard{background:linear-gradient(155deg,#113930,#0a2928 72%,#092329);
+ border:1px solid rgba(225,191,117,.26);border-radius:19px;
+ box-shadow:0 9px 30px #0003;padding:clamp(16px,3vw,24px);min-width:0}
+#turnosPanel .tnCard h3{margin-top:0;color:#f8eed2;font-weight:800}
+#turnosPanel .tnCard h4{color:var(--tn-gold-300);line-height:1.4}
+#turnosPanel .tnCard p{margin:10px 0;overflow-wrap:anywhere}
+#turnosPanel .tnCard .tnMuted{color:#c5d6cf;line-height:1.6}
+#turnosPanel .tnCard label{display:block;font-weight:700;color:#e5ebdf;margin:12px 0 6px;font-size:.85rem}
+#turnosPanel .tnNumber{display:inline-block;font-size:clamp(1.2rem,4.7vw,1.6rem);color:#f4d68e;line-height:1.3;font-weight:850;
+ letter-spacing:-.028em;font-variant-numeric:tabular-nums;max-width:100%}
+#turnosPanel .tnCard :is(input,select,textarea){max-width:100%;width:100%;min-width:0;min-height:47px;padding:12px;
+ background:#071f1f;border:1px solid #527b6d;border-radius:12px;color:#fff;font-size:16px;line-height:1.4;
+ color-scheme:dark}
+#turnosPanel .tnCard textarea{min-height:94px;resize:vertical}
+#turnosPanel .tnCard :is(input,select,textarea)::placeholder{color:#97b1a7}
+#turnosPanel .tnCard :is(input,select,textarea):focus-visible{outline:2px solid var(--tn-gold-400);outline-offset:2px;border-color:#edcb84}
+#turnosPanel .tnPassword{align-items:stretch}
+#turnosPanel .tnPassword input{flex:1 1 auto;width:0}
+#turnosPanel .tnPassword .tnEye{flex:0 0 auto;min-height:47px;border:1px solid #b99b64;
+ background:#204d40;color:#f5e3af;border-radius:12px;padding:10px 13px}
+#turnosPanel .tnCard button:not(.tnEye):not(.tnBack),
+#turnosPanel .tnAdminActionGrid button{min-height:46px;max-width:100%;border-radius:12px;
+ padding:12px 15px;line-height:1.35;font-weight:760;white-space:normal;overflow-wrap:anywhere;
+ background:#245248;border:1px solid rgba(237,210,152,.28);color:#fff}
+#turnosPanel .tnCard button.gold,
+#turnosPanel .tnAdminActionGrid button.gold{background:linear-gradient(135deg,#f5da99,#d5ab5d);color:#142a22;
+ border-color:#f3d894;font-weight:850;box-shadow:0 4px 13px #0002}
+#turnosPanel .tnAdminActionGrid{gap:12px;grid-template-columns:repeat(2,minmax(0,1fr));margin:16px 0}
+#turnosPanel .tnAdminActionGrid button{min-height:88px;margin:0;padding:15px;font-size:.95rem}
+#turnosPanel .tnCard .tnInline{gap:10px;align-items:center}
+#turnosPanel .tnCard .tnInline button{margin-top:4px}
+#turnosPanel .tnLog{padding:15px 0;margin:0;border-bottom:1px solid rgba(233,204,144,.20)}
+#turnosPanel .tnLog button{margin:8px 8px 0 0}
+#turnosPanel .tnReportFold{padding:16px;margin:18px 0;background:rgba(3,24,23,.32);
+ border:1px solid rgba(226,188,107,.25);border-radius:15px}
+#turnosPanel .tnReportFold h4{margin-top:0}
+#turnosPanel .tnReport{margin:12px 0;padding:15px;border:1px solid rgba(229,195,120,.20);
+ border-radius:14px;background:#0b2926}
+#turnosPanel .tnReport h3{font-size:1rem;margin:0 0 12px;color:var(--tn-gold-300)}
+#turnosPanel .tnReport p{padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.075);margin:7px 0;line-height:1.6}
+#turnosPanel .tnReport p.tnMuted{font-size:.79rem;line-height:1.6;border-bottom:0}
+#turnosPanel .tnAdminDaily{gap:17px}
+#turnosPanel .tnAdminHead{align-items:center;gap:12px}
+#turnosPanel .tnAdminHead h3{color:#fff;line-height:1.28}
+#turnosPanel .tnAdminMetrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+#turnosPanel .tnAdminMetric{position:relative;min-width:0;min-height:122px;padding:16px;
+ background:linear-gradient(155deg,#164438,#10312d);border-radius:16px;
+ border:1px solid rgba(236,200,127,.35);box-shadow:inset 0 1px rgba(255,255,255,.045)}
+#turnosPanel .tnAdminMetric small{font-size:.73rem;color:#f0d393;letter-spacing:.045em;line-height:1.4}
+#turnosPanel .tnAdminMetric strong{font-size:clamp(1.22rem,4.3vw,1.9rem);line-height:1.2;
+ color:#fff8e9;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#turnosPanel .tnAdminMetric span{font-size:.78rem;line-height:1.45;color:#cbded3}
+#turnosPanel .tnAdminSection{min-width:0;background:rgba(3,28,27,.48);
+ border:1px solid rgba(232,197,125,.28);border-radius:15px;padding:clamp(13px,2.8vw,19px)}
+#turnosPanel .tnAdminSection h4{margin:0 0 10px}
+#turnosPanel .tnAdminSection summary{cursor:pointer;min-height:30px;line-height:1.55;
+ color:#efd79b;font-weight:800;overflow-wrap:anywhere}
+#turnosPanel .tnAdminSection[open] summary{margin-bottom:10px}
+#turnosPanel .tnAdminLine{display:flex;flex-wrap:nowrap;align-items:baseline;justify-content:space-between;
+ gap:12px;padding:10px 2px;border-bottom:1px solid #ffffff17}
+#turnosPanel .tnAdminLine span{min-width:0;max-width:64%;line-height:1.5;color:#dce8df}
+#turnosPanel .tnAdminLine b{text-align:right;flex:0 1 auto;min-width:0;white-space:normal;
+ color:#fff6de;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#turnosPanel .tnAdminStrong{margin:8px -6px;padding:13px 8px;
+ background:rgba(221,181,97,.10);border-left:3px solid #dfba70;border-radius:8px}
+#turnosPanel .tnAdminStrong :is(span,b){color:#ffe4a5;font-weight:850}
+#turnosPanel .tnAdminTable{display:table;width:100%;min-width:0;font-variant-numeric:tabular-nums}
+#turnosPanel .tnAdminTable th{font-size:.74rem;color:#edd096;font-weight:800;letter-spacing:.01em}
+#turnosPanel .tnAdminTable td{font-size:.83rem;line-height:1.48;overflow-wrap:anywhere}
+#turnosPanel .tnAdminTable td:first-child{max-width:240px}
+#turnosPanel .tnAdminTable :is(th,td){padding:10px 7px;vertical-align:top}
+#turnosPanel .tnPilotNote{background:#153b33;border-color:#a28c5859;box-shadow:none}
+#turnosPanel .tnPilotNote summary{color:#f4d999}
+#turnosPanel .tnRecovery summary{color:#f4d999}
+
+/* Gastos y reportes (vistas históricas de la aplicación), sin modificar sus acciones. */
+#expenses>.card,#reports>.card{background:linear-gradient(152deg,#11382f,#082623 76%);
+ border:1px solid rgba(226,191,117,.33);border-radius:21px;
+ padding:clamp(17px,3vw,28px);box-shadow:0 13px 30px #0004}
+#expenses>h2,#reports>h2{color:#f1d394;font-size:clamp(1.2rem,4vw,1.5rem)}
+#expenses .field label{color:#dce8df;font-size:.88rem;font-weight:750}
+#expenses .field :is(input,select){min-height:47px;padding:12px;background:#071f1f;
+ border:1px solid #59806e;color:#fff;font-size:16px;border-radius:12px}
+#expenses .field :is(input,select):focus-visible{outline:2px solid #f0d28d;outline-offset:2px}
+#expenses>.card>button{min-height:47px;background:linear-gradient(135deg,#f4d892,#dab365);
+ color:#142820;border:1px solid #f3d694;font-weight:850;padding:12px 18px}
+#expenses #expenseList,#reports :is(#monthly,#waitressReport){margin-top:15px;line-height:1.65;overflow-x:auto}
+#expenses #expenseList .item,#reports :is(#monthly,#waitressReport) .item{
+ border-bottom-color:rgba(233,197,123,.22);gap:10px}
+#reports>.card h3{color:#f3d797;margin:20px 0 12px;font-size:1.07rem}
+#reports>.card h3:first-child{margin-top:0}
+#reports>.card :is(td,th),#expenses #expenseList :is(td,th){border-bottom:1px solid #d5bd8650;
+ padding:10px 8px;font-variant-numeric:tabular-nums}
+#reports>.card th{color:#f1d79d}
+
+@media(max-width:760px){
+ #turnosPanel .tnNavigation{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #turnosPanel .tnNavTile,#turnosPanel .tnNavTile:nth-child(2){min-height:98px;padding:13px;gap:10px}
+ #turnosPanel .tnAdminActionGrid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+ :is(#shifts,#expenses,#reports)>.back{margin-bottom:10px}
+ #turnosPanel .tnWorkspace{border-radius:18px;padding:13px}
+ #turnosPanel .tnWorkspaceHeader{padding:12px 4px 18px}
+ #turnosPanel .tnNavigation{gap:9px}
+ #turnosPanel .tnNavTile,#turnosPanel .tnNavTile:nth-child(2){min-height:112px;padding:13px 11px;
+ flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px}
+ #turnosPanel .tnNavIcon,#turnosPanel .tnNavTile:nth-child(2) .tnNavIcon{
+ flex-basis:30px;min-width:30px;width:30px;height:30px;font-size:1.2rem;border-radius:9px}
+ #turnosPanel .tnNavTile b{font-size:.86rem;line-height:1.25}
+ #turnosPanel .tnNavTile small{font-size:.70rem;line-height:1.34;margin-top:3px}
+ #turnosPanel .tnDashboardStatus{padding:17px;margin-bottom:15px}
+ #turnosPanel .tnCard{padding:15px;border-radius:16px}
+ #turnosPanel .tnAdminHead{align-items:flex-start;flex-direction:column}
+ #turnosPanel .tnAdminMetrics{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}
+ #turnosPanel .tnAdminMetric{padding:12px;min-height:120px;gap:7px}
+ #turnosPanel .tnAdminMetric small{font-size:.68rem}
+ #turnosPanel .tnAdminMetric strong{font-size:clamp(1.06rem,4.5vw,1.34rem)}
+ #turnosPanel .tnAdminMetric span{font-size:.71rem}
+ #turnosPanel .tnAdminLine span{max-width:57%;font-size:.83rem}
+ #turnosPanel .tnAdminLine b{font-size:.83rem}
+ #turnosPanel .tnAdminTable :is(td,th){padding:8px 4px;font-size:.74rem}
+ #turnosPanel .tnAdminSection{padding:12px}
+ #turnosPanel .tnPassword .tnEye{font-size:.79rem;padding:9px}
+ #expenses .row{flex-direction:column;gap:0}
+ #expenses>.card,#reports>.card{padding:16px;border-radius:16px}
+}
+@media(max-width:340px){#turnosPanel .tnAdminMetrics{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#turnosPanel .tnNavTile,#turnosPanel button{transition:none}}
+@media print{
+ #turnosPanel .tnWorkspace,#turnosPanel .tnCard,#turnosPanel .tnAdminSection,
+ #expenses>.card,#reports>.card{background:#fff!important;color:#111!important;box-shadow:none!important}
+ #turnosPanel .tnAdminLine :is(span,b),#turnosPanel .tnCard :is(p,h3,h4),
+ #turnosPanel .tnAdminMetric :is(small,strong,span){color:#111!important}
+ #turnosPanel .tnNavigation,#turnosPanel .tnBack{display:none!important}
+}
+</style>
 </head><body>
 <div id="lhLabBanner" style="position:sticky;top:0;z-index:99999;background:#efc975;color:#142720;padding:12px 14px;border-bottom:3px solid #795522;font:700 14px system-ui;box-shadow:0 4px 20px #0005">
   🧪 LABORATORIO DE PRUEBAS · DATOS FICTICIOS

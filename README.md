@@ -1,3 +1,13 @@
+# v4.19.51 — Acabado visual esmeralda (14 octubre 2026)
+
+- Cambios de presentación únicamente en `index.html` y `laboratorio.html`, dentro del bloque CSS `lh-41951-emerald-polish`.
+- Módulos cubiertos: Personal y Turnos, cierre y entrega de caja, consolidado de administración, gastos y reportes.
+- Verde esmeralda oscuro, detalles dorados, botones táctiles, importes legibles y paneles adaptados a iPhone.
+- **Lógica intacta**: `app.js`, `app-lab.js`, `turnos.js`, `consumo-rondas.js`, `sw.js` y datos del catálogo sin modificaciones.
+- No se cambian cálculos, registros ni almacenamiento. El laboratorio sigue separado de los datos operativos.
+- El archivo ZIP de entrada se conserva aparte como respaldo exacto.
+- Los ajustes funcionales de Consumo (repetir rondas, pagador y extras) **no se incluyen** en este acabado visual.
+
 La Herradura Admin v4.19.35
 
 ## v4.19.35 — Vista Cliente Premium
