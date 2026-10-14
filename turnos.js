@@ -161,6 +161,7 @@ if(session){
   if(tx.includes('Turno ')&&tx.includes(' abierto'))return 'cerrar';
   if(tx.includes('Entrega pendiente')||tx.includes('Siguiente paso: recibir caja'))return 'entrega';
   if(tx.includes('Consolidado')||tx.includes('Gastos de administración')||tx.includes('Cierre general'))return 'administracion';
+  if(el.querySelector('h3')?.textContent?.includes('Historial individual de cierres'))return 'historial';
   if(tx.includes('Historial de entregas'))return 'historial';
   return 'main';
  }

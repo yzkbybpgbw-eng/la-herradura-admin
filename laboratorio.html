@@ -1810,6 +1810,111 @@ main{min-height:calc(100vh - 76px);min-height:calc(100dvh - 76px)}
  #turnosPanel .tnNavigation,#turnosPanel .tnBack{display:none!important}
 }
 </style>
+<style id="lh-41951-visibility-v2">
+/* v4.19.51 · Organización visual iPhone, revisión de legibilidad.
+   SOLO CSS: no modifica eventos, pagos, cálculos, estructura de datos ni permisos. */
+:is(#shifts,#expenses,#reports){--tn-cream:#f7f5ec;--tn-detail:#c9dbd2;--tn-soft-gold:#f1d492}
+:is(#shifts,#expenses,#reports) :is(.tnCard,.tnAdminSection,.tnReport,.card){overflow-wrap:anywhere}
+#turnosPanel .tnWorkspace{display:flex;flex-direction:column;gap:12px}
+#turnosPanel .tnWorkspace>.tnWorkspaceHeader{order:0}
+#turnosPanel .tnWorkspace>.tnDashboardStatus{order:1}
+#turnosPanel .tnWorkspace>.tnNavigation{order:2}
+#turnosPanel .tnWorkspace>.tnCard.tnInline{order:3}
+#turnosPanel .tnWorkspace>.tnCard:not(.tnInline):not(.tnPilotNote){order:10}
+#turnosPanel .tnWorkspace>.tnPilotNote{order:11}
+#turnosPanel .tnWorkspace>.tnBack{order:1}
+#turnosPanel .tnWorkspace>.tnScreen{order:2;min-width:0}
+#turnosPanel .tnScreen>.tnCard{margin-bottom:16px}
+#turnosPanel .tnCard>h3{padding-bottom:10px;border-bottom:1px solid rgba(225,192,117,.18)}
+#turnosPanel .tnCard>h4{margin:23px 0 10px}
+#turnosPanel .tnCard>label{margin-top:15px}
+#turnosPanel .tnCard>.tnAdminSection{margin:20px 0 18px}
+#turnosPanel .tnReportFold{min-width:0;margin:18px 0 22px;padding:13px;border:1px solid #bd9d6255;border-radius:15px;background:#071e1df0}
+#turnosPanel .tnReportFold>h4{margin:0 0 11px;color:#f0d291;letter-spacing:.01em}
+#turnosPanel .tnReport{margin:0;padding:13px;border:1px solid #d3b36c33;border-radius:13px;background:#0b2b28}
+#turnosPanel .tnReport>h3{font-size:1rem;line-height:1.4;color:#f8e5b5;margin:0 0 13px}
+#turnosPanel .tnReport>h4{font-size:.97rem;line-height:1.4;margin:20px 0 8px;padding-top:15px;border-top:1px solid #d9b97135;color:#f0d291}
+#turnosPanel .tnReport>p{font-size:.89rem;line-height:1.55;margin:0;padding:10px 0;border-bottom:1px solid rgba(196,222,207,.12)}
+#turnosPanel .tnReport>p b{color:#fff3d4;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#turnosPanel .tnAdminSection summary{padding:10px 4px;min-height:44px;display:list-item;align-content:center;color:#ffe1a1}
+#turnosPanel .tnAdminSection[open]>summary{border-bottom:1px solid #d5bd8650;margin-bottom:10px}
+#turnosPanel .tnCard :is(input,select,textarea){font-size:16px}
+#turnosPanel .tnPilotNote{margin-top:6px!important;background:#092723;border-style:dashed;box-shadow:none;opacity:.93}
+#turnosPanel .tnPilotNote summary{font-size:.8rem;line-height:1.5;color:#ecd79f;cursor:pointer}
+#turnosPanel .tnWorkspace>.tnCard:not(.tnInline):has(>h3) {border-left:3px solid #a78b52}
+#turnosPanel .tnLog{padding:14px 0}
+#turnosPanel .tnLog b,#turnosPanel .tnLog .tnPill{display:inline-block;margin:0 3px 4px 0}
+#turnosPanel .tnLog .tnMuted{margin:5px 0 0}
+#turnosPanel .tnAdminMetric strong,.tnNumber{font-variant-numeric:tabular-nums}
+#turnosPanel .tnAdminLine b,#turnosPanel .tnReport b{font-variant-numeric:tabular-nums}
+#turnosPanel .tnAdminTable{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+#turnosPanel .tnCard button:focus-visible,#turnosPanel .tnNavTile:focus-visible{outline:2px solid #f2d28a;outline-offset:3px}
+#turnosPanel .tnBack{align-self:flex-start}
+@media(max-width:800px){
+ #shifts,#expenses,#reports{padding-bottom:calc(104px + env(safe-area-inset-bottom))!important}
+ #shifts>#turnosPanel{scroll-margin-top:75px}
+ #turnosPanel .tnWorkspace{gap:10px}
+ #turnosPanel .tnScreen{scroll-margin-top:78px}
+ #turnosPanel .tnCard{box-shadow:0 3px 12px #0002}
+ #expenses>.card,#reports>.card{margin-top:12px}
+}
+@media(max-width:600px){
+ /* El encabezado de marca ya aparece dentro del panel. Se elimina la repetición. */
+ #shifts:has(#turnosPanel .tnWorkspace)>.sectionHero{display:none!important}
+ /* Laboratorio siempre accesible, pero no roba la mitad de la primera pantalla. */
+ #shifts>.card{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px!important;margin:7px auto 8px!important;border-radius:13px!important;font-size:.73rem;line-height:1.35;box-shadow:none!important}
+ #shifts>.card>b{flex:1 1 auto;color:#f1d492}
+ #shifts>.card>p{display:none}
+ #shifts>.card>a{flex:0 0 auto;max-width:50%;font-size:.75rem;padding:9px 10px!important;border-radius:9px!important;line-height:1.25}
+ #turnosPanel .tnWorkspace{margin:7px auto 12px;padding:12px;border-radius:18px;gap:10px}
+ #turnosPanel .tnWorkspaceHeader{padding:5px 3px 11px;margin:0}
+ #turnosPanel .tnWorkspaceHeader h2{font-size:1.52rem;margin:3px 0 0;color:#fff;line-height:1.2}
+ #turnosPanel .tnWorkspaceHeader .tnEyebrow{font-size:.59rem;letter-spacing:.14em}
+ #turnosPanel .tnWorkspaceHeader p{display:none}
+ #turnosPanel .tnDashboardStatus{display:grid;grid-template-columns:1fr;padding:12px 14px;margin:0;border-radius:13px;box-shadow:inset 3px 0 #e0b975}
+ #turnosPanel .tnDashboardStatus h3{font-size:1.06rem;margin:8px 0 3px}
+ #turnosPanel .tnDashboardStatus p{font-size:.84rem;line-height:1.4}
+ #turnosPanel .tnPill{font-size:.7rem;padding:4px 9px}
+ #turnosPanel .tnNavigation{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:2px 0 0}
+ #turnosPanel .tnNavTile,#turnosPanel .tnNavTile:nth-child(2){display:grid;grid-template-columns:29px minmax(0,1fr);align-items:start;justify-content:start;min-height:86px;padding:12px 9px;gap:8px;flex-direction:row;border-radius:13px}
+ #turnosPanel .tnNavIcon,#turnosPanel .tnNavTile:nth-child(2) .tnNavIcon{flex:none;width:29px;min-width:29px;height:29px;min-height:29px;place-self:start;display:grid;place-items:center;font-size:1.04rem;border-radius:8px}
+ #turnosPanel .tnNavTile b{font-size:.88rem;line-height:1.25;white-space:normal}
+ #turnosPanel .tnNavTile small{font-size:.68rem;line-height:1.34;margin-top:5px;color:#d5e5d8}
+ #turnosPanel .tnWorkspace>.tnCard.tnInline{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding:11px 12px;margin:0;border-radius:13px;background:#103c32}
+ #turnosPanel .tnWorkspace>.tnCard.tnInline>b{font-size:.90rem}
+ #turnosPanel .tnWorkspace>.tnCard.tnInline>.tnPill{margin-left:auto}
+ #turnosPanel .tnWorkspace>.tnCard.tnInline>button{margin:0;width:auto;min-height:38px;padding:8px 12px;font-size:.75rem;border-radius:9px}
+ #turnosPanel .tnWorkspace>.tnCard:has(>h3){margin:4px 0 0}
+ #turnosPanel .tnCard{padding:13px;border-radius:14px}
+ #turnosPanel .tnCard h3{font-size:1.06rem;margin-bottom:9px}
+ #turnosPanel .tnCard .tnMuted{font-size:.82rem;line-height:1.45}
+ #turnosPanel .tnScreen>h3{font-size:1.11rem;margin-bottom:11px}
+ #turnosPanel .tnBack{min-height:42px;margin:0 0 2px;padding:8px 12px;font-size:.79rem;border-radius:10px}
+ #turnosPanel .tnCard>label{font-size:.80rem}
+ #turnosPanel .tnScreen>.tnCard>button:not(.tnEye),#turnosPanel .tnScreen>.tnCard>.tnAdminSection>button{display:block;width:100%;margin-top:13px}
+ #turnosPanel .tnCard :is(input,select,textarea){min-height:46px;border-radius:10px}
+ #turnosPanel .tnReportFold{margin:13px 0;padding:9px}
+ #turnosPanel .tnReport{padding:11px}
+ #turnosPanel .tnReport>p{font-size:.82rem}
+ #turnosPanel .tnReport table{font-size:.80rem;min-width:0}
+ #turnosPanel .tnAdminSection{padding:11px;border-radius:12px}
+ #turnosPanel .tnAdminMetrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #turnosPanel .tnAdminMetric{min-height:108px;padding:11px;gap:7px}
+ #turnosPanel .tnAdminMetric small{font-size:.67rem;letter-spacing:.01em}
+ #turnosPanel .tnAdminMetric strong{font-size:clamp(1.06rem,4.7vw,1.35rem)}
+ #turnosPanel .tnAdminMetric span{font-size:.71rem}
+ #expenses>.sectionHero,#reports>.sectionHero{min-height:93px!important}
+ #expenses>.sectionHero .sectionHero__content,#reports>.sectionHero .sectionHero__content{height:93px!important;min-height:93px!important;padding:9px 15px!important}
+ #expenses>.card,#reports>.card{padding:14px}
+ #expenses>.card h3,#reports>.card h3{font-size:1.02rem}
+}
+@media(max-width:355px){#turnosPanel .tnNavTile,#turnosPanel .tnNavTile:nth-child(2){min-height:92px;padding:9px 7px;grid-template-columns:25px minmax(0,1fr);gap:6px}
+ #turnosPanel .tnNavIcon,#turnosPanel .tnNavTile:nth-child(2) .tnNavIcon{width:25px;min-width:25px;height:25px;min-height:25px}
+ #turnosPanel .tnNavTile b{font-size:.80rem}
+ #turnosPanel .tnNavTile small{font-size:.63rem}
+ #turnosPanel .tnAdminMetrics{grid-template-columns:1fr}}
+@media print{#turnosPanel .tnWorkspace{display:block}#turnosPanel .tnWorkspace>*{order:initial!important}#shifts>.card{display:none!important}}
+</style>
 </head><body>
 <div id="lhLabBanner" style="position:sticky;top:0;z-index:99999;background:#efc975;color:#142720;padding:12px 14px;border-bottom:3px solid #795522;font:700 14px system-ui;box-shadow:0 4px 20px #0005">
   🧪 LABORATORIO DE PRUEBAS · DATOS FICTICIOS
@@ -1838,7 +1943,7 @@ main{min-height:calc(100vh - 76px);min-height:calc(100dvh - 76px)}
 <section id="expenses" class="view"><button class="back" onclick="showView('home')">← Inicio</button><div class="sectionHero hero-expenses"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-master.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>Gastos <span>y egresos</span></h1><p>Control claro de cada movimiento</p></div></div><h2>💸 Gastos / egresos</h2><div class="card"><div class="row"><div class="field"><label>Concepto</label><input id="expenseName"></div><div class="field"><label>Valor</label><input id="expenseValue" type="number"></div></div><button class="gold" onclick="addExpense()">Registrar gasto</button><div id="expenseList"></div></div></section>
 <section id="reports" class="view"><button class="back" onclick="showView('home')">← Inicio</button><div class="sectionHero hero-reports"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-master.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>Reportes <span>del negocio</span></h1><p>Información que impulsa tus decisiones</p></div></div><h2>📊 Reportes</h2><div class="card"><h3>Cierre mensual</h3><div id="monthly"></div><h3>Rendimiento por mesera</h3><div id="waitressReport"></div></div></section>
 <section id="admin" class="view"><button class="back" onclick="showView('home')">← Inicio</button><div class="sectionHero hero-admin"><div class="sectionHero__content"><div class="sectionHero__brand"><img src="herradura-logo-master.png" alt="La Herradura"><span>La Herradura · Billares Club SJ</span></div><h1>Administración <span>premium</span></h1><p>Configuración · apariencia · respaldo</p></div></div><h2>⚙️ Administración</h2><div class="card"><p>Precio por chico: <b>$2.000 COP</b></p><p>4 mesas de billar · 18 mesas de consumo</p><p>Catálogo cargado desde tu hoja <b>INVENTARIO OCTUBRE DEL 2026</b>.<br><b>v4:</b> rondas, duplicar partida, cuentas por jugador y vista transparente para clientes.</p><button onclick="downloadBackup()">⬇️ Descargar respaldo</button></div><div class="card" style="margin-top:12px"><h3>👥 Personal y turnos</h3><p>Registro de meseras, apertura de caja y entrega entre turnos.</p><button class="gold" onclick="showView('shifts')">👥 Abrir Personal y Turnos</button></div><div id="appearancePanel" class="card" style="margin-top:12px"></div></section>
-</main><nav class="bottom"><button onclick="showView('home')">🏠<br>Inicio</button><button onclick="showTables('billar')">🎱<br>Billar</button><button onclick="showTables('consumo')">🍺<br>Consumo</button><button onclick="showView('inventory')">📦<br>Inventario</button><button onclick="showView('reports')">📊<br>Reportes</button></nav><div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div id="sheet" class="sheet"></div></div><script src="app-lab.js?v=4.19.51"></script><script src="turnos.js?v=4.19.51-revision1"></script><script src="consumo-rondas.js?v=4.19.51"></script><script>
+</main><nav class="bottom"><button onclick="showView('home')">🏠<br>Inicio</button><button onclick="showTables('billar')">🎱<br>Billar</button><button onclick="showTables('consumo')">🍺<br>Consumo</button><button onclick="showView('inventory')">📦<br>Inventario</button><button onclick="showView('reports')">📊<br>Reportes</button></nav><div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div id="sheet" class="sheet"></div></div><script src="app-lab.js?v=4.19.51"></script><script src="turnos.js?v=4.19.51-visual2"></script><script src="consumo-rondas.js?v=4.19.51"></script><script>
 (function(){
  const original=window.showTables;
  function heroFor(type){

@@ -1,3 +1,16 @@
+ACTUALIZACIÓN VISUAL v4.19.51 · Revisión de visibilidad iPhone (14 oct 2026)
+--------------------------------------------------------------------------
+- Pantalla Personal y Turnos: estado de turno y accesos antes de información secundaria.
+- Seis accesos compactos: Inicio, Apertura, Cierre, Entrega, Administración e Historial.
+- El historial individual se muestra en la pantalla Historial (antes aparecía en el panel principal).
+- Campos, saldos, reporte de caja, gastos y salarios: mejor separación visual y lectura.
+- Ajustes iPhone: navegación inferior y espacio para desplazamiento; laboratorio compacto.
+- Sin cambios en app.js, app-lab.js, consumo-rondas.js, catalog.json ni imágenes.
+- Único cambio en turnos.js: categorización visual del historial (sin modificar cálculos,
+  controles de acceso, pagos, almacenamiento ni operaciones de negocio).
+- sw.js: identificador de caché actualizado para que el iPhone reciba la revisión.
+- ZIP completo con archivos en la raíz para publicar en GitHub Pages.
+
 # v4.19.51 — Acabado visual esmeralda (14 octubre 2026)
 
 - Cambios de presentación únicamente en `index.html` y `laboratorio.html`, dentro del bloque CSS `lh-41951-emerald-polish`.
