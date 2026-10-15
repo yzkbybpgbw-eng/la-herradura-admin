@@ -220,6 +220,7 @@ root.innerHTML=h;
    const heading=document.createElement('h3');heading.textContent=headings[turnosScreen]||'Turnos';section.append(heading);
    if(turnosScreen==='personal'){
     if(session.role==='admin')section.insertAdjacentHTML('beforeend',staffHTML());else section.innerHTML+='<div class="tnEmpty">Solo administración puede consultar la base de datos de personal.</div>';
+    const turnosLink=document.createElement('button');turnosLink.type='button';turnosLink.className='gold tnToShifts';turnosLink.textContent='✳️ Ir al panel de Turnos · abrir caja';turnosLink.onclick=()=>window.tnNavigate('inicio');section.insertBefore(turnosLink,section.firstElementChild?.nextSibling||null);
    }else if(turnosScreen==='movimientos'){
     section.insertAdjacentHTML('beforeend',movementDashboardHTML());
     panels.movimientos.forEach(el=>section.append(el));
