@@ -1,39 +1,52 @@
-LA HERRADURA ADMIN — v4.19.53 — NOMBRES DE MESERAS POR TURNO
-Fecha: 15 de octubre de 2026
+LA HERRADURA ADMIN — v4.19.54
+Mejoras: devoluciones y pedidos extras individuales en Consumo
+=============================================================
 
-AJUSTE PUNTUAL
-- En Abrir cuenta (Billar y Consumo), el campo Mesera responsable muestra
-  automáticamente el nombre registrado de quien tiene a cargo la caja.
-- El campo indica Turno 1 · Día o Turno 2 · Noche, y es de solo lectura
-  para evitar atribuciones equivocadas.
-- Corregido también en laboratorio.html / app-lab.js, que todavía mostraba
-  el selector obsoleto «Mesera turno 1» / «Mesera turno 2».
-- Los nuevos datos arrancan sin meseras ficticias precargadas. Los datos
-  guardados de instalaciones anteriores NO se migran ni se borran.
-- Si se edita un nombre en Personal, las aperturas futuras muestran el
-  nombre actualizado. Las cuentas ya creadas mantienen la identificación
-  histórica de apertura; las ventas se atribuyen a quien opera el cobro.
+Base exacta: v4.19.53 Nombres de Meseras por Turno.
+Los 23 archivos del paquete están ubicados directamente en la raíz,
+preparados para reemplazar los archivos del repositorio GitHub Pages.
 
-SIN CAMBIOS
-- La estructura de turnos, apertura, arqueos, salarios, gastos y pagos.
-- La lógica financiera, facturación, rondas, inventario y devoluciones.
-- Separación total del almacenamiento ficticio del laboratorio.
+CAMBIOS:
+- Se agregó la implementación faltante de restoreInventory() para
+  poder registrar devoluciones correctamente y reintegrar existencias
+  (productos normales y componentes de recetas). Se usa también para
+  reducir unidades de una ronda, cuando corresponde.
+- Las devoluciones de Consumo se asocian a la ronda guardada y a quien
+  paga esa ronda, para reducir su cuenta individual y el saldo general.
+- La cuenta y los cobros por persona tienen en cuenta los abonos de
+  devoluciones. Evita reconocer devoluciones por encima del saldo de
+  esa persona ya cobrado (requiere conciliación administrativa).
+- Se corrigió la distribución: 50% de la DIFERENCIA entre precio original
+  y valor reconocido al cliente para la mesera y 50% para el negocio.
+- Se guarda en auditoría e inventario la mesera/turno actuales y la
+  devolución. Los registros antiguos no se borran ni se reasignan.
+- Los extras de Consumo se agregan como pedidos identificados con la
+  marca «EXTRA personal», facturados a quien los solicita. Se pueden
+  crear desde una ronda o desde «Registrar EXTRA para solicitante».
+- Los extras aparecen en la lista de rondas/extras, cuentas individuales,
+  saldo de la mesa y detalle de cuenta/recibo; cada guardado descuenta
+  del inventario únicamente los productos nuevos.
+- La interfaz y el service worker llevan versión 4.19.54 para evitar
+  que el navegador reutilice JavaScript anterior.
 
-COMPROBAR ANTES DE USO REAL
-- Crea meseras ficticias Adriana y Jimena; abre Turno 1 con Adriana.
-- Abrir Billar/Consumo debe mostrar «Adriana» y «Turno 1 · Día».
-- Haz el relevo a Turno 2 con Jimena y comprueba que las nuevas cuentas
-  muestran «Jimena» y «Turno 2 · Noche».
-- No debe haber opciones genéricas «Mesera turno 1 / 2» en Abrir cuenta.
-- Al cerrar el turno, se debe bloquear la operación comercial.
+NO MODIFICADOS:
+- turnos.js, catálogo, recursos gráficos, productos y servicios.
+- Estructura local de datos y claves de almacenamiento de aplicación
+  principal y laboratorio: no se ejecuta limpieza ni reinicialización.
 
-INSTALACIÓN EN GITHUB PAGES
-- Descarga y conserva el ZIP de respaldo v4.19.52.
-- Descomprime el nuevo ZIP y reemplaza los archivos en la RAÍZ del repositorio.
-- Confirma que la aplicación muestra v4.19.53 y prueba con datos ficticios.
-- NO borres la información de Safari ni desinstales la PWA sin tener una
-  copia de tus datos: están guardados localmente y no se sincronizan.
+PRUEBA RECOMENDADA CON DATOS FICTICIOS:
+1. Inicia sesión como mesera y abre turno de prueba.
+2. Abre Consumo, guarda una ronda a nombre de Juan, paga Juan.
+3. Registra una devolución por un artículo de $4.000: el saldo de Juan
+   disminuye $2.000 y una unidad vuelve al inventario. La diferencia
+   de $2.000 se reparte $1.000 para mesera y $1.000 para negocio.
+4. Pulsa «Extra a Juan» o «Registrar EXTRA para solicitante», agrega
+   un artículo, guarda y comprueba que aparezca identificado y sumado
+   a Juan (no a otro pagador).
+5. Cobra por persona y verifica cantidades, recibo, ventas y arqueo.
+6. Comprueba que Billar, turnos, gastos y reportes siguen sin cambios.
 
-ADVERTENCIA
-Piloto con contraseñas y documentos almacenados localmente; no es un
-sistema de autenticación seguro para datos personales reales.
+IMPORTANTE: Sigue siendo un piloto local; no es todavía seguro para
+credenciales, documentos ni operaciones comerciales reales. Guarda
+respaldo antes de sustituir archivos de GitHub Pages. NO borres los
+datos de Safari ni desinstales la PWA sin respaldo de datos.
