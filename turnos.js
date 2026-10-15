@@ -20,6 +20,35 @@ function shiftExpenses(t,end){return (D.adminExpenses||[]).filter(x=>x.scope==='
 function expenseSum(rows){return rows.reduce((n,x)=>n+(Number(x.amount)||0),0)}
 function expectedCash(t,end){const sales=salesBetween(t.start,end);const wage=Number(t.wage)||0,expenses=expenseSum(shiftExpenses(t,end));return {sales,wage,expenses,expected:t.base+sales.cash-wage-expenses}}
 window.tnActiveWaitress=()=>{const t=active();return t?nameOf(t.staffId):null};
+
+// Contexto de operación comercial. Piloto local: una identidad por sesión y turno.
+window.tnOperationContext=()=>{
+ const t=active();
+ if(!t||!session||!(session.id===t.staffId||session.role==='admin'))return null;
+ return {turnId:t.id,staffId:t.staffId,staffName:nameOf(t.staffId),operatorId:session.id,operatorName:session.name,role:session.role,start:t.start,kind:t.kind};
+};
+window.tnCanOperate=()=>Boolean(window.tnOperationContext());
+window.tnRequireOperate=()=>{
+ if(window.tnCanOperate())return true;
+ const t=active();
+ alert(!t?'🔒 Las ventas están inactivas. Primero abre un turno de caja con una mesera registrada.':'🔒 El turno está abierto, pero debes iniciar sesión como la mesera responsable o como administradora antes de operar.');
+ try{showView('shifts');window.tnNavigate('inicio')}catch(e){}
+ return false;
+};
+window.tnSyncSalesUI=()=>{
+ const c=window.tnOperationContext();
+ document.querySelectorAll('nav.bottom button').forEach(b=>{
+  const action=b.getAttribute('onclick')||'';
+  if(!action.includes('showTables('))return;
+  b.disabled=!c;
+  b.setAttribute('aria-disabled',String(!c));
+  b.title=c?('Turno: '+c.staffName):'Bloqueado: abre turno e inicia sesión';
+  b.classList.toggle('lhTurnoLocked',!c);
+ });
+ const box=document.getElementById('lhShiftAccessBanner');
+ if(box){box.innerHTML=c?`<span>🟢 Ventas habilitadas · <b>${esc(c.staffName)}</b> · ${c.kind===1?'Día':'Noche'}</span>`:'<span>🔐 Billar y Consumo bloqueados hasta abrir un turno con mesera responsable.</span> <button type="button" onclick="showView(&quot;shifts&quot;);tnNavigate(&quot;inicio&quot;)">✳️ Ir a Turnos</button>';}
+};
+
 function shiftSales(t,end){return (((typeof S!=='undefined')?S:null)?.sales||[]).filter(x=>x.ts&&x.ts>=t.start&&x.ts<=end)}
 function salesSummary(t,end){const rows=shiftSales(t,end),byTable={billar:0,consumo:0},byStaff={};for(const x of rows){const type=String(x.table||'').toLowerCase().includes('billar')?'billar':'consumo';byTable[type]+=Number(x.total)||0;const n=x.waitress||'Sin identificar';byStaff[n]=(byStaff[n]||0)+(Number(x.total)||0)}return {count:rows.length,byTable,byStaff}}
 function paidItems(s){
@@ -165,7 +194,7 @@ window.tnAdminSub=(which)=>{if(!admin())return;const el=document.getElementById(
  return `<div class="tnCard tnMovementsDashboard"><h3>📊 Consolidado de turnos · ${esc(today)}</h3><p class="tnMuted">Ventas cobradas, gastos y salarios registrados de día y noche. Los datos abiertos son provisionales.</p>${rows}<p class="tnMuted">Las devoluciones se muestran abajo como detalle informativo; no se descuentan dos veces del efectivo.</p></div>`;
 }
 function render(){let root=document.getElementById('turnosPanel');if(!root)return;let t=active(),p=pending(),options=D.staff.filter(x=>x.role==='waitress'&&x.active!==false).map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');let latest=D.turns.slice(-12).reverse();
-let h='<details class="tnCard tnPilotNote"><summary>ℹ️ Módulo local de pruebas · v4.19.51</summary><p class="tnMuted">Datos solo en este navegador. No sincroniza dispositivos ni bloquea las ventas sin sesión. Las claves locales no son seguras; utiliza claves ficticias.</p></details>';
+let h='<details class="tnCard tnPilotNote"><summary>ℹ️ Módulo local de pruebas · v4.19.52</summary><p class="tnMuted">Datos solo en este navegador. No sincroniza dispositivos; ventas bloqueadas sin turno y sesión válida. Las claves locales no son seguras; utiliza claves ficticias.</p></details>';
 if(!D.staff.length){h+=`<div class="tnCard"><h3>🔐 Registrar administradora (primera vez)</h3><label>Nombre</label><input id="tnAdminName" autocomplete="off"><label>Clave de prueba (mínimo 6 caracteres)</label>${passControl("tnAdminPass")}<p class="tnMuted">Escribe una clave de prueba que recuerdes. Si el iPhone propone una clave automática, puedes reemplazarla y usar 👁️ Ver para comprobarla.</p><button class="gold" onclick="tnBootstrap()">Crear administración local</button></div>`}
 else if(!session){h+=`<div class="tnCard"><h3>🔐 ${p&&p.kind===1?'Ingresar para recibir caja':'Ingresar a Personal y Turnos'}</h3>${p&&p.kind===1?'<p class="tnMuted">La entrega del turno de día está pendiente. Ingresa con el usuario y clave de la mesera entrante (no con la cuenta de quien entrega).</p>':''}<label>Usuario</label><select id="tnUser">${D.staff.filter(x=>x.active!==false).map(x=>`<option value="${esc(x.id)}">${esc(x.name)} (${x.role==='admin'?'Administración':'Mesera'})</option>`).join('')}</select><label>Clave</label>${passControl("tnPass")}<button class="gold" onclick="tnLogin()">Ingresar</button><details class="tnRecovery"><summary>🔑 ¿Olvidaste la clave de prueba?</summary><p class="tnMuted">Solo para esta versión piloto. Permite cambiar la clave local sin borrar ventas, inventario, personal ni historial de turnos. No usar como seguridad definitiva.</p><label>Escribe REINICIAR para confirmar</label><input id="tnResetConfirm" autocomplete="off" placeholder="REINICIAR"><label>Nueva clave de prueba (mínimo 6 caracteres)</label>${passControl("tnResetPass")}<button type="button" onclick="tnResetPilotAdmin()">Restablecer clave de prueba</button></details></div>`}
 else{
@@ -177,6 +206,7 @@ if(session.role==='admin')h+=`<div class="tnCard tnAdminActions"><h3>🏛️ Adm
 if(latest.length)h+=`<div class="tnCard"><h3>📚 Historial individual de cierres · solo lectura</h3>${latest.filter(x=>session.role==='admin'||x.staffId===session.id).map(x=>`<div class="tnLog"><b>${x.kind===1?'Día':'Noche'} · ${esc(nameOf(x.staffId))}</b> <span class="tnPill">${x.status==='open'?'Abierto':x.status==='pending'?'Pendiente':'Completado'}</span><p class="tnMuted">${new Date(x.start).toLocaleString('es-CO')} · base ${money(x.base)}</p>${x.expected!=null?`${movementHTML(x,x.closedAt||now())}<p>Pago registrado: ${x.wageRecordedAt?esc(new Date(x.wageRecordedAt).toLocaleString('es-CO'))+' · '+esc(nameOf(x.wageRecordedBy)):'Sin constancia de registro'} · ${money(x.wage||0)}</p><p>Pago de turno: ${money(x.wage||0)} · esperado: ${money(x.expected)} · declarado: ${money(x.outgoingCount)} · recibido: ${x.receivedCount==null?'Pendiente':money(x.receivedCount)}</p><p>Diferencia recibido vs. esperado: <b>${x.receivedCount==null?'Pendiente':money(x.receivedCount-x.expected)}</b> · recibido vs. declarado: <b>${x.receivedCount==null?'Pendiente':money(x.receivedCount-x.outgoingCount)}</b></p><p>Observaciones: ${esc(x.outgoingNotes||'—')} / ${esc(x.incomingNotes||'—')}</p><button onclick="tnNavigate('historial')">← Volver al historial</button> <button onclick="tnPrintReport('', '${esc(x.id)}')">🖨️ Imprimir reporte</button>`:''}</div>`).join('')}</div>`;
 }
 root.innerHTML=h;
+ window.tnSyncSalesUI?.();
  if(session){
   // Presentational split only: reuse the existing expense, wage, arqueo and verification controls.
   const activeCard=[...root.children].find(el=>el.classList?.contains('tnCard')&&el.querySelector('h3')?.textContent?.includes(' abierto'));
@@ -223,6 +253,11 @@ root.innerHTML=h;
     const turnosLink=document.createElement('button');turnosLink.type='button';turnosLink.className='gold tnToShifts';turnosLink.textContent='✳️ Ir al panel de Turnos · abrir caja';turnosLink.onclick=()=>window.tnNavigate('inicio');section.insertBefore(turnosLink,section.firstElementChild?.nextSibling||null);
    }else if(turnosScreen==='movimientos'){
     section.insertAdjacentHTML('beforeend',movementDashboardHTML());
+    {const turn=active()||pending()||D.turns[D.turns.length-1];if(turn){
+     const rows=(((typeof S!=='undefined')?S:null)?.audit||[]).filter(x=>x.turnId===turn.id);
+     section.insertAdjacentHTML('beforeend',`<details class="tnCard tnTrace"><summary>🕵️ Trazabilidad operativa (${rows.length}) · ${esc(nameOf(turn.staffId))}</summary><p class="tnMuted">Registro de acciones nuevas vinculadas al turno. Los registros anteriores a esta mejora pueden no tener responsable.</p>${rows.slice(-100).reverse().map(x=>`<div class="tnTraceLine"><small>${esc(new Date(x.ts).toLocaleString('es-CO'))} · ${esc(x.staffName||'—')} ${x.operatorName&&x.operatorName!==x.staffName?'· Operó: '+esc(x.operatorName):''}</small><span>${esc(x.note||'Movimiento')}</span></div>`).join('')||'<p>Aún no hay operaciones registradas en este turno.</p>'}</details>`);
+    }}
+
     panels.movimientos.forEach(el=>section.append(el));
     section.insertAdjacentHTML('beforeend',returnsHTML(dateKey(now())));
    }else if(turnosScreen==='final'&&session.role!=='admin'){
@@ -234,6 +269,7 @@ root.innerHTML=h;
    shell.append(section);
   }
   root.append(shell);
+  window.tnSyncSalesUI?.();
 
 }
 }
