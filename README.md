@@ -58,3 +58,20 @@ datos de Safari ni desinstales la PWA sin respaldo de datos.
 - Vista previa aislada del Laboratorio: URL `customer.html?table=B1&mode=lab` o `?table=C1&mode=lab` consulta exclusivamente datos ficticios. La versión normal continúa con la clave original.
 - No se modificaron cálculos de turnos, ventas, inventario, devoluciones ni las rondas de Consumo.
 - **Límite:** la pantalla refleja movimientos solo en pestañas del mismo navegador y origen. No hay sincronización de datos entre dispositivos separados (por ejemplo teléfono y TV) sin backend.
+
+
+## v4.19.56 — Trazabilidad operacional y administrativa
+- Botón «Trazabilidad operacional» en Administración. Filtros por día/mes, mesera/administradora y tipo de movimiento. Exportación JSON filtrada (sin claves ni documentos).
+- Fuentes disponibles: eventos de mesas (S.audit), cobros, gastos/salarios, aperturas y cierres de turnos, entregas, cierres verificados, devoluciones y movimientos de inventario.
+- Nuevas acciones de Personal y Turnos se conservan en un diario detallado con autor, en vez de depender solo del historial corto de 300 entradas. Se añaden ID de verificador y observaciones de administración en nuevos cierres.
+- Se puede registrar una segunda cuenta administrativa, con identidad distinta para auditar sus acciones. En este piloto ambas cuentas tienen permisos administrativos (NO un rol seguro de propietaria).
+- NO se inventa el autor de registros antiguos. No es una auditoría inalterable ni una base de datos multiusuario, pues los datos permanecen en almacenamiento local por dispositivo. Realizar respaldos frecuentes y usar solo credenciales ficticias.
+- No modifica los archivos app.js, app-lab.js, consumo-rondas.js, catálogo ni los cálculos operativos.
+
+
+## Regla de inmutabilidad funcional desde v4.19.56
+- Una vez registrado un pago, movimiento de caja, aprobación, aclaración o cierre definitivo, la aplicación impide editar o borrar el asiento previamente confirmado (compara su contenido antes de guardar).
+- Los turnos en apertura conservan fija su identidad y base; el cierre conserva su conteo, observaciones y foto financiera; solo se permite añadir la recepción para completar el relevo. Cuando queda completado, el turno entero se congela.
+- Las aclaraciones se agregan como asientos nuevos con operador, fecha, referencia de evento anterior y explicación, sin modificar el original ni alterar saldos contables.
+- Las fichas de meseras con turnos cerrados no permiten cambiar su identidad en registros anteriores; anotar cualquier aclaración por separado.
+- NO es protección inviolable: en un prototipo de localStorage cualquiera con acceso al navegador puede borrar o alterar datos manualmente; se requiere backend seguro para auditoría inmutable garantizada y cuentas propietaria / administradora con permisos reales.

@@ -1,4 +1,4 @@
-/* Personal y Turnos — módulo piloto independiente v4.19.53.
+/* Personal y Turnos — módulo piloto independiente v4.19.56.
    Almacenamiento local en este navegador. NO es autenticación multiusuario segura. */
 (function(){
 'use strict';
@@ -8,8 +8,50 @@ const money=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',ma
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const read=()=>{try{let d=JSON.parse(localStorage.getItem(K));if(d&&Array.isArray(d.staff)&&Array.isArray(d.turns))return d}catch(e){}return {staff:[],turns:[],log:[]}};
 let D=read(),session=null,turnosScreen='inicio';
+let auditFilter={period:'day',day:auditDay(now()),month:auditDay(now()).slice(0,7),person:'all',category:'all'};
 window.tnNavigate=(screen)=>{turnosScreen=screen;render();document.getElementById('turnosPanel')?.scrollIntoView({behavior:'smooth',block:'start'});};
-function persist(){localStorage.setItem(K,JSON.stringify(D));render()}
+// Protección funcional: no permitir cambios ni borrado de asientos ya confirmados.
+// Esto NO protege contra manipulación directa del almacenamiento del navegador.
+const fixedKeys=['id','kind','staffId','openedBy','start','base','baseNotes','fromTurn'];
+const closeKeys=['closedAt','sales','salesDetail','expected','outgoingCount','outgoingNotes','closedBy','reportSnapshot','inventorySnapshot','wage','wageRecordedAt','wageRecordedBy'];
+function protectedRecords(data){
+ const locked=new Map();
+ for(const key of ['movements','adminExpenses','verifiedClosures','auditTrail']){
+  (data[key]||[]).forEach((x,i)=>locked.set(key+':'+(x.id||i),JSON.stringify(x)));
+ }
+ (data.turns||[]).forEach((t,i)=>{
+  const keys=t.status==='completed'?[...new Set([...Object.keys(t),...fixedKeys,...closeKeys])]:
+   [...fixedKeys,...(t.closedAt?closeKeys: t.wageRecordedAt?['wage','wageRecordedAt','wageRecordedBy']:[])];
+  // A completed turn is frozen entirely; a pending turn may only acquire receipt metadata.
+  const value=Object.fromEntries(keys.filter(k=>Object.hasOwn(t,k)).map(k=>[k,t[k]]));
+  locked.set('turns:'+(t.id||i),JSON.stringify(value));
+ });
+ return locked;
+}
+let committed=JSON.stringify(D),protectedBefore=protectedRecords(D);
+function persist(){
+ const next=protectedRecords(D);
+ for(const [id,value] of protectedBefore){
+  let changed=next.get(id)!==value;
+  if(id.startsWith('turns:')){
+   const turn=D.turns.find(t=>'turns:'+t.id===id);
+   const prev=JSON.parse(value);
+   // Un turno abierto o pendiente puede recibir nuevas etapas; sus datos YA confirmados no cambian.
+   // Una vez completado, se compara el registro completo, incluso campos agregados.
+   changed=!turn||(prev.status==='completed'
+    ?JSON.stringify(turn)!==value
+    :Object.keys(prev).some(k=>!Object.hasOwn(turn,k)||JSON.stringify(turn[k])!==JSON.stringify(prev[k])));
+  }
+  if(changed){
+   D=JSON.parse(committed);
+   alert('🔐 Operación detenida: los registros terminados o confirmados no se pueden sobrescribir, modificar ni eliminar. Registra una aclaración nueva en Trazabilidad.');
+   render();return false;
+  }
+ }
+ try{const serialized=JSON.stringify(D);localStorage.setItem(K,serialized);committed=serialized;protectedBefore=next;render();return true}catch(e){
+  D=JSON.parse(committed);alert('No se pudo guardar el movimiento. Revisa el almacenamiento disponible y evita continuar hasta tener un respaldo.');render();return false;
+ }
+}
 function active(){return D.turns.findLast?D.turns.findLast(x=>x.status==='open'):D.turns.slice().reverse().find(x=>x.status==='open')}
 function pending(){return D.turns.slice().reverse().find(x=>x.status==='pending')}
 function number(id){let el=document.getElementById(id);return el?Number(el.value):NaN}
@@ -95,7 +137,7 @@ function closeSnapshot(){
  const map=new Map();let games=0;
  for(const x of t){const r=productReport(x,x.closedAt||now());games+=r.games;for(const item of r.products){const k=item.name,prev=map.get(k)||{name:k,qty:0,total:0};prev.qty+=item.qty;prev.total+=item.total;map.set(k,prev)}}
  const returns=returnsForDay(dateKey(now())).map(r=>({name:r.name,qty:r.qty,waitress:r.waitress,credit:r.credit,returnRate:r.returnRate,waitressShare:r.waitressShare,businessShare:r.businessShare}));
- return {id:'close-'+Date.now(),date:dateKey(now()),verifiedAt:now(),verifiedBy:session.name,turns:t.map(x=>({id:x.id,kind:x.kind,staff:nameOf(x.staffId),base:x.base,start:x.start,closedAt:x.closedAt,sales:{...x.sales},wage:x.wage,expected:x.expected,outgoingCount:x.outgoingCount,receivedCount:x.receivedCount,outgoingNotes:x.outgoingNotes,incomingNotes:x.incomingNotes})),...sum,base,expenses,out,products:[...map.values()],games,returns,expected:base+sum.cash-sum.wages-out,actual:Number(t.find(x=>x.kind===2)?.receivedCount)||0};
+ return {id:'close-'+Date.now(),date:dateKey(now()),verifiedAt:now(),verifiedBy:session.name,verifiedById:session.id,adminNotes:field('tnAdminNotes'),turns:t.map(x=>({id:x.id,kind:x.kind,staff:nameOf(x.staffId),base:x.base,start:x.start,closedAt:x.closedAt,sales:{...x.sales},wage:x.wage,expected:x.expected,outgoingCount:x.outgoingCount,receivedCount:x.receivedCount,outgoingNotes:x.outgoingNotes,incomingNotes:x.incomingNotes})),...sum,base,expenses,out,products:[...map.values()],games,returns,expected:base+sum.cash-sum.wages-out,actual:Number(t.find(x=>x.kind===2)?.receivedCount)||0};
 }
 function snapshotHTML(c){const line=(label,v)=>`<div class="tnAdminLine"><span>${label}</span><b>${money(v)}</b></div>`;
 return `<div class="tnCard tnAdminDaily"><h3>🧾 Cierre verificado · ${esc(c.date)}</h3><p>Verificado: ${esc(c.verifiedAt)} · ${esc(c.verifiedBy)}</p>${line('Total en ventas (efectivo + QR)',c.sales)}${line('Efectivo cobrado',c.cash)}${line('QR / transferencias',c.qr)}${line('Base inicial',c.base)}${line('Salarios',-c.wages)}${line('Gastos en efectivo',-c.out)}${line('Ingreso neto de ventas',c.sales-c.wages-c.out)}${line('Efectivo esperado',c.expected)}${line('Efectivo recibido',c.actual)}${line('Diferencia',c.actual-c.expected)}<h4>🎱 Servicios</h4><p>${c.games} tiempos identificados · ${money(c.games*2000)} (estimado)</p><h4>🍺 Productos vendidos (estimado)</h4><table class="tnAdminTable"><thead><tr><th>Producto</th><th>Cantidad</th><th>Valor</th></tr></thead><tbody>${(c.products||[]).map(r=>`<tr><td>${esc(r.name)}</td><td>${r.qty}</td><td>${money(r.total)}</td></tr>`).join('')}</tbody></table><h4>↩️ Devoluciones registradas al verificar</h4>${(c.returns||[]).map(r=>`<p>${esc(r.name)} ×${r.qty} · ${esc(r.waitress||'')} · recibido ${money(r.credit)} · mesera ${money(r.waitressShare)} · negocio ${money(r.businessShare)}</p>`).join('')||'<p>Sin devoluciones identificadas</p>'}<h4>🧾 Gastos</h4>${(c.expenses||[]).map(r=>`<p>${esc(r.description)}: ${money(r.amount)} · ${esc(r.ts||'')} · ${esc(r.by||'')}</p>`).join('')||'<p>Sin gastos</p>'}<h4>👩‍💼 Turnos</h4>${(c.turns||[]).map(r=>`<p><b>${r.kind===1?'Día':'Noche'} · ${esc(r.staff)}</b> · base ${money(r.base)} · ventas ${money(r.sales?.total)} · salario ${money(r.wage)} · esperado ${money(r.expected)}<br>Observaciones: ${esc(r.outgoingNotes||'—')} / ${esc(r.incomingNotes||'—')}</p>`).join('')}<p class="tnMuted">Reporte de solo lectura. Productos, tiempos y devoluciones provienen de datos disponibles al verificar y pueden ser incompletos.</p></div>`;
@@ -127,11 +169,76 @@ function dailyHTML(){
 }
 window.tnAddExpense=()=>{if(!admin())return;if((D.verifiedClosures||[]).some(c=>c.date===dateKey(now())))return alert('El cierre de hoy está verificado y bloqueado.');const description=field('tnExpenseDescription'),amount=number('tnExpenseAmount');if(description.length<3||!validMoney(amount)||amount<=0)return alert('Escribe concepto y valor válido.');if(!confirm('¿Confirmas que este gasto salió en efectivo de la caja y no se descontó antes?'))return;D.adminExpenses||=[];const entry={id:'exp-'+Date.now(),ts:now(),description,amount,by:session.id,turnId:null,scope:'admin',paymentMethod:'cash'};D.adminExpenses.push(entry);D.movements||=[];D.movements.push({...entry,kind:'expense'});note('Gasto administrativo: '+description+' '+money(amount));persist()};
 
-function note(action){D.log.push({at:now(),action});if(D.log.length>300)D.log.shift()}
+// Diario complementario. No guarda PIN ni documentos; jamás sobreescribe los eventos previos.
+function note(action){
+ const ts=now(),t=active()||pending();
+ D.log||=[];D.log.push({at:ts,action});
+ D.auditTrail||=[];
+ D.auditTrail.push({id:'au-'+ts+'-'+D.auditTrail.length,ts,action,actorId:session?.id||null,actorName:session?.name||'Sin identificar',actorRole:session?.role||null,staffId:t?.staffId||null,turnId:t?.id||null});
+}
+// La consulta recupera fuentes existentes; no inventa autores de registros antiguos.
+function auditDay(ts){const d=new Date(ts);if(!Number.isFinite(d.getTime()))return '';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+const auditStamp=ts=>{const d=new Date(ts);return Number.isFinite(d.getTime())?d.toLocaleString('es-CO'):'Fecha no disponible'};
+const staffByName=name=>D.staff.find(x=>x.name&&x.name.toLowerCase()===String(name||'').toLowerCase())?.id||null;
+function auditClass(text){const q=String(text||'').toLowerCase();if(/aprob|verific|cierre general|retiro|cierre declarado|entrega|arqueo|turno abierto|apertura turno|apertura de caja/.test(q))return 'caja';if(/gasto|salario|pago de turno|egreso/.test(q))return 'gastos';if(/devoluci|retorn/.test(q))return 'devoluciones';if(/inventario|stock|producto inventario/.test(q))return 'inventario';if(/aclaraci[oó]n/.test(q))return 'aclaraciones';if(/venta|pago |pedido|partida|consumo|cuenta|mesa|ronda|extra/.test(q))return 'ventas';return 'personal'}
+function auditAll(){
+ const rows=[],ids=new Set();
+ function add(e){if(!e?.ts||!e?.id||ids.has(e.id))return;ids.add(e.id);rows.push({amount:null,notes:'',actorId:null,staffId:null,actorName:'Sin identificar',role:'',...e})}
+ const commercial=(typeof S!=='undefined'&&S)?S:{};
+ (D.auditTrail||[]).forEach(x=>{const covered=/^(apertura turno|cierre declarado|entrega verificada|cierre general|gasto (?:de |administrativo)|pago de turno registrado)/i.test(x.action);if(!covered)add({id:'new-'+x.id,ts:x.ts,type:auditClass(x.action),title:x.action,actorId:x.actorId,actorName:x.actorName,role:x.actorRole,staffId:x.staffId,turnId:x.turnId,notes:x.reason||'',reference:x.refId||null,source:x.refId?'Aclaración vinculada':'Registro de acción'})});
+ (D.log||[]).forEach((x,i)=>{if((D.auditTrail||[]).some(a=>a.ts===x.at&&a.action===x.action))return;if(/^(apertura turno|cierre declarado|entrega verificada|cierre general|gasto (?:de |administrativo)|pago de turno registrado)/i.test(x.action))return;add({id:'legacy-'+i+'-'+x.at,ts:x.at,type:auditClass(x.action),title:x.action,source:'Registro anterior sin identificación'})});
+ (commercial.audit||[]).forEach((x,i)=>add({id:'operation-'+i+'-'+x.ts,ts:x.ts,type:auditClass(x.note),title:x.note||'Operación en mesa',actorId:x.operatorId||x.staffId||null,actorName:x.operatorName||x.staffName||'Sin identificar',role:x.role||'',staffId:x.staffId||null,turnId:x.turnId||null,source:'Flujo operativo'}));
+ (commercial.sales||[]).forEach((x,i)=>add({id:'sale-'+i+'-'+x.id,ts:x.ts,type:'ventas',title:'Cobro '+(x.id||'')+' · '+(x.table||'')+(x.player?' · '+x.player:''),actorId:x.operatorId||x.staffId||null,actorName:x.operatorName||x.waitress||'Sin identificar',staffId:x.staffId||staffByName(x.waitress),turnId:x.turnId||null,amount:Number(x.total)||0,notes:'Efectivo '+money(x.cash)+' · Transferencia '+money(x.transfer),source:'Comprobante de cobro',finance:'sale'}));
+ const movements=D.movements||[],movementIds=new Set(movements.map(x=>x.id));
+ [...movements,...(D.adminExpenses||[]).filter(x=>!movementIds.has(x.id))].forEach((x,i)=>add({id:'movement-'+i+'-'+x.id,ts:x.ts,type:'gastos',title:(x.kind==='wage'?'Salario':'Gasto')+' · '+(x.description||'Sin concepto'),actorId:x.by||null,actorName:nameOf(x.by),staffId:D.turns.find(t=>t.id===x.turnId)?.staffId||null,turnId:x.turnId||null,amount:Number(x.amount)||0,source:'Movimiento de caja',finance:x.kind==='wage'?'wage':'expense'}));
+ (D.turns||[]).forEach((x,i)=>{
+  add({id:'shift-start-'+i,ts:x.start,type:'caja',title:'Apertura turno '+(x.kind===1?'día':'noche')+' · '+nameOf(x.staffId),actorId:x.openedBy||null,actorName:nameOf(x.openedBy),staffId:x.staffId,turnId:x.id,amount:Number(x.base)||0,notes:x.baseNotes||'',source:'Registro del turno'});
+  if(x.closedAt)add({id:'shift-close-'+i,ts:x.closedAt,type:'caja',title:'Arqueo y cierre declarado · '+nameOf(x.staffId),actorId:x.closedBy||x.staffId,actorName:nameOf(x.closedBy||x.staffId),staffId:x.staffId,turnId:x.id,amount:Number(x.outgoingCount)||0,notes:'Esperado '+money(x.expected)+' · '+(x.outgoingNotes||'Sin observaciones'),source:'Registro del turno'});
+  if(x.receivedAt)add({id:'shift-receive-'+i,ts:x.receivedAt,type:'caja',title:x.kind===1?'Entrega y recepción de caja':'Retiro final de caja',actorId:x.receivedBy||null,actorName:nameOf(x.receivedBy),staffId:x.staffId,turnId:x.id,amount:Number(x.receivedCount)||0,notes:x.incomingNotes||'',source:'Registro de recepción'});
+ });
+ (D.verifiedClosures||[]).forEach((x,i)=>add({id:'verified-'+i+'-'+x.id,ts:x.verifiedAt,type:'caja',title:'✅ Aprobación y verificación de cierre general',actorId:x.verifiedById||staffByName(x.verifiedBy),actorName:x.verifiedBy||'Sin identificar',amount:Number(x.actual)||0,notes:'Esperado '+money(x.expected)+' · Diferencia '+money((Number(x.actual)||0)-(Number(x.expected)||0))+' · '+(x.adminNotes||'Sin observación de administración'),source:'Cierre verificado'}));
+ let returns=[];try{returns=JSON.parse(localStorage.getItem('lhReturnLedger1')||'[]')}catch(e){}if(Array.isArray(returns))returns.forEach((x,i)=>add({id:'return-'+i+'-'+x.id,ts:x.ts,type:'devoluciones',title:'Devolución '+(x.name||'Producto')+' ×'+(x.qty||1)+' · '+(x.table||''),actorId:x.operatorId||staffByName(x.waitress),actorName:x.operatorName||x.waitress||'Sin identificar',staffId:x.staffId||staffByName(x.waitress),turnId:x.turnId,amount:Number(x.credit)||0,notes:'Abono reconocido al cliente',source:'Historial de devoluciones',finance:'return'}));
+ (commercial.inventoryMovements||[]).forEach((x,i)=>{if(x.type==='customer-return')return;add({id:'inventory-'+i+'-'+x.id,ts:x.ts,type:'inventario',title:'Movimiento inventario · '+(x.product||x.productId||''),actorId:x.operatorId||null,actorName:x.operatorName||'Sin identificar',notes:(x.note||'')+' · '+String(x.before??'')+' → '+String(x.after??''),source:'Inventario'})});
+ return rows.sort((a,b)=>String(b.ts).localeCompare(String(a.ts)));
+}
+function auditFiltered(){return auditAll().filter(x=>{
+  const day=auditDay(x.ts);
+  if(auditFilter.period==='day'&&day!==auditFilter.day)return false;
+  if(auditFilter.period==='month'&&day.slice(0,7)!==auditFilter.month)return false;
+  if(auditFilter.person!=='all'&&x.actorId!==auditFilter.person&&x.staffId!==auditFilter.person)return false;
+  if(auditFilter.category!=='all'&&x.type!==auditFilter.category)return false;
+  return true;
+ })}
+window.tnAuditFilter=(key,value)=>{if(!(key in auditFilter))return;auditFilter[key]=value;render()};
+window.tnAuditExport=()=>{if(!admin())return;const rows=auditFiltered();const payload={version:'4.19.56',exportedAt:now(),scope:'Solo datos disponibles en este navegador',period:auditFilter,events:rows};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='LaHerradura_Auditoria_'+(auditFilter.period==='day'?auditFilter.day:auditFilter.month)+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),600)};
+window.tnAppendClarification=()=>{
+ if(!admin())return;
+ const ref=field('tnCorrectionRef'),reason=field('tnCorrectionReason');
+ if(!ref||reason.length<10)return alert('Indica la referencia exacta del registro y explica el motivo (mínimo 10 caracteres).');
+ const existing=auditAll().find(x=>x.id===ref);
+ if(!existing)return alert('No se encontró esa referencia. Copia el identificador que aparece debajo del registro histórico.');
+ if(!confirm('¿Agregar una aclaración SIN alterar el registro original? Esta nueva aclaración también quedará en el historial.'))return;
+ const ts=now();D.auditTrail||=[];
+ D.auditTrail.push({id:'clar-'+Date.now()+'-'+D.auditTrail.length,ts,action:'Aclaración agregada al registro '+ref,actorId:session.id,actorName:session.name,actorRole:session.role,staffId:existing.staffId||null,turnId:existing.turnId||null,refId:ref,reason});
+ persist();
+};
+window.tnCreateManager=()=>{if(!admin())return;const name=field('tnManagerName'),pin=field('tnManagerPass');if(name.length<2||pin.length<6)return alert('Escribe nombre y clave de prueba de al menos seis caracteres.');if(D.staff.some(x=>x.name.toLowerCase()===name.toLowerCase()))return alert('Ya existe ese nombre.');if(!confirm('Crear otra cuenta administrativa para distinguir sus actuaciones en el historial local. Esta cuenta tendrá los mismos permisos de administración, incluida la consulta de auditoría. ¿Continuar?'))return;D.staff.push({id:'admin-'+Date.now(),name,role:'admin',pin,active:true});note('Registró otro usuario de administración: '+name);persist()};
+function auditHTML(){
+ const people=D.staff.map(x=>`<option value="${esc(x.id)}" ${auditFilter.person===x.id?'selected':''}>${esc(x.name)} · ${x.role==='admin'?'Administración':'Mesera'}</option>`).join('');
+ const categories=[['all','Todas las operaciones'],['ventas','Ventas, pedidos y cobros'],['gastos','Gastos y salarios'],['caja','Apertura, arqueos y aprobaciones'],['devoluciones','Devoluciones'],['inventario','Inventario'],['aclaraciones','Aclaraciones'],['personal','Personal y accesos']].map(([value,label])=>`<option value="${value}" ${auditFilter.category===value?'selected':''}>${label}</option>`).join('');
+ const rows=auditFiltered(),total=k=>rows.filter(x=>x.finance===k).reduce((a,x)=>a+(Number(x.amount)||0),0);
+ return `<div class="tnCard tnAuditIntro"><h3>🔎 Trazabilidad operacional y administrativa</h3><p>Consulta por persona, día o mes. Cada registro muestra quién actuó, quién era responsable, la fecha, el importe cuando existe y las observaciones guardadas. Los cierres completados, pagos y movimientos confirmados se bloquean contra ediciones desde la aplicación.</p><p class="tnMuted">Los datos anteriores a la actualización aparecen solo con la información que se conservó. Una cuenta usada por varias personas no permite identificar realmente al operador. La aplicación no puede impedir manipulación técnica o borrado del navegador: para inmutabilidad real se requiere servidor seguro con permisos y copias externas.</p></div>
+ <div class="tnCard tnAuditFilters"><div class="tnAuditTwo"><div><label>Período</label><select onchange="tnAuditFilter('period',this.value)"><option value="day" ${auditFilter.period==='day'?'selected':''}>Por día</option><option value="month" ${auditFilter.period==='month'?'selected':''}>Por mes</option></select></div><div><label>${auditFilter.period==='day'?'Fecha':'Mes'}</label><input type="${auditFilter.period==='day'?'date':'month'}" value="${esc(auditFilter.period==='day'?auditFilter.day:auditFilter.month)}" onchange="tnAuditFilter('${auditFilter.period==='day'?'day':'month'}',this.value)"></div></div><label>Persona responsable o ejecutora</label><select onchange="tnAuditFilter('person',this.value)"><option value="all">Todo el equipo</option>${people}</select><label>Tipo de movimiento</label><select onchange="tnAuditFilter('category',this.value)">${categories}</select><button type="button" onclick="tnAuditExport()">⬇️ Exportar historial filtrado · JSON</button></div>
+ <div class="tnAuditSummary"><div><small>OPERACIONES</small><strong>${rows.length}</strong></div><div><small>COBROS REGISTRADOS</small><strong>${money(total('sale'))}</strong></div><div><small>GASTOS + SALARIOS</small><strong>${money(total('expense')+total('wage'))}</strong></div><div><small>ABONOS POR DEVOLUCIÓN</small><strong>${money(total('return'))}</strong></div></div>
+ <div class="tnCard tnAuditResults"><h3>📚 Antecedentes del período · ${rows.length}</h3>${rows.length?rows.slice(0,350).map(x=>`<div class="tnAuditEvent"><div class="tnAuditEventTop"><b>${esc(x.title)}</b><span>${esc(auditStamp(x.ts))}</span></div><div class="tnAuditActor">👤 ${esc(x.actorName||nameOf(x.actorId))}${x.staffId&&x.staffId!==x.actorId?' · Responsable: '+esc(nameOf(x.staffId)):''}</div>${x.amount!=null?`<strong class="tnAuditAmount">${money(x.amount)}</strong>`:''}${x.notes?`<p>📝 ${esc(x.notes)}</p>`:''}<small>${esc(x.source||'Registro')} · ${esc(x.type||'Operación')} · ID: ${esc(x.id)}</small></div>`).join(''):'<p class="tnMuted">No se encontraron movimientos para estos filtros.</p>'}${rows.length>350?`<p class="tnMuted">Se muestran los 350 más recientes; exporta el historial para consultar todos los ${rows.length} registros filtrados.</p>`:''}</div>
+ <details class="tnCard tnAuditManager"><summary>📝 Añadir aclaración sin modificar el registro</summary><p class="tnMuted">Solo se permite agregar una nueva nota con referencia al movimiento original. Esta opción no modifica ventas, caja ni inventario; los ajustes contables deben registrarse por separado.</p><label>ID exacto del registro de referencia</label><input id="tnCorrectionRef" autocomplete="off" placeholder="Ej. verified-0-close-..."><label>Motivo y explicación</label><textarea id="tnCorrectionReason" placeholder="Describe lo sucedido y la verificación realizada"></textarea><button type="button" onclick="tnAppendClarification()">🔐 Guardar aclaración histórica</button></details>
+ <details class="tnCard tnAuditManager"><summary>👤 Crear perfil de otra administradora (opcional)</summary><p class="tnMuted">Usa un perfil distinto por persona para identificar quién aprobó, registró gastos o hizo cambios. En este piloto ambas cuentas administrativas tienen los mismos permisos; no existe todavía un perfil de propietaria con permisos exclusivos.</p><label>Nombre de la administradora</label><input id="tnManagerName" autocomplete="off" placeholder="Nombre y apellidos"><label>Clave de prueba (mínimo 6 caracteres)</label>${passControl('tnManagerPass')}<button onclick="tnCreateManager()">Crear usuario administrativo</button></details>`;
+}
+
 function nameOf(id){return D.staff.find(x=>x.id===id)?.name||'Sin identificar'}
 function logged(){if(!session){alert('Inicia sesión en Personal y Turnos.');return false}return true}
 function admin(){if(!session||session.role!=='admin'){alert('Esta operación corresponde a la administradora.');return false}return true}
-function setSession(id,pin){const u=D.staff.find(x=>x.id===id&&x.pin===pin&&x.active!==false);if(!u){alert('Usuario o clave incorrectos.');return}session={id:u.id,role:u.role,name:u.name};turnosScreen=(turnosScreen==='personal'&&u.role==='admin')?'personal':'inicio';render()}
+function setSession(id,pin){const u=D.staff.find(x=>x.id===id&&x.pin===pin&&x.active!==false);if(!u){alert('Usuario o clave incorrectos.');return}session={id:u.id,role:u.role,name:u.name};turnosScreen=(['personal','auditoria'].includes(turnosScreen)&&u.role==='admin')?turnosScreen:'inicio';render()}
 window.tnLogin=()=>setSession(field('tnUser'),field('tnPass'));
 window.tnLogout=()=>{session=null;turnosScreen='inicio';render()};
 window.tnSwitchReceiver=()=>{session=null;render();const e=document.getElementById('tnUser');const t=pending();if(e&&t){const u=D.staff.find(x=>x.role==='waitress'&&x.active!==false&&x.id!==t.staffId);if(u)e.value=u.id}document.getElementById('tnPass')?.focus()};
@@ -156,7 +263,7 @@ const passControl=(id,autocomplete='off')=>`<div class="tnPassword"><input id="$
 
 window.tnBootstrap=()=>{if(D.staff.length)return;let name=field('tnAdminName'),pin=field('tnAdminPass');if(name.length<2||pin.length<6)return alert('Indica nombre y una clave de al menos 6 caracteres.');D.staff.push({id:'admin-'+Date.now(),name,role:'admin',pin,active:true});note('Se creó la cuenta de administración local');persist();alert('Administradora registrada en este dispositivo. Inicia sesión para continuar.')};
 window.tnCreateStaff=()=>{if(!admin())return;let name=field('tnStaffName'),pin=field('tnStaffPass'),document=field('tnStaffDoc');if(name.length<2||pin.length<6)return alert('Escribe nombre y clave de al menos 6 caracteres.');if(!/^[0-9]{5,15}$/.test(document))return alert('Registra un número de documento válido (5 a 15 dígitos).');if(D.staff.some(x=>x.name.toLowerCase()===name.toLowerCase()))return alert('Ya existe ese nombre.');if(D.staff.some(x=>x.document===document))return alert('Este número de documento ya está registrado.');D.staff.push({id:'staff-'+Date.now(),name,document,role:'waitress',pin,active:true});note('Administración registró a '+name);persist()};
-window.tnSaveStaffInfo=id=>{if(!admin())return;const u=D.staff.find(x=>x.id===id&&x.role==='waitress');if(!u)return;const name=field('tnStaffEditName-'+id),document=field('tnStaffEditDoc-'+id);if(name.length<2||!/^[0-9]{5,15}$/.test(document))return alert('Nombre y número de documento (5 a 15 dígitos) son obligatorios.');if(D.staff.some(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()))return alert('El nombre ya está registrado.');if(D.staff.some(x=>x.id!==id&&x.document===document))return alert('Este documento ya está registrado.');const oldName=u.name;u.name=name;u.document=document;note('Administración actualizó ficha de mesera '+oldName);if(session.id===u.id)session.name=name;persist()};
+window.tnSaveStaffInfo=id=>{if(!admin())return;const u=D.staff.find(x=>x.id===id&&x.role==='waitress');if(!u)return;const name=field('tnStaffEditName-'+id),document=field('tnStaffEditDoc-'+id);if(name.length<2||!/^[0-9]{5,15}$/.test(document))return alert('Nombre y número de documento (5 a 15 dígitos) son obligatorios.');if(D.staff.some(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()))return alert('El nombre ya está registrado.');if(D.staff.some(x=>x.id!==id&&x.document===document))return alert('Este documento ya está registrado.');if(D.turns.some(t=>t.staffId===id&&t.closedAt))return alert('🔐 La mesera ya tiene turnos finalizados. Sus datos históricos no pueden reemplazarse. Si hay una corrección, deja constancia como aclaración en Trazabilidad operacional.');const oldName=u.name;u.name=name;u.document=document;note('Administración actualizó ficha de mesera '+oldName);if(session.id===u.id)session.name=name;persist()};
 function staffHTML(){
  const staff=D.staff.filter(x=>x.role==='waitress');
  const rows=staff.map(u=>{
@@ -166,7 +273,7 @@ function staffHTML(){
   const paid=turns.filter(t=>Boolean(t.wageRecordedAt));
   const total=paid.reduce((z,t)=>z+(Number(t.wage)||0),0);
   const history=paid.slice().reverse().map(t=>`<div class="tnStaffPayment"><span>${esc(new Date(t.wageRecordedAt).toLocaleString('es-CO'))} · Turno ${t.kind===1?'día':'noche'} · ${esc(nameOf(t.wageRecordedBy))}</span><b>${money(t.wage)}</b></div>`).join('')||'<p class="tnMuted">Aún no hay pagos registrados en cierres de turnos.</p>';
-  return `<details class="tnStaffRecord"><summary><span class="tnStaffAvatar" aria-hidden="true">👩‍💼</span><span class="tnStaffIdentity"><b>${esc(u.name)}</b><small>Documento: ${esc(u.document||'Pendiente de completar')}</small></span><span class="tnStaffChevron">⌄</span></summary><div class="tnStaffMetrics"><div><small>DÍAS TRABAJADOS</small><strong>${dates.size}</strong><span>Con turno cerrado</span></div><div><small>VALOR PAGADO</small><strong>${money(total)}</strong><span>${paid.length} pago(s) registrados</span></div></div><div class="tnStaffEdit"><h4>Datos de la mesera</h4><label>Nombre completo</label><input id="tnStaffEditName-${esc(u.id)}" value="${esc(u.name)}" autocomplete="off"><label>Número de documento</label><input id="tnStaffEditDoc-${esc(u.id)}" inputmode="numeric" value="${esc(u.document||'')}" placeholder="Cédula / identificación"><button onclick="tnSaveStaffInfo('${esc(u.id)}')">Guardar datos de la ficha</button></div><details class="tnReportFold"><summary>💵 Historial de pagos (${paid.length})</summary>${history}</details><p class="tnMuted">Días trabajados: fechas únicas con turno cerrado. Pagos: únicamente salarios confirmados y registrados. Los turnos abiertos no se cuentan como finalizados.</p></details>`;
+  return `<details class="tnStaffRecord"><summary><span class="tnStaffAvatar" aria-hidden="true">👩‍💼</span><span class="tnStaffIdentity"><b>${esc(u.name)}</b><small>Documento: ${esc(u.document||'Pendiente de completar')}</small></span><span class="tnStaffChevron">⌄</span></summary><div class="tnStaffMetrics"><div><small>DÍAS TRABAJADOS</small><strong>${dates.size}</strong><span>Con turno cerrado</span></div><div><small>VALOR PAGADO</small><strong>${money(total)}</strong><span>${paid.length} pago(s) registrados</span></div></div>${closed.length?'<div class="tnStaffEdit"><h4>🔐 Identidad histórica protegida</h4><p class="tnMuted">Esta mesera tiene turnos cerrados. Su nombre y documento se consultan, pero no se modifican desde esta ficha. Las aclaraciones quedan como un nuevo movimiento en Trazabilidad operacional.</p></div>':`<div class="tnStaffEdit"><h4>Datos de la mesera</h4><label>Nombre completo</label><input id="tnStaffEditName-${esc(u.id)}" value="${esc(u.name)}" autocomplete="off"><label>Número de documento</label><input id="tnStaffEditDoc-${esc(u.id)}" inputmode="numeric" value="${esc(u.document||'')}" placeholder="Cédula / identificación"><button onclick="tnSaveStaffInfo('${esc(u.id)}')">Guardar datos de la ficha</button></div>`}<details class="tnReportFold"><summary>💵 Historial de pagos (${paid.length})</summary>${history}</details><p class="tnMuted">Días trabajados: fechas únicas con turno cerrado. Pagos: únicamente salarios confirmados y registrados. Los turnos abiertos no se cuentan como finalizados.</p></details>`;
  }).join('')||'<div class="tnEmpty">Todavía no hay meseras registradas. Utiliza el formulario para crear la primera ficha.</div>';
  return `<div class="tnCard tnStaffNew"><h3>👩‍💼 Registrar mesera</h3><p class="tnMuted">Registro del personal. La apertura, ventas y cierres se gestionan desde Turnos.</p><label>Nombre completo</label><input id="tnStaffName" autocomplete="off" placeholder="Nombres y apellidos"><label>Número de documento</label><input id="tnStaffDoc" inputmode="numeric" autocomplete="off" placeholder="Número de identificación"><label>Contraseña de acceso (prueba)</label>${passControl('tnStaffPass')}<button class="gold" onclick="tnCreateStaff()">+ Registrar mesera</button></div><div class="tnCard tnStaffDirectory"><h3>📚 Base de datos de meseras</h3><p class="tnMuted">${staff.length} mesera(s) registrada(s). Abre cada ficha para consultar días, pagos y datos de identificación.</p>${rows}</div>`;
 }
@@ -194,7 +301,7 @@ window.tnAdminSub=(which)=>{if(!admin())return;const el=document.getElementById(
  return `<div class="tnCard tnMovementsDashboard"><h3>📊 Consolidado de turnos · ${esc(today)}</h3><p class="tnMuted">Ventas cobradas, gastos y salarios registrados de día y noche. Los datos abiertos son provisionales.</p>${rows}<p class="tnMuted">Las devoluciones se muestran abajo como detalle informativo; no se descuentan dos veces del efectivo.</p></div>`;
 }
 function render(){let root=document.getElementById('turnosPanel');if(!root)return;let t=active(),p=pending(),options=D.staff.filter(x=>x.role==='waitress'&&x.active!==false).map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');let latest=D.turns.slice(-12).reverse();
-let h='<details class="tnCard tnPilotNote"><summary>ℹ️ Módulo local de pruebas · v4.19.53</summary><p class="tnMuted">Datos solo en este navegador. No sincroniza dispositivos; ventas bloqueadas sin turno y sesión válida. Las claves locales no son seguras; utiliza claves ficticias.</p></details>';
+let h='<details class="tnCard tnPilotNote"><summary>ℹ️ Módulo local de pruebas · v4.19.56</summary><p class="tnMuted">Datos solo en este navegador. No sincroniza dispositivos; ventas bloqueadas sin turno y sesión válida. Las claves locales no son seguras; utiliza claves ficticias.</p></details>';
 if(!D.staff.length){h+=`<div class="tnCard"><h3>🔐 Registrar administradora (primera vez)</h3><label>Nombre</label><input id="tnAdminName" autocomplete="off"><label>Clave de prueba (mínimo 6 caracteres)</label>${passControl("tnAdminPass")}<p class="tnMuted">Escribe una clave de prueba que recuerdes. Si el iPhone propone una clave automática, puedes reemplazarla y usar 👁️ Ver para comprobarla.</p><button class="gold" onclick="tnBootstrap()">Crear administración local</button></div>`}
 else if(!session){h+=`<div class="tnCard"><h3>🔐 ${p&&p.kind===1?'Ingresar para recibir caja':'Ingresar a Personal y Turnos'}</h3>${p&&p.kind===1?'<p class="tnMuted">La entrega del turno de día está pendiente. Ingresa con el usuario y clave de la mesera entrante (no con la cuenta de quien entrega).</p>':''}<label>Usuario</label><select id="tnUser">${D.staff.filter(x=>x.active!==false).map(x=>`<option value="${esc(x.id)}">${esc(x.name)} (${x.role==='admin'?'Administración':'Mesera'})</option>`).join('')}</select><label>Clave</label>${passControl("tnPass")}<button class="gold" onclick="tnLogin()">Ingresar</button><details class="tnRecovery"><summary>🔑 ¿Olvidaste la clave de prueba?</summary><p class="tnMuted">Solo para esta versión piloto. Permite cambiar la clave local sin borrar ventas, inventario, personal ni historial de turnos. No usar como seguridad definitiva.</p><label>Escribe REINICIAR para confirmar</label><input id="tnResetConfirm" autocomplete="off" placeholder="REINICIAR"><label>Nueva clave de prueba (mínimo 6 caracteres)</label>${passControl("tnResetPass")}<button type="button" onclick="tnResetPilotAdmin()">Restablecer clave de prueba</button></details></div>`}
 else{
@@ -232,7 +339,7 @@ root.innerHTML=h;
   for(const el of panels.movimientos){if(el.querySelector('h3')?.textContent?.includes('Historial individual')){const details=document.createElement('details');details.className='tnCard tnHistoricalFold';details.innerHTML='<summary>📚 Historial detallado de turnos</summary>';for(const child of [...el.children]){if(child.tagName!=='H3')details.append(child)}el.replaceWith(details);panels.movimientos[panels.movimientos.indexOf(el)]=details}}
   root.replaceChildren();
   const shell=document.createElement('div');shell.className='tnWorkspace';
-  const title=document.createElement('div');title.className='tnWorkspaceHeader';title.innerHTML='<div class="tnEyebrow">LA HERRADURA · CONTROL OPERATIVO</div><h2>'+(turnosScreen==='personal'?'Personal · base de datos':'Turnos y caja')+'</h2><p>'+ (turnosScreen==='personal'?'Registro de meseras, días trabajados y pagos.':'Apertura, ventas, arqueos y cierre administrativo.')+'</p>';shell.append(title);
+  const title=document.createElement('div');title.className='tnWorkspaceHeader';title.innerHTML='<div class="tnEyebrow">LA HERRADURA · CONTROL OPERATIVO</div><h2>'+(turnosScreen==='personal'?'Personal · base de datos':turnosScreen==='auditoria'?'Auditoría y trazabilidad':'Turnos y caja')+'</h2><p>'+ (turnosScreen==='personal'?'Registro de meseras, días trabajados y pagos.':turnosScreen==='auditoria'?'Actividad por persona, día y mes.':'Apertura, ventas, arqueos y cierre administrativo.')+'</p>';shell.append(title);
   if(turnosScreen==='inicio'){
    const openTurn=active(),waiting=pending();
    const status=document.createElement('div');status.className='tnDashboardStatus';status.innerHTML='<span class="tnPill">'+(openTurn?'● Turno activo':waiting?'◉ Entrega pendiente':'○ Sin turno activo')+'</span><h3>'+(openTurn?'Turno de '+(openTurn.kind===1?'día':'noche'):waiting?'Pendiente de recepción':'Listo para comenzar')+'</h3><p>'+(openTurn?'Responsable: '+esc(nameOf(openTurn.staffId))+' · Apertura: '+esc(new Date(openTurn.start).toLocaleString('es-CO')):waiting?'Efectivo esperado: '+money(waiting.expected):'Ingresa a Apertura de caja para iniciar el primer turno.')+'</p>';shell.append(status);
@@ -244,11 +351,13 @@ root.innerHTML=h;
    // Preserve the local testing notice and any safe non-financial overview content.
    for(const el of main){if(el.classList.contains('tnPilotNote'))shell.append(el)}
   }else{
-   const back=document.createElement('button');back.type='button';back.className='tnBack';back.textContent=turnosScreen==='personal'?'← Volver a Administración':'← Volver a Turnos';back.onclick=()=>turnosScreen==='personal'?showView('admin'):window.tnNavigate('inicio');shell.append(back);
+   const back=document.createElement('button');back.type='button';back.className='tnBack';back.textContent=['personal','auditoria'].includes(turnosScreen)?'← Volver a Administración':'← Volver a Turnos';back.onclick=()=>['personal','auditoria'].includes(turnosScreen)?showView('admin'):window.tnNavigate('inicio');shell.append(back);
    const section=document.createElement('div');section.className='tnScreen';
-   const headings={abrir:'✳️ Inicio turno · apertura de caja',movimientos:'📊 Ventas y movimientos',arqueos:'🧮 Cierres de caja y arqueos',final:'🏛️ Cierre y reporte final',personal:'👥 Fichas de meseras'};
+   const headings={abrir:'✳️ Inicio turno · apertura de caja',movimientos:'📊 Ventas y movimientos',arqueos:'🧮 Cierres de caja y arqueos',final:'🏛️ Cierre y reporte final',personal:'👥 Fichas de meseras',auditoria:'🔎 Auditoría por persona y período'};
    const heading=document.createElement('h3');heading.textContent=headings[turnosScreen]||'Turnos';section.append(heading);
-   if(turnosScreen==='personal'){
+   if(turnosScreen==='auditoria'){
+    section.insertAdjacentHTML('beforeend',session.role==='admin'?auditHTML():'<div class="tnEmpty">🔐 Consulta reservada a cuentas administrativas.</div>');
+   }else if(turnosScreen==='personal'){
     if(session.role==='admin')section.insertAdjacentHTML('beforeend',staffHTML());else section.innerHTML+='<div class="tnEmpty">Solo administración puede consultar la base de datos de personal.</div>';
     const turnosLink=document.createElement('button');turnosLink.type='button';turnosLink.className='gold tnToShifts';turnosLink.textContent='✳️ Ir al panel de Turnos · abrir caja';turnosLink.onclick=()=>window.tnNavigate('inicio');section.insertBefore(turnosLink,section.firstElementChild?.nextSibling||null);
    }else if(turnosScreen==='movimientos'){
