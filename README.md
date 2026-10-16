@@ -50,3 +50,11 @@ IMPORTANTE: Sigue siendo un piloto local; no es todavía seguro para
 credenciales, documentos ni operaciones comerciales reales. Guarda
 respaldo antes de sustituir archivos de GitHub Pages. NO borres los
 datos de Safari ni desinstales la PWA sin respaldo de datos.
+
+
+## v4.19.55 · Pantallas del cliente (Billar y Consumo)
+- Vista de cliente de Consumo: rondas, solicitante, pagador, extras, devoluciones, pagos, cuentas individuales y saldo total. Solo lectura.
+- Botón «📺 Cliente» en mesas de Consumo y acceso «📺 Vista cliente» en la comanda.
+- Vista previa aislada del Laboratorio: URL `customer.html?table=B1&mode=lab` o `?table=C1&mode=lab` consulta exclusivamente datos ficticios. La versión normal continúa con la clave original.
+- No se modificaron cálculos de turnos, ventas, inventario, devoluciones ni las rondas de Consumo.
+- **Límite:** la pantalla refleja movimientos solo en pestañas del mismo navegador y origen. No hay sincronización de datos entre dispositivos separados (por ejemplo teléfono y TV) sin backend.
